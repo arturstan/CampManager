@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace CampManager.Domain.Domain
+namespace CampManagerWebUI.Models
 {
-    public class CampOrganization
+    public class SeasonOrganizationViewModel
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
-        
-        public PlaceOrganization Place { get; set; }
+
+        [Required]
+        public int IdBase { get; set; }
+        public int BaseName { get; set; }
     }
 }
