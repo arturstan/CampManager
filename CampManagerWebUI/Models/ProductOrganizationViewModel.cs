@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using CampManager.Domain.Domain;
+using System.ComponentModel;
 
 namespace CampManagerWebUI.Models
 {
@@ -13,13 +14,17 @@ namespace CampManagerWebUI.Models
     {
         public int Id { get; set; }
         [Required]
+        [DisplayName("Nazwa")]
         public string Name { get; set; }
+        [DisplayName("Opis")]
         public string Description { get; set; }
         [Required]
+        [DisplayName("Miara")]
         public int IdMeasure { get; set; }
         [Required]
         public int IdOrganization { get; set; }
 
+        [DisplayName("Miara")]
         public string MeasureName { get; set; }
 
         public List<MeasureOrganization> Measures;

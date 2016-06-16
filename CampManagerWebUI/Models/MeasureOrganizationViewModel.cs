@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace CampManagerWebUI.Models
 {
@@ -11,6 +12,7 @@ namespace CampManagerWebUI.Models
     {
         public int Id { get; set; }
         [Required]
+        [DisplayName("Nazwa")]
         public string Name { get; set; }
 
         [Required]
