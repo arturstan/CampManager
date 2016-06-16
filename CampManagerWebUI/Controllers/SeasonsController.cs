@@ -21,7 +21,7 @@ namespace CampManagerWebUI.Controllers
         // GET: Seasons
         public ActionResult Index()
         {
-            return View(db.SeasonOrganization.ToList().ConvertAll(x => Mapper.Map<SeasonOrganizationViewModel>(x)));
+            return View(db.SeasonOrganization.Include(x => x.Base).ToList().ConvertAll(x => Mapper.Map<SeasonOrganizationViewModel>(x)));
         }
 
         // GET: Seasons/Details/5
@@ -31,7 +31,9 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SeasonOrganizationViewModel seasonOrganizationViewModel = db.SeasonOrganizationViewModels.Find(id);
+
+            SeasonOrganization season = db.SeasonOrganization.Include(x => x.Base).SingleOrDefault(x => x.Id == id);
+            SeasonOrganizationViewModel seasonOrganizationViewModel = Mapper.Map<SeasonOrganizationViewModel>(season);
             if (seasonOrganizationViewModel == null)
             {
                 return HttpNotFound();
@@ -42,7 +44,16 @@ namespace CampManagerWebUI.Controllers
         // GET: Seasons/Create
         public ActionResult Create()
         {
-            return View();
+            SeasonOrganizationViewModel season = new SeasonOrganizationViewModel();
+            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            // TODO EF
+            season.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            if (season.Bases.Count > 0)
+                season.IdBase = season.Bases.Last().Id;
+
+            season.DateStart = DateTime.Now.Date;
+            season.DateEnd = DateTime.Now.Date;
+            return View(season);
         }
 
         // POST: Seasons/Create
@@ -54,7 +65,14 @@ namespace CampManagerWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SeasonOrganizationViewModels.Add(seasonOrganizationViewModel);
+                SeasonOrganization season = new SeasonOrganization();
+                season.Name = seasonOrganizationViewModel.Name;
+                season.Description = seasonOrganizationViewModel.Description;
+                season.DateStart = seasonOrganizationViewModel.DateStart;
+                season.DateEnd = seasonOrganizationViewModel.DateEnd;
+                season.Base = db.BaseOrganization.Find(seasonOrganizationViewModel.IdBase);
+
+                db.SeasonOrganization.Add(season);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -69,7 +87,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SeasonOrganizationViewModel seasonOrganizationViewModel = db.SeasonOrganizationViewModels.Find(id);
+
+            SeasonOrganization season = db.SeasonOrganization.Include(x => x.Base).SingleOrDefault(x => x.Id == id);
+            SeasonOrganizationViewModel seasonOrganizationViewModel = Mapper.Map<SeasonOrganizationViewModel>(season);
+            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            seasonOrganizationViewModel.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
             if (seasonOrganizationViewModel == null)
             {
                 return HttpNotFound();
@@ -86,7 +108,15 @@ namespace CampManagerWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(seasonOrganizationViewModel).State = EntityState.Modified;
+                SeasonOrganization season = new SeasonOrganization();
+                season.Id = seasonOrganizationViewModel.Id;
+                season.Name = seasonOrganizationViewModel.Name;
+                season.Description = seasonOrganizationViewModel.Description;
+                season.DateStart = seasonOrganizationViewModel.DateStart;
+                season.DateEnd = seasonOrganizationViewModel.DateEnd;
+                season.Base = db.BaseOrganization.Find(seasonOrganizationViewModel.IdBase);
+
+                db.Entry(season).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -100,7 +130,9 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SeasonOrganizationViewModel seasonOrganizationViewModel = db.SeasonOrganizationViewModels.Find(id);
+
+            SeasonOrganization season = db.SeasonOrganization.Include(x => x.Base).SingleOrDefault(x => x.Id == id);
+            SeasonOrganizationViewModel seasonOrganizationViewModel = Mapper.Map<SeasonOrganizationViewModel>(season);
             if (seasonOrganizationViewModel == null)
             {
                 return HttpNotFound();
@@ -113,8 +145,8 @@ namespace CampManagerWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SeasonOrganizationViewModel seasonOrganizationViewModel = db.SeasonOrganizationViewModels.Find(id);
-            db.SeasonOrganizationViewModels.Remove(seasonOrganizationViewModel);
+            SeasonOrganization season = db.SeasonOrganization.Find(id);
+            db.SeasonOrganization.Remove(season);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

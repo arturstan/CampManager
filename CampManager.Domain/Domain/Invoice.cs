@@ -23,5 +23,12 @@ namespace CampManager.Domain.Domain
 
         [Required]
         public SeasonOrganization Season { get; set; }
+
+        public List<InvoicePosition> Positions { get; set; }
+
+        public Invoice()
+        {
+            Positions = new List<InvoicePosition>();
+        }
     }
 }

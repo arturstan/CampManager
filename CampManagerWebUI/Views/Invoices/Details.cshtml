@@ -1,0 +1,67 @@
+﻿@model CampManagerWebUI.Models.InvoiceViewModel
+
+@{
+    ViewBag.Title = "Szczegóły";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Faktura</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateIssue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateIssue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateIntroduction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateIntroduction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeasonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeasonName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

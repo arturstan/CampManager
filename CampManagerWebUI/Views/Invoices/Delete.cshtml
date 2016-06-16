@@ -1,0 +1,72 @@
+﻿@model CampManagerWebUI.Models.InvoiceViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InvoiceViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateIssue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateIssue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateIntroduction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateIntroduction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeasonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeasonName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
