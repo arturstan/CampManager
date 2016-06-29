@@ -27,6 +27,9 @@ namespace CampManagerWebUI.Models
         [DisplayName("Cena")]
         public decimal Price { get; set; }
 
+        [DisplayName("Wartość")]
+        public decimal Worth { get { return Amount * Price; } }
+
         public List<ProductOrganization> Products;
     }
 }

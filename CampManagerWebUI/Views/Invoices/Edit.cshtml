@@ -82,6 +82,9 @@
                 <th>
                     Cena
                 </th>
+                <th>
+                    Wartość
+                </th>
                 <th></th>
             </tr>
 
@@ -96,6 +99,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Worth)
                     </td>
                     <td>
                         @Html.ActionLink("Edycja", "Edit", "InvoicePositions", new { id = item.Id }, null) |

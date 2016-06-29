@@ -191,6 +191,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
+    <Compile Include="Models\CampMealViewModel.cs" />
     <Compile Include="Models\CampViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoicePositionViewModel.cs" />
