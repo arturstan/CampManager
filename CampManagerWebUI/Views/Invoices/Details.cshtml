@@ -65,3 +65,38 @@
     @Html.ActionLink("Edycja", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Powrót do listy", "Index")
 </p>
+
+<div>
+    <h4>Pozycje</h4>
+
+    <table class="table">
+        <tr>
+            <th>
+                Produkt
+            </th>
+            <th>
+                Ilość
+            </th>
+            <th>
+                Cena
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Positions)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

@@ -39,8 +39,16 @@ namespace CampManagerWebUI
                         .ForMember(dest => dest.SupplierName, opts => opts.MapFrom(src => src.Supplier.Name));
 
                     cfg.CreateMap<InvoicePosition, InvoicePositionViewModel>()
+                        .ForMember(dest => dest.IdInvoice, opts => opts.MapFrom(src => src.Invoice.Id))
                         .ForMember(dest => dest.IdProduct, opts => opts.MapFrom(src => src.Product.Id))
                         .ForMember(dest => dest.ProductName, opts => opts.MapFrom(src => src.Product.Name));
+
+                    cfg.CreateMap<Place, PlaceViewModel>();
+
+                    cfg.CreateMap<Camp, CampViewModel>()
+                        .ForMember(dest => dest.IdCampOrganization, opts => opts.MapFrom(src => src.CampOrganization.Id))
+                        .ForMember(dest => dest.IdPlace, opts => opts.MapFrom(src => src.Place.Id))
+                        .ForMember(dest => dest.PlaceName, opts => opts.MapFrom(src => src.Place.Name));
 
                 });
         }

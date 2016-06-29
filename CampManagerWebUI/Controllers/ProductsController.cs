@@ -101,6 +101,7 @@ namespace CampManagerWebUI.Controllers
             if (ModelState.IsValid)
             {
                 ProductOrganization product = new ProductOrganization();
+                product.Id = productOrganizationViewModel.Id;
                 product.Name = productOrganizationViewModel.Name;
                 product.Description = productOrganizationViewModel.Description;
                 product.Organization = db.Organization.Find(productOrganizationViewModel.IdOrganization);

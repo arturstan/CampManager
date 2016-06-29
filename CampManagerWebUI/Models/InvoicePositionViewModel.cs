@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -15,11 +16,17 @@ namespace CampManagerWebUI.Models
         public int IdInvoice { get; set; }
 
         [Required]
+        [DisplayName("Produkt")]
         public int IdProduct { get; set; }
+        [DisplayName("Produkt")]
         public string ProductName { get; set; }
         [Required]
+        [DisplayName("Ilość")]
         public decimal Amount { get; set; }
         [Required]
+        [DisplayName("Cena")]
         public decimal Price { get; set; }
+
+        public List<ProductOrganization> Products;
     }
 }

@@ -31,7 +31,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var invoice = db.Invoice.Include(x => x.Supplier).SingleOrDefault(x => x.Id == id);
+            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
+                .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             if (invoiceViewModel == null)
             {
@@ -86,7 +87,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).SingleOrDefault(x => x.Id == id);
+            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
+                .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList()
@@ -130,7 +132,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).SingleOrDefault(x => x.Id == id);
+            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
+                .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             if (invoiceViewModel == null)
             {

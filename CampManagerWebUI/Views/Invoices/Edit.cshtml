@@ -65,6 +65,48 @@
             </div>
         </div>
     </div>
+    <div>
+        <h4>Pozycje</h4>
+
+        <p>
+            @Html.ActionLink("Utwórz nową pozycję", "Create", "InvoicePositions", new { idInvoice = Model.Id }, null)                        
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    Produkt
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Positions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edycja", "Edit", "InvoicePositions", new { id = item.Id }, null) |
+                        @Html.ActionLink("Szczegóły", "Details", "InvoicePositions", new { id = item.Id }, null) |
+                        @Html.ActionLink("Usuń", "Delete", "InvoicePositions", new { id = item.Id }, null) |
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 }
 
 <div>

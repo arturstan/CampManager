@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 using CampManager.Domain.Domain;
-using System.ComponentModel;
 
 namespace CampManagerWebUI.Models
 {
@@ -33,7 +33,7 @@ namespace CampManagerWebUI.Models
         [DisplayName("Data wprowadzenia")]
         public DateTime DateIntroduction { get; set; }
 
-        List<InvoicePositionViewModel> Positions { get; }
+        public List<InvoicePositionViewModel> Positions { get; }
 
         [Required]
         public int IdSeason { get; set; }
