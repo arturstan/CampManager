@@ -16,6 +16,8 @@ namespace CampManagerWebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders.Add(typeof(decimal), new App_Start.ModelBinder.DecimalModelBinder());
         }
     }
 }

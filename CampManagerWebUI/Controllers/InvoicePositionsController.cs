@@ -106,6 +106,7 @@ namespace CampManagerWebUI.Controllers
             if (ModelState.IsValid)
             {
                 InvoicePosition invoicePosition = new InvoicePosition();
+                invoicePosition.Id = invoicePositionViewModel.Id;
                 invoicePosition.Invoice = db.Invoice.Find(invoicePositionViewModel.IdInvoice);
                 invoicePosition.Product = db.ProductOrganization.Find(invoicePositionViewModel.IdProduct);
                 invoicePosition.Amount = invoicePositionViewModel.Amount;
