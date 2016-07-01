@@ -41,7 +41,7 @@ namespace CampManagerWebUI
                     cfg.CreateMap<InvoicePosition, InvoicePositionViewModel>()
                         .ForMember(dest => dest.IdInvoice, opts => opts.MapFrom(src => src.Invoice.Id))
                         .ForMember(dest => dest.IdProduct, opts => opts.MapFrom(src => src.Product.Id))
-                        .ForMember(dest => dest.ProductName, opts => opts.MapFrom(src => src.Product.Name));
+                        .ForMember(dest => dest.ProductName, opts => opts.MapFrom(src => src.Product.NameDescriptionMeasures));
 
                     cfg.CreateMap<Place, PlaceViewModel>();
 

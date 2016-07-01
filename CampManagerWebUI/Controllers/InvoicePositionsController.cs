@@ -33,7 +33,9 @@ namespace CampManagerWebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
+            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product)
+                .Include(x => x.Product.Measure)
+                .Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
             InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
             if (invoicePositionViewModel == null)
             {
@@ -48,7 +50,7 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
-            pos.Products = db.ProductOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            pos.Products = db.ProductOrganization.Include(x => x.Measure).ToList().FindAll(x => x.Organization.Id == idOrganization);
             return View(pos);
         }
 
@@ -86,9 +88,10 @@ namespace CampManagerWebUI.Controllers
             }
 
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
+            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product)
+                .Include(x => x.Product.Measure).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
             InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
-            invoicePositionViewModel.Products = db.ProductOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            invoicePositionViewModel.Products = db.ProductOrganization.Include(x => x.Measure).ToList().FindAll(x => x.Organization.Id == idOrganization);
             if (invoicePositionViewModel == null)
             {
                 return HttpNotFound();
@@ -129,7 +132,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
+            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product).Include(x => x.Product.Measure).Include(x => x.Invoice)
+                .SingleOrDefault(x => x.Id == id);
             InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
 
             if (invoicePositionViewModel == null)
@@ -144,7 +148,8 @@ namespace CampManagerWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
+            InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Invoice).Include(x => x.Product.Measure)
+                .SingleOrDefault(x => x.Id == id);
             int idInvoice = invoicePosition.Invoice.Id;
             db.InvoicePosition.Remove(invoicePosition);
             db.SaveChanges();

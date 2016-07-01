@@ -43,6 +43,12 @@ namespace CampManagerWebUI.Models
 
         public List<SupplierOrganization> Suppliers;
 
+        [DisplayName("Wartość")]
+        public decimal Worth
+        {
+            get { return Positions.Sum(x => x.Worth); }
+        }
+
         public InvoiceViewModel()
         {
             Positions = new List<InvoicePositionViewModel>();

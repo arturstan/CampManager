@@ -21,7 +21,10 @@ namespace CampManagerWebUI.Controllers
         // GET: Invoices
         public ActionResult Index()
         {
-            return View(db.Invoice.Include(x => x.Season).Include(x => x.Supplier).ToList().ConvertAll(x => Mapper.Map<InvoiceViewModel>(x)));
+            return View(db.Invoice.Include(x => x.Season).Include(x => x.Supplier)
+                .OrderByDescending(x => x.Id)
+                .ToList()
+                .ConvertAll(x => Mapper.Map<InvoiceViewModel>(x)));
         }
 
         // GET: Invoices/Details/5
@@ -31,7 +34,9 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
+            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Positions)
+                .Include(x => x.Positions.Select(y => y.Product))
+                .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             if (invoiceViewModel == null)
@@ -87,7 +92,9 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
+            var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions)
+                .Include(x => x.Positions.Select(y => y.Product))
+                .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;

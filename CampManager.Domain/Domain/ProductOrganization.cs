@@ -19,5 +19,22 @@ namespace CampManager.Domain.Domain
 
         [Required]
         public Organization Organization { get; set; }
+
+        public string NameDescription
+        {
+            get { return string.Format("{0} ({1})", Name, Description); }
+        }
+
+        public string NameDescriptionMeasures
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(Description))
+                    return string.Format("{0} [{1}]", Name, Measure.Name);
+                else
+                    return string.Format("{0} ({1}) [{2}]", Name, Description, Measure.Name);
+            }
+        }
+
     }
 }

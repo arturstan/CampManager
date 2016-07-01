@@ -68,6 +68,18 @@
     <div>
         <h4>Pozycje</h4>
 
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Worth)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Worth)
+                </dd>
+            </dl>
+        </div>
+
         <p>
             @Html.ActionLink("Utwórz nową pozycję", "Create", "InvoicePositions", new { idInvoice = Model.Id }, null)                        
         </p>
