@@ -19,5 +19,12 @@ namespace CampManager.Domain.Domain
 
         [Required]
         public SeasonOrganization CampOrganization { get; set; }
+
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
+
+        public decimal PersonCount { get; set; }
+
+        public decimal PricePerPerson {get;set;}
     }
 }

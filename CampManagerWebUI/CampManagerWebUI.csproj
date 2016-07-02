@@ -188,6 +188,14 @@
     <Compile Include="Migrations\201606112014062_Initial.Designer.cs">
       <DependentUpon>201606112014062_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607021146251_InvoicePosition.cs" />
+    <Compile Include="Migrations\201607021146251_InvoicePosition.Designer.cs">
+      <DependentUpon>201607021146251_InvoicePosition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607021157071_InvoicePosition_pricepPrecision.cs" />
+    <Compile Include="Migrations\201607021157071_InvoicePosition_pricepPrecision.Designer.cs">
+      <DependentUpon>201607021157071_InvoicePosition_pricepPrecision.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -345,6 +353,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606112014062_Initial.resx">
       <DependentUpon>201606112014062_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607021146251_InvoicePosition.resx">
+      <DependentUpon>201607021146251_InvoicePosition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607021157071_InvoicePosition_pricepPrecision.resx">
+      <DependentUpon>201607021157071_InvoicePosition_pricepPrecision.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

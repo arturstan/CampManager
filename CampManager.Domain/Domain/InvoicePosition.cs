@@ -18,6 +18,9 @@ namespace CampManager.Domain.Domain
         [Required]
         public decimal Amount { get; set; }
         [Required]
+        [DataType("decimal(18,8)")]
         public decimal Price { get; set; }
+        [Required]
+        public decimal Worth { get; set; }
     }
 }

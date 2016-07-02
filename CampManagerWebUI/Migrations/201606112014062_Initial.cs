@@ -127,7 +127,7 @@ namespace CampManagerWebUI.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Amount = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 8),
                         Invoice_Id = c.Int(nullable: false),
                         Product_Id = c.Int(nullable: false),
                     })
