@@ -49,6 +49,12 @@ namespace CampManagerWebUI.Models
             get { return Positions.Sum(x => x.Worth); }
         }
 
+        [DisplayName("Ilość pozycji")]
+        public decimal PositionCount
+        {
+            get { return Positions.Count; }
+        }
+
         public InvoiceViewModel()
         {
             Positions = new List<InvoicePositionViewModel>();

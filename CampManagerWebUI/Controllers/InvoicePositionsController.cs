@@ -59,7 +59,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,IdInvoice,IdProduct,ProductName,Amount,Price")] InvoicePositionViewModel invoicePositionViewModel)
+        public ActionResult Create([Bind(Include = "Id,IdInvoice,IdProduct,ProductName,Amount,Price,Worth")] InvoicePositionViewModel invoicePositionViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,8 @@ namespace CampManagerWebUI.Controllers
                 invoicePosition.Invoice = db.Invoice.Find(invoicePositionViewModel.IdInvoice);
                 invoicePosition.Product = db.ProductOrganization.Find(invoicePositionViewModel.IdProduct);
                 invoicePosition.Amount = invoicePositionViewModel.Amount;
-                invoicePosition.Price = invoicePositionViewModel.Price;
+                invoicePosition.Worth = invoicePositionViewModel.Worth;
+                invoicePosition.Price = invoicePosition.Worth / invoicePosition.Amount;
 
                 db.InvoicePosition.Add(invoicePosition);
                 db.SaveChanges();
@@ -104,7 +105,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,IdInvoice,IdProduct,ProductName,Amount,Price")] InvoicePositionViewModel invoicePositionViewModel)
+        public ActionResult Edit([Bind(Include = "Id,IdInvoice,IdProduct,ProductName,Amount,Price,Worth")] InvoicePositionViewModel invoicePositionViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +114,8 @@ namespace CampManagerWebUI.Controllers
                 invoicePosition.Invoice = db.Invoice.Find(invoicePositionViewModel.IdInvoice);
                 invoicePosition.Product = db.ProductOrganization.Find(invoicePositionViewModel.IdProduct);
                 invoicePosition.Amount = invoicePositionViewModel.Amount;
-                invoicePosition.Price = invoicePositionViewModel.Price;
+                invoicePosition.Worth = invoicePositionViewModel.Worth;
+                invoicePosition.Price = invoicePosition.Worth / invoicePosition.Amount;
 
                 db.Entry(invoicePosition).State = EntityState.Modified;
                 db.SaveChanges();
