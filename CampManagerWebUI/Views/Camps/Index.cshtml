@@ -20,6 +20,18 @@
         <th>
             @Html.DisplayNameFor(model => model.PlaceName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricePerPerson)
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +45,18 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PlaceName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricePerPerson)
         </td>
         <td>
             @Html.ActionLink("Edycja", "Edit", new { id=item.Id }) |

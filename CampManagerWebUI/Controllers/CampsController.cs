@@ -50,9 +50,10 @@ namespace CampManagerWebUI.Controllers
             int idBase = UserBaseHelper.GetBase(db).Id;
             CampViewModel campViewModel = new CampViewModel();
             campViewModel.IdCampOrganization = UserSeasonHelper.GetSeason(db).Id;
+            campViewModel.DateStart = DateTime.Now.Date;
+            campViewModel.DateEnd = DateTime.Now.Date;
             campViewModel.Places = db.Place.Where(x => x.Base.Id == idBase).ToList();
             //campViewModel.Places = db.Place.Include(x=>x.Base).Include(x => x.Base.Organization).Where(x => x.Base.Id == idBase).ToList();
-            //campViewModel.Places = db.Place.ToList();
             return View(campViewModel);
         }
 
@@ -61,7 +62,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IdPlace,IdCampOrganization")] CampViewModel campViewModel)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,IdPlace,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson")] CampViewModel campViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +71,10 @@ namespace CampManagerWebUI.Controllers
                 camp.Description = campViewModel.Description;
                 camp.CampOrganization = db.SeasonOrganization.Find(campViewModel.IdCampOrganization);
                 camp.Place = db.Place.Find(campViewModel.IdPlace);
+                camp.DateStart = campViewModel.DateStart;
+                camp.DateEnd = campViewModel.DateEnd;
+                camp.PersonCount = campViewModel.PersonCount;
+                camp.PricePerPerson = campViewModel.PricePerPerson;
                 db.Camp.Add(camp);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -104,7 +109,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdPlace,PlaceName,IdCampOrganization")] CampViewModel campViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdPlace,PlaceName,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson")] CampViewModel campViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +119,10 @@ namespace CampManagerWebUI.Controllers
                 camp.Description = campViewModel.Description;
                 camp.CampOrganization = db.SeasonOrganization.Find(campViewModel.IdCampOrganization);
                 camp.Place = db.Place.Find(campViewModel.IdPlace);
+                camp.DateStart = campViewModel.DateStart;
+                camp.DateEnd = campViewModel.DateEnd;
+                camp.PersonCount = campViewModel.PersonCount;
+                camp.PricePerPerson = campViewModel.PricePerPerson;
 
                 db.Entry(camp).State = EntityState.Modified;
                 db.SaveChanges();

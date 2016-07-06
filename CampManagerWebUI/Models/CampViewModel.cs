@@ -28,6 +28,19 @@ namespace CampManagerWebUI.Models
         [Required]
         public int IdCampOrganization { get; set; }
 
+        [DisplayName("Data rozpoczęcia")]
+        [DataType(DataType.Date)]
+        public DateTime DateStart { get; set; }
+        [DisplayName("Data zakończenia")]
+        [DataType(DataType.Date)]
+        public DateTime DateEnd { get; set; }
+
+        [DisplayName("Ilość osób")]
+        public decimal PersonCount { get; set; }
+
+        [DisplayName("Cena za osobę")]
+        public decimal PricePerPerson { get; set; }
+
         public List<Place> Places;
     }
 }
