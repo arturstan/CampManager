@@ -55,6 +55,8 @@
     <Compile Include="Db\CampManagerDb.cs" />
     <Compile Include="Domain\Camp.cs" />
     <Compile Include="Domain\CampMeal.cs" />
+    <Compile Include="Domain\ProductOut.cs" />
+    <Compile Include="Domain\ProductOutPosition.cs" />
     <Compile Include="Domain\SeasonOrganization.cs" />
     <Compile Include="Domain\Invoice.cs" />
     <Compile Include="Domain\InvoicePosition.cs" />

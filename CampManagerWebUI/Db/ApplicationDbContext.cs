@@ -30,5 +30,7 @@ namespace CampManagerWebUI.Db
         public DbSet<ProductOrganization> ProductOrganization { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<InvoicePosition> InvoicePosition { get; set; }
+        public DbSet<ProductOut> ProductOut { get; set; }
+        public DbSet<ProductOutPosition> ProductOutPosition { get; set; }
     }
 }

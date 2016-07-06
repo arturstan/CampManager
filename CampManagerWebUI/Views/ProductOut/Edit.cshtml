@@ -1,0 +1,118 @@
+﻿@model CampManagerWebUI.Models.ProductOutViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edycja</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Rozchód</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IdSeason)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <div>
+        <h4>Pozycje</h4>
+
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PositionCount)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PositionCount)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Worth)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Worth)
+                </dd>
+            </dl>
+        </div>
+
+        <p>
+            @Html.ActionLink("Utwórz nową pozycję", "Create", "ProductOutPositions", new { idProductOut = Model.Id }, null)
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    Produkt
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th>
+                    Wartość
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Positions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Worth)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edycja", "Edit", "ProductOutPositions", new { id = item.Id }, null) |
+                        @Html.ActionLink("Szczegóły", "Details", "ProductOutPositions", new { id = item.Id }, null) |
+                        @Html.ActionLink("Usuń", "Delete", "ProductOutPositions", new { id = item.Id }, null) |
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót do listy", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

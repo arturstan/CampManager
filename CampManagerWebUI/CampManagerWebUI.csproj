@@ -179,6 +179,8 @@
     <Compile Include="Controllers\MeasuresController.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
+    <Compile Include="Controllers\ProductOutController.cs" />
+    <Compile Include="Controllers\ProductOutPositionsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
@@ -197,6 +199,10 @@
     <Compile Include="Migrations\201607021157071_InvoicePosition_pricepPrecision.Designer.cs">
       <DependentUpon>201607021157071_InvoicePosition_pricepPrecision.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607061555453_ProductOut.cs" />
+    <Compile Include="Migrations\201607061555453_ProductOut.Designer.cs">
+      <DependentUpon>201607061555453_ProductOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -210,6 +216,8 @@
     <Compile Include="Models\BaseOrganizationViewModel.cs" />
     <Compile Include="Models\PlaceViewModel.cs" />
     <Compile Include="Models\ProductOrganizationViewModel.cs" />
+    <Compile Include="Models\ProductOutPositionViewModel.cs" />
+    <Compile Include="Models\ProductOutViewModel.cs" />
     <Compile Include="Models\SeasonOrganizationViewModel.cs" />
     <Compile Include="Models\SupplierOrganizationViewModel.cs" />
     <Compile Include="Models\UserBaseHelper.cs" />
@@ -342,6 +350,16 @@
     <Content Include="Views\CampMeals\Details.cshtml" />
     <Content Include="Views\CampMeals\Edit.cshtml" />
     <Content Include="Views\CampMeals\Index.cshtml" />
+    <Content Include="Views\ProductOut\Create.cshtml" />
+    <Content Include="Views\ProductOut\Delete.cshtml" />
+    <Content Include="Views\ProductOut\Details.cshtml" />
+    <Content Include="Views\ProductOut\Edit.cshtml" />
+    <Content Include="Views\ProductOut\Index.cshtml" />
+    <Content Include="Views\ProductOutPositions\Create.cshtml" />
+    <Content Include="Views\ProductOutPositions\Delete.cshtml" />
+    <Content Include="Views\ProductOutPositions\Details.cshtml" />
+    <Content Include="Views\ProductOutPositions\Edit.cshtml" />
+    <Content Include="Views\ProductOutPositions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -365,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607021157071_InvoicePosition_pricepPrecision.resx">
       <DependentUpon>201607021157071_InvoicePosition_pricepPrecision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607061555453_ProductOut.resx">
+      <DependentUpon>201607061555453_ProductOut.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

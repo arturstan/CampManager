@@ -52,6 +52,18 @@ namespace CampManagerWebUI
 
                     cfg.CreateMap<CampMeal, CampMealViewModel>()
                         .ForMember(dest => dest.CampName, opts => opts.MapFrom(src => src.Camp.Name));
+
+                    cfg.CreateMap<ProductOut, ProductOutViewModel>()
+                        .ForMember(dest => dest.IdSeason, opts => opts.MapFrom(src => src.Season.Id))
+                        .ForMember(dest => dest.SeasonName, opts => opts.MapFrom(src => src.Season.Name));
+
+                    cfg.CreateMap<ProductOutPosition, ProductOutPositionViewModel>()
+                        .ForMember(dest => dest.IdProductOut, opts => opts.MapFrom(src => src.ProductOut.Id))
+                        .ForMember(dest => dest.Date, opts => opts.MapFrom(src => src.ProductOut.Date))
+                        .ForMember(dest => dest.IdProduct, opts => opts.MapFrom(src => src.Product.Id))
+                        .ForMember(dest => dest.ProductName, opts => opts.MapFrom(src => src.Product.NameDescriptionMeasures));
+
+
                 });
         }
     }
