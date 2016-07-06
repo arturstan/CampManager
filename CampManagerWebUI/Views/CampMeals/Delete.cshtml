@@ -1,0 +1,120 @@
+﻿@model CampManagerWebUI.Models.CampMealViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CampMealViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CampName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CampName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastCash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerCash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperCash)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

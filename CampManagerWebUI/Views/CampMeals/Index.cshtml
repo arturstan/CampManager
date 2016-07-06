@@ -1,0 +1,99 @@
+﻿@model IEnumerable<CampManagerWebUI.Models.CampMealViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdCamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CampName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BreakfastEat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BreakfastEatSupplies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BreakfastCash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DinnerEat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DinnerEatSupplies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DinnerCash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupperEat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupperEatSupplies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupperCash)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdCamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CampName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BreakfastEat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BreakfastEatSupplies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BreakfastCash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DinnerEat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DinnerEatSupplies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DinnerCash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupperEat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupperEatSupplies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupperCash)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { idCamp = item.Id, date = item.Date }) |
+            @Html.ActionLink("Details", "Details", new { idCamp = item.Id, date = item.Date }) |
+            @Html.ActionLink("Delete", "Delete", new { idCamp = item.Id, date = item.Date })
+        </td>
+    </tr>
+}
+
+</table>

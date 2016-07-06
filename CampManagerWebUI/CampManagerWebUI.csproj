@@ -170,6 +170,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasesController.cs" />
+    <Compile Include="Controllers\CampMealsController.cs" />
     <Compile Include="Controllers\CampsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoicePositionsController.cs" />
@@ -336,6 +337,11 @@
     <Content Include="Views\Camps\Details.cshtml" />
     <Content Include="Views\Camps\Edit.cshtml" />
     <Content Include="Views\Camps\Index.cshtml" />
+    <Content Include="Views\CampMeals\Create.cshtml" />
+    <Content Include="Views\CampMeals\Delete.cshtml" />
+    <Content Include="Views\CampMeals\Details.cshtml" />
+    <Content Include="Views\CampMeals\Edit.cshtml" />
+    <Content Include="Views\CampMeals\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

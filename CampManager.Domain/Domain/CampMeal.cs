@@ -25,7 +25,7 @@ namespace CampManager.Domain.Domain
         public int Cash { get; set; }
     }
 
-    public enum KinfOfMeal
+    public enum KinfOfMeal : int
     {
         breakfast,
         dinner,

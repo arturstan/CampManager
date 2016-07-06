@@ -50,7 +50,7 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
-            pos.Products = db.ProductOrganization.Include(x => x.Measure).ToList().FindAll(x => x.Organization.Id == idOrganization);
+            pos.Products = GetProducts(); 
             return View(pos);
         }
 
@@ -74,9 +74,8 @@ namespace CampManagerWebUI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
-
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            invoicePositionViewModel.Products = db.ProductOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            
+            invoicePositionViewModel.Products = GetProducts();
             return View(invoicePositionViewModel);
         }
 
@@ -91,12 +90,13 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product)
                 .Include(x => x.Product.Measure).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
-            InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
-            invoicePositionViewModel.Products = db.ProductOrganization.Include(x => x.Measure).ToList().FindAll(x => x.Organization.Id == idOrganization);
+            InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);            
             if (invoicePositionViewModel == null)
             {
                 return HttpNotFound();
             }
+
+            invoicePositionViewModel.Products = GetProducts();
             return View(invoicePositionViewModel);
         }
 
@@ -122,8 +122,7 @@ namespace CampManagerWebUI.Controllers
                 return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
 
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            invoicePositionViewModel.Products = db.ProductOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            invoicePositionViewModel.Products = GetProducts();
             return View(invoicePositionViewModel);
         }
 
@@ -166,6 +165,13 @@ namespace CampManagerWebUI.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<ProductOrganization> GetProducts()
+        {
+            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            return db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
+                .OrderBy(x => x.NameDescriptionMeasures).ToList();
         }
     }
 }

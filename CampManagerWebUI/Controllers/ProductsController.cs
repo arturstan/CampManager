@@ -23,7 +23,9 @@ namespace CampManagerWebUI.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.ProductOrganization.Include(x => x.Measure).ToList().ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x)));
+            return View(db.ProductOrganization.Include(x => x.Measure).ToList()
+                .OrderBy(x => x.NameDescriptionMeasures).ToList()
+                .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x)));
         }
 
         // GET: Products/Details/5

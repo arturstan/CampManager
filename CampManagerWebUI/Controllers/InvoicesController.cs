@@ -21,7 +21,7 @@ namespace CampManagerWebUI.Controllers
         // GET: Invoices
         public ActionResult Index()
         {
-            return View(db.Invoice.Include(x => x.Season).Include(x => x.Supplier)
+            return View(db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
                 .OrderByDescending(x => x.Id)
                 .ToList()
                 .ConvertAll(x => Mapper.Map<InvoiceViewModel>(x)));

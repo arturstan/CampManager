@@ -1,0 +1,114 @@
+﻿@model CampManagerWebUI.Models.CampMealViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CampMealViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CampName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CampName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BreakfastCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BreakfastCash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DinnerCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DinnerCash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperEat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperEat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperEatSupplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperEatSupplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupperCash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupperCash)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

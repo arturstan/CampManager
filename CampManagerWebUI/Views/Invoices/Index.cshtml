@@ -27,7 +27,10 @@
             @Html.DisplayNameFor(model => model.DateIntroduction)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SeasonName)
+            @Html.DisplayNameFor(model => model.PositionCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worth)
         </th>
         <th></th>
     </tr>
@@ -50,7 +53,10 @@
             @Html.DisplayFor(modelItem => item.DateIntroduction)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SeasonName)
+            @Html.DisplayFor(modelItem => item.PositionCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worth)
         </td>
         <td>
             @Html.ActionLink("Edycja", "Edit", new { id=item.Id }) |

@@ -50,6 +50,8 @@ namespace CampManagerWebUI
                         .ForMember(dest => dest.IdPlace, opts => opts.MapFrom(src => src.Place.Id))
                         .ForMember(dest => dest.PlaceName, opts => opts.MapFrom(src => src.Place.Name));
 
+                    cfg.CreateMap<CampMeal, CampMealViewModel>()
+                        .ForMember(dest => dest.CampName, opts => opts.MapFrom(src => src.Camp.Name));
                 });
         }
     }

@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
+
+using CampManager.Domain.Domain;
+
 namespace CampManagerWebUI.Models
 {
     public class CampMealViewModel
@@ -41,5 +44,12 @@ namespace CampManagerWebUI.Models
         [Required]
         public int SupperCash { get; set; }
 
+
+        public List<Camp> Camps;
+
+
+        public int IdCampMealBreakfast { get; set; }
+        public int IdCampMealDinner { get; set; }
+        public int IdCampMealSupper { get; set; }
     }
 }
