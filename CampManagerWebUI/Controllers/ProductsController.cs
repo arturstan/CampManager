@@ -153,7 +153,7 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private void FillAmount(List<ProductOrganizationViewModel> productList)
+        private void FillAmountOld(List<ProductOrganizationViewModel> productList)
         {
             int idSeason = UserSeasonHelper.GetSeason(db).Id;
             var invoicePositionList = db.InvoicePosition.Where(x => x.Invoice.Season.Id == idSeason);
@@ -163,5 +163,23 @@ namespace CampManagerWebUI.Controllers
                 product.Amount += invoicePosition.Amount;
             }
         }
+
+        private void FillAmount(List<ProductOrganizationViewModel> productList)
+        {
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            var productAmountList = db.ProductAmount
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Product)
+                // .Include(x => x.InvoicePosition.Invoice)
+                .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason);
+
+            foreach (var productAmount in productAmountList)
+            {
+                var product = productList.Find(x => x.Id == productAmount.InvoicePosition.Product.Id);
+                product.Amount += productAmount.AmountBuy - productAmount.AmountExpend;
+                product.Worth += productAmount.WorthBuy - productAmount.WorthExpend;
+            }
+        }
+
     }
 }

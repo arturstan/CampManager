@@ -14,6 +14,7 @@ using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
 {
+    [Authorize]
     public class SeasonsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

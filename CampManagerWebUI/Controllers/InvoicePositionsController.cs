@@ -15,6 +15,7 @@ using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
 {
+    [Authorize]
     public class InvoicePositionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

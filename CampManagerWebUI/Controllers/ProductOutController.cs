@@ -14,6 +14,7 @@ using AutoMapper;
 
 namespace CampManagerWebUI.Controllers
 {
+    [Authorize]
     public class ProductOutController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
