@@ -71,7 +71,7 @@ namespace CampManagerWebUI.Controllers
                 db.CampMeal.Add(campMealSupper);
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Camps", new { id = campMealViewModel.IdCamp });
             }
 
             return View(campMealViewModel);
@@ -101,9 +101,21 @@ namespace CampManagerWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(campMealViewModel).State = EntityState.Modified;
+                int idCamp = campMealViewModel.IdCamp;
+                DateTime date = campMealViewModel.Date;
+                List<CampMeal> campMealList = db.CampMeal.Where(x => x.Camp.Id == idCamp && x.Date == date)
+                    .ToList();
+
+                CampMeal campMealBreakfast = campMealList.Find(x => x.Kind == KinfOfMeal.breakfast);
+                CampMeal campMealDinner = campMealList.Find(x => x.Kind == KinfOfMeal.dinner);
+                CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
+                CampMealCopy(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
+
+                db.Entry(campMealBreakfast).State = EntityState.Modified;
+                db.Entry(campMealDinner).State = EntityState.Modified;
+                db.Entry(campMealSupper).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Camps", new { id = idCamp });
             }
             return View(campMealViewModel);
         }
@@ -173,7 +185,7 @@ namespace CampManagerWebUI.Controllers
             campMealSupper.Date = campMealViewModel.Date;
             campMealSupper.Kind = KinfOfMeal.supper;
             campMealSupper.Eat = campMealViewModel.SupperEat;
-            campMealSupper.EatSupplies = campMealViewModel.DinnerEatSupplies;
+            campMealSupper.EatSupplies = campMealViewModel.SupperEatSupplies;
             campMealSupper.Cash = campMealViewModel.SupperCash;
         }
 

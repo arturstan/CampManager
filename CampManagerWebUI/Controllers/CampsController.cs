@@ -38,6 +38,7 @@ namespace CampManagerWebUI.Controllers
             }
             Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).FirstOrDefault(x => x.Id == id);
             CampViewModel campViewModel = Mapper.Map<CampViewModel>(camp);
+            CampMealCopy.FillMeal(campViewModel, db.CampMeal.Where(x => x.Camp.Id == campViewModel.Id).ToList());
             if (campViewModel == null)
             {
                 return HttpNotFound();
@@ -97,6 +98,7 @@ namespace CampManagerWebUI.Controllers
             Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).FirstOrDefault(x => x.Id == id);
             CampViewModel campViewModel = Mapper.Map<CampViewModel>(camp);
             campViewModel.Places = db.Place.Where(x => x.Base.Id == idBase).ToList();
+            CampMealCopy.FillMeal(campViewModel, db.CampMeal.Where(x => x.Camp.Id == campViewModel.Id).ToList());
             if (campViewModel == null)
             {
                 return HttpNotFound();

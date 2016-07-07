@@ -26,7 +26,7 @@ namespace CampManagerWebUI.Models
 
             campMealViewModel.IdCampMealSupper = campMealSupper.Id;
             campMealViewModel.SupperEat = campMealSupper.Eat;
-            campMealViewModel.DinnerEatSupplies = campMealSupper.EatSupplies;
+            campMealViewModel.SupperEatSupplies = campMealSupper.EatSupplies;
             campMealViewModel.SupperCash = campMealSupper.Cash;
         }
 
@@ -39,7 +39,7 @@ namespace CampManagerWebUI.Models
             }
         }
 
-        private static void FillMeal(CampViewModel camp, List<CampMeal> campMealList)
+        public static void FillMeal(CampViewModel camp, List<CampMeal> campMealList)
         {
             foreach (var group in campMealList.GroupBy(x => x.Date))
             {
@@ -50,7 +50,10 @@ namespace CampManagerWebUI.Models
                 CampMeal campMealDinner = campMealDate.Find(x => x.Kind == KinfOfMeal.dinner);
                 CampMeal campMealSupper = campMealDate.Find(x => x.Kind == KinfOfMeal.supper);
 
-                //Copy2ViewModel(camp, campMealBreakfast, campMealDinner, campMealSupper);
+                CampMealViewModel campMeal = new CampMealViewModel();
+                camp.Meal.Add(campMeal);
+
+                Copy2ViewModel(campMeal, campMealBreakfast, campMealDinner, campMealSupper);
             }
         }
     }

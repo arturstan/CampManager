@@ -126,9 +126,6 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CampName)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
@@ -159,9 +156,9 @@
                         @Html.DisplayFor(modelItem => item.SupperCash)
                     </td>
                     <td>
-                        @Html.ActionLink("Edycja", "Edit", "CampMeals", new { id = item.Id }, null) |
-                        @Html.ActionLink("Szczegóły", "Details", "CampMeals", new { id = item.Id }, null) |
-                        @Html.ActionLink("Usuń", "Delete", "CampMeals", new { id = item.Id }, null) |
+                        @Html.ActionLink("Edycja", "Edit", "CampMeals", new { idCamp = Model.Id, date = item.Date }, null) |
+                        @Html.ActionLink("Szczegóły", "Details", "CampMeals", new { idCamp = Model.Id, date = item.Date }, null) |
+                        @Html.ActionLink("Usuń", "Delete", "CampMeals", new { idCamp = Model.Id, date = item.Date }, null) |
                     </td>
                 </tr>
             }

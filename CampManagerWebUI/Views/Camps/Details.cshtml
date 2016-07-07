@@ -72,3 +72,78 @@
     @Html.ActionLink("Edycja", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Powrót do listy", "Index")
 </p>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Data
+            </th>
+            <th>
+                Śniadanie
+            </th>
+            <th>
+                Śniadanie prowiant
+            </th>
+            <th>
+                Śniadanie kasa
+            </th>
+            <th>
+                Obiad
+            </th>
+            <th>
+                Obiada prowiant
+            </th>
+            <th>
+                Obiad kasa
+            </th>
+            <th>
+                Kolacja
+            </th>
+            <th>
+                Kolacja prowiant
+            </th>
+            <th>
+                Kolacja kasa
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Meal)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BreakfastEat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BreakfastEatSupplies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BreakfastCash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DinnerEat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DinnerEatSupplies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DinnerCash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupperEat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupperEatSupplies)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupperCash)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
