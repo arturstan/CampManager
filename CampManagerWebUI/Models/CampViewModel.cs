@@ -41,6 +41,13 @@ namespace CampManagerWebUI.Models
         [DisplayName("Cena za osobę")]
         public decimal PricePerPerson { get; set; }
 
+        public List<CampMealViewModel> Meal { get; set; }
+
         public List<Place> Places;
+
+        public CampViewModel()
+        {
+            Meal = new List<CampMealViewModel>();
+        }
     }
 }

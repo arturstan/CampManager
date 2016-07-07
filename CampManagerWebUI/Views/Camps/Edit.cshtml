@@ -82,6 +82,92 @@
         </div>
 
     </div>
+
+    <p>
+        @Html.ActionLink("Utwórz nową pozycję", "Create", "CampMeals", new { idCamp = Model.Id }, null)
+    </p>
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    Data
+                </th>
+                <th>
+                    Śniadanie
+                </th>
+                <th>
+                    Śniadanie prowiant
+                </th>
+                <th>
+                    Śniadanie kasa
+                </th>
+                <th>
+                    Obiad
+                </th>
+                <th>
+                    Obiada prowiant
+                </th>
+                <th>
+                    Obiad kasa
+                </th>
+                <th>
+                    Kolacja
+                </th>
+                <th>
+                    Kolacja prowiant
+                </th>
+                <th>
+                    Kolacja kasa
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Meal)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CampName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BreakfastEat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BreakfastEatSupplies)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BreakfastCash)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DinnerEat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DinnerEatSupplies)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DinnerCash)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SupperEat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SupperEatSupplies)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SupperCash)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edycja", "Edit", "CampMeals", new { id = item.Id }, null) |
+                        @Html.ActionLink("Szczegóły", "Details", "CampMeals", new { id = item.Id }, null) |
+                        @Html.ActionLink("Usuń", "Delete", "CampMeals", new { id = item.Id }, null) |
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 }
 
 <div>

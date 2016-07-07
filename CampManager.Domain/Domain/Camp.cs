@@ -26,5 +26,12 @@ namespace CampManager.Domain.Domain
         public decimal PersonCount { get; set; }
 
         public decimal PricePerPerson {get;set;}
+
+        public List<CampMeal> Meal { get; set; }
+
+        public Camp()
+        {
+            Meal = new List<CampMeal>();
+        }
     }
 }

@@ -4,16 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Lista</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Utwórz nowy", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IdCamp)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.CampName)
         </th>
@@ -53,9 +50,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.IdCamp)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.CampName)
         </td>
         <td>
@@ -89,9 +83,9 @@
             @Html.DisplayFor(modelItem => item.SupperCash)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { idCamp = item.Id, date = item.Date }) |
-            @Html.ActionLink("Details", "Details", new { idCamp = item.Id, date = item.Date }) |
-            @Html.ActionLink("Delete", "Delete", new { idCamp = item.Id, date = item.Date })
+            @Html.ActionLink("Edycja", "Edit", new { idCamp = item.Id, date = item.Date }) |
+            @Html.ActionLink("Szczegóły", "Details", new { idCamp = item.Id, date = item.Date }) |
+            @Html.ActionLink("Usuń", "Delete", new { idCamp = item.Id, date = item.Date })
         </td>
     </tr>
 }

@@ -42,11 +42,14 @@ namespace CampManagerWebUI.Controllers
         }
 
         // GET: CampMeals/Create
-        public ActionResult Create()
+        public ActionResult Create(int idCamp)
         {
             int idSeason = UserSeasonHelper.GetSeason(db).Id;
             CampMealViewModel campMealViewModel = new CampMealViewModel();
-            campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).OrderBy(x => x.Name).ToList();
+            campMealViewModel.IdCamp = idCamp;
+            campMealViewModel.CampName = db.Camp.Find(idCamp).Name;
+            campMealViewModel.Date = DateTime.Now.Date;
+            // campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).OrderBy(x => x.Name).ToList();
             return View(campMealViewModel);
         }
 
@@ -209,8 +212,8 @@ namespace CampManagerWebUI.Controllers
             CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
 
             CampMealViewModel campMealViewModel = CampMealViewModelCopy(campMealBreakfast, campMealDinner, campMealSupper);
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
-            campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).ToList();
+            // int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            // campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).ToList();
             return campMealViewModel;
         }
     }
