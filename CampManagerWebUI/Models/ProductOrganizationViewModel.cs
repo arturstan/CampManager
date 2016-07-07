@@ -27,6 +27,9 @@ namespace CampManagerWebUI.Models
         [DisplayName("Miara")]
         public string MeasureName { get; set; }
 
+        [DisplayName("Ilość")]
+        public decimal Amount { get; set; }
+
         public List<MeasureOrganization> Measures;
     }
 }

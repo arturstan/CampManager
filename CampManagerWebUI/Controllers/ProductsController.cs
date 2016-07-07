@@ -23,9 +23,11 @@ namespace CampManagerWebUI.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.ProductOrganization.Include(x => x.Measure).ToList()
+            var productList = db.ProductOrganization.Include(x => x.Measure).ToList()
                 .OrderBy(x => x.NameDescriptionMeasures).ToList()
-                .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x)));
+                .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x));
+            FillAmount(productList);
+            return View(productList);
         }
 
         // GET: Products/Details/5
@@ -149,6 +151,17 @@ namespace CampManagerWebUI.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void FillAmount(List<ProductOrganizationViewModel> productList)
+        {
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            var invoicePositionList = db.InvoicePosition.Where(x => x.Invoice.Season.Id == idSeason);
+            foreach(var invoicePosition in invoicePositionList)
+            {
+                var product = productList.Find(x => x.Id == invoicePosition.Product.Id);
+                product.Amount += invoicePosition.Amount;
+            }
         }
     }
 }

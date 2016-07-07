@@ -180,23 +180,7 @@ namespace CampManagerWebUI.Controllers
         private CampMealViewModel CampMealViewModelCopy(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper)
         {
             CampMealViewModel campMealViewModel = new CampMealViewModel();
-            campMealViewModel.IdCamp = campMealBreakfast.Camp.Id;
-            campMealViewModel.Date = campMealBreakfast.Date;
-
-            campMealViewModel.IdCampMealBreakfast = campMealBreakfast.Id;
-            campMealViewModel.BreakfastEat = campMealBreakfast.Eat;
-            campMealViewModel.BreakfastEatSupplies = campMealBreakfast.EatSupplies;
-            campMealViewModel.BreakfastCash = campMealBreakfast.Cash;
-
-            campMealViewModel.IdCampMealDinner = campMealDinner.Id;
-            campMealViewModel.DinnerEat = campMealDinner.Eat;
-            campMealViewModel.DinnerEatSupplies = campMealDinner.EatSupplies;
-            campMealViewModel.DinnerCash = campMealDinner.Cash;
-
-            campMealViewModel.IdCampMealSupper = campMealSupper.Id;
-            campMealViewModel.SupperEat = campMealSupper.Eat;
-            campMealViewModel.DinnerEatSupplies = campMealSupper.EatSupplies;
-            campMealViewModel.SupperCash = campMealSupper.Cash;
+            Models.CampMealCopy.Copy2ViewModel(campMealViewModel, campMealBreakfast, campMealDinner, campMealSupper);
 
             return campMealViewModel;
         }

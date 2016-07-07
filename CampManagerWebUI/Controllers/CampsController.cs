@@ -24,7 +24,8 @@ namespace CampManagerWebUI.Controllers
         {
             int idBase = UserBaseHelper.GetBase(db).Id;
             List<CampViewModel> camps = db.Camp.Include(x => x.Place)
-                .Where(x => x.CampOrganization.Base.Id == idBase).ToList().ConvertAll(x => Mapper.Map<CampViewModel>(x));
+                .Where(x => x.CampOrganization.Base.Id == idBase)
+                .ToList().ConvertAll(x => Mapper.Map<CampViewModel>(x));
             return View(camps);
         }
 
@@ -93,7 +94,7 @@ namespace CampManagerWebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             int idBase = UserBaseHelper.GetBase(db).Id;
-            Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).Include(x => x.Meal).FirstOrDefault(x => x.Id == id);
+            Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).FirstOrDefault(x => x.Id == id);
             CampViewModel campViewModel = Mapper.Map<CampViewModel>(camp);
             campViewModel.Places = db.Place.Where(x => x.Base.Id == idBase).ToList();
             if (campViewModel == null)

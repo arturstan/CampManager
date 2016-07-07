@@ -170,8 +170,9 @@ namespace CampManagerWebUI.Controllers
         private List<ProductOrganization> GetProducts()
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            return db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
-                .OrderBy(x => x.NameDescriptionMeasures).ToList();
+            return db.ProductOrganization.Include(x => x.Measure)                
+                .Where(x => x.Organization.Id == idOrganization)
+                .ToList().OrderBy(x => x.NameDescriptionMeasures).ToList();
         }
     }
 }
