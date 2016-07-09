@@ -58,6 +58,7 @@ namespace CampManagerWebUI.Controllers
             invoice.DateIntroduction = DateTime.Now.Date;
             invoice.DateIssue = DateTime.Now.Date;
             invoice.Suppliers = db.SupplierOrganizations.ToList();
+            ViewBag.Error = null;
             return View(invoice);
         }
 
@@ -78,11 +79,16 @@ namespace CampManagerWebUI.Controllers
                 invoice.DateIssue = invoiceViewModel.DateIssue;
                 invoice.Season = db.SeasonOrganization.Find(invoiceViewModel.IdSeason);
 
-                db.Invoice.Add(invoice);
-                db.SaveChanges();
-                return RedirectToAction("Edit", new { id = invoice.Id });
+                Service.InvoiceService service = new Service.InvoiceService(db);
+                string error = null;
+                service.Add(invoice, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Edit", new { id = invoice.Id });
             }
 
+            invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList();
             return View(invoiceViewModel);
         }
 
@@ -105,6 +111,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Error = null;
             return View(invoiceViewModel);
         }
 
@@ -126,10 +134,18 @@ namespace CampManagerWebUI.Controllers
                 invoice.DateIssue = invoiceViewModel.DateIssue;
                 invoice.Season = db.SeasonOrganization.Find(invoiceViewModel.IdSeason);
 
-                db.Entry(invoice).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Service.InvoiceService service = new Service.InvoiceService(db);
+                string error = null;
+                service.Edit(invoice, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Index");
             }
+
+            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList()
+                .FindAll(x => x.Organization.Id == idOrganization);
             return View(invoiceViewModel);
         }
 

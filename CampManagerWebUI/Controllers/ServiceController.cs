@@ -31,10 +31,13 @@ namespace CampManagerWebUI.Controllers
             ApplicationDbContext db = new ApplicationDbContext();
             ProductExpendService service = new ProductExpendService(db);
 
+            DateTime date = new DateTime(2016, 7, 2);
+
             var productOutList = db.ProductOutPosition.Include(x => x.ProductOut)
                 .Include(x => x.Product)
                 .Include(x => x.ProductOut)
                 .Include(x => x.ProductOut)
+                .Where(x => x.ProductOut.Date <= date)
                 .ToList();
             service.Fill(productOutList);
 

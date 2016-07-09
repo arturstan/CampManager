@@ -180,6 +180,5 @@ namespace CampManagerWebUI.Controllers
                 product.Worth += productAmount.WorthBuy - productAmount.WorthExpend;
             }
         }
-
     }
 }

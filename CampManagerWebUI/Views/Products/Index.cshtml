@@ -28,7 +28,7 @@
         </th>
         <th></th>
     </tr>
-
+    
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -52,6 +52,19 @@
             @Html.ActionLink("Usuń", "Delete", new { id=item.Id })
         </td>
     </tr>
+
 }
 
 </table>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Worth)
+        </dt>
+
+        <dd>
+            @Model.Sum(x => x.Worth)
+        </dd>
+    </dl>
+</div>
