@@ -127,7 +127,7 @@ namespace CampManagerWebUI.Controllers
             {
                 Invoice invoice = new Invoice();
                 invoice.Id = invoiceViewModel.Id;
-                invoice.Supplier = db.SupplierOrganizations.Find(invoiceViewModel.Id);
+                invoice.Supplier = db.SupplierOrganizations.Find(invoiceViewModel.IdSupplier);
                 invoice.Number = invoiceViewModel.Number;
                 invoice.DateDelivery = invoiceViewModel.DateDelivery;
                 invoice.DateIntroduction = invoiceViewModel.DateIntroduction;
