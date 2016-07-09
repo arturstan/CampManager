@@ -17,6 +17,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PositionCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worth)
+        </th>
         <th></th>
     </tr>
 
@@ -27,6 +33,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PositionCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worth)
         </td>
         <td>
             @Html.ActionLink("Edycja", "Edit", new { id=item.Id }) |
