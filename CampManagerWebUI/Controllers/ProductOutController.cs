@@ -39,6 +39,7 @@ namespace CampManagerWebUI.Controllers
                 .Include(x => x.Positions.Select(y => y.Product))
                 .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
+            productOut.Positions = productOut.Positions.OrderBy(x => x.Product.NameDescriptionMeasures).ToList();
             ProductOutViewModel productOutViewModel = Mapper.Map<ProductOutViewModel>(productOut);
             if (productOutViewModel == null)
             {
@@ -90,6 +91,7 @@ namespace CampManagerWebUI.Controllers
                 .Include(x => x.Positions.Select(y => y.Product))
                 .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
+            productOut.Positions = productOut.Positions.OrderBy(x => x.Product.NameDescriptionMeasures).ToList();
             ProductOutViewModel productOutViewModel = Mapper.Map<ProductOutViewModel>(productOut);
             if (productOutViewModel == null)
             {
