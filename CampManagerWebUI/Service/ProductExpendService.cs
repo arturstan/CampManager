@@ -26,7 +26,7 @@ namespace CampManagerWebUI.Service
                 .Include(x => x.InvoicePosition.Product)
                 .ToList();
 
-            List<ProductExpend> productExpendList = new List<ProductExpend>();
+            List<ProductExpend> productExpendList = _db.ProductExpend.ToList();
             foreach (var productOutPosition in productOutPositionList)
             {
                 AddExpend(productOutPosition, productAmountList, productExpendList);
@@ -37,6 +37,9 @@ namespace CampManagerWebUI.Service
 
         private void AddExpend(ProductOutPosition productOutPosition, List<ProductAmount> productAmountList, List<ProductExpend> productExpendList)
         {
+            if (productExpendList.Exists(x => x.ProductOutPosition == productOutPosition))
+                return;
+
             var productAmount = productAmountList
                 .FindAll(x => x.InvoicePosition.Product == productOutPosition.Product
                 && x.InvoicePosition.Invoice.DateDelivery <= productOutPosition.ProductOut.Date)
@@ -74,7 +77,7 @@ namespace CampManagerWebUI.Service
                        
             if (amountToExpend != 0)
             {
-                throw new Exception("");
+                throw new Exception(productOutPosition.Product.Name);
             }
         }
     }
