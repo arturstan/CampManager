@@ -45,12 +45,32 @@ namespace CampManagerWebUI.Controllers
         // GET: CampMeals/Create
         public ActionResult Create(int idCamp)
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
             CampMealViewModel campMealViewModel = new CampMealViewModel();
             campMealViewModel.IdCamp = idCamp;
             campMealViewModel.CampName = db.Camp.Find(idCamp).Name;
             campMealViewModel.Date = DateTime.Now.Date;
-            // campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).OrderBy(x => x.Name).ToList();
+
+            List<CampMeal> campMealLastList = db.CampMeal.Where(x => x.Camp.Id == idCamp && x.Kind == KinfOfMeal.supper)
+                .OrderByDescending(x => x.Date).Take(1).ToList();            
+
+            if (campMealLastList.Count > 0)
+            {
+                var campMealLast = campMealLastList[0];
+
+                campMealViewModel.Date = campMealLast.Date.AddDays(1);
+                campMealViewModel.BreakfastEat = campMealLast.Eat;
+                campMealViewModel.BreakfastEatSupplies = campMealLast.EatSupplies;
+                campMealViewModel.BreakfastCash = campMealLast.Cash;
+
+                campMealViewModel.DinnerEat = campMealLast.Eat;
+                campMealViewModel.DinnerEatSupplies = campMealLast.EatSupplies;
+                campMealViewModel.DinnerCash = campMealLast.Cash;
+
+                campMealViewModel.SupperEat = campMealLast.Eat;
+                campMealViewModel.SupperEatSupplies = campMealLast.EatSupplies;
+                campMealViewModel.SupperCash = campMealLast.Cash;
+            }
+
             return View(campMealViewModel);
         }
 
