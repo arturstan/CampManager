@@ -173,7 +173,8 @@ namespace CampManagerWebUI.Controllers
             db.CampMeal.Remove(campMealDinner);
             db.CampMeal.Remove(campMealSupper);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            // return RedirectToAction("Index");
+            return RedirectToAction("Edit", "Camps", new { id = idCamp });
         }
 
         protected override void Dispose(bool disposing)
