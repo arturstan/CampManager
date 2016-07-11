@@ -6,6 +6,18 @@
 
 <h2>Lista</h2>
 
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Worth)
+        </dt>
+
+        <dd>
+            @Model.Sum(x => x.Worth)
+        </dd>
+    </dl>
+</div>
+
 <p>
     @Html.ActionLink("Utwórz nowy", "Create")
 </p>
@@ -56,15 +68,3 @@
 }
 
 </table>
-
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Worth)
-        </dt>
-
-        <dd>
-            @Model.Sum(x => x.Worth)
-        </dd>
-    </dl>
-</div>
