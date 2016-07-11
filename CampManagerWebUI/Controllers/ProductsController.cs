@@ -40,6 +40,15 @@ namespace CampManagerWebUI.Controllers
 
             var product = db.ProductOrganization.Include(x => x.Organization).Include(x => x.Measure).SingleOrDefault(x => x.Id == id);
             ProductOrganizationViewModel productOrganizationViewModel = Mapper.Map<ProductOrganizationViewModel>(product);
+
+            productOrganizationViewModel.ProductAmount = db.ProductAmount.Where(x => x.InvoicePosition.Product.Id == id.Value)
+                .Include(x => x.InvoicePosition).Include(x => x.InvoicePosition.Invoice)
+                .ToList();
+            productOrganizationViewModel.ProductExpend = db.ProductExpend.Where(x => x.ProductOutPosition.Product.Id == id.Value)
+                .Include(x => x.ProductOutPosition)
+                .Include(x => x.ProductOutPosition.ProductOut)
+                .ToList();
+
             if (productOrganizationViewModel == null)
             {
                 return HttpNotFound();

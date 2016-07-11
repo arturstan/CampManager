@@ -34,5 +34,9 @@ namespace CampManagerWebUI.Models
         public decimal Worth { get; set; }
 
         public List<MeasureOrganization> Measures;
+
+        public List<ProductAmount> ProductAmount;
+
+        public List<ProductExpend> ProductExpend;
     }
 }

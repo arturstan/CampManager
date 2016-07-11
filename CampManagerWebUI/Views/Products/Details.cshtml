@@ -40,3 +40,124 @@
     @Html.ActionLink("Edycja", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Powrót do listy", "Index")
 </p>
+
+<div>
+    <h4>Zakupy</h4>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Ilość pozycji
+            </dt>
+
+            <dd>
+                @Model.ProductAmount.Count
+            </dd>
+
+            <dt>
+                Ilość
+            </dt>
+
+            <dd>
+                @Model.ProductAmount.Sum(x => x.AmountBuy)
+            </dd>
+
+            <dt>
+                Wartość
+            </dt>
+
+            <dd>
+                @Model.ProductAmount.Sum(x => x.WorthBuy)
+            </dd>
+        </dl>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                Numer faktury
+            </th>
+            <th>
+                Ilość
+            </th>
+            <th>
+                Wartość
+            </th>
+        </tr>
+
+        @foreach (var item in Model.ProductAmount)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoicePosition.Invoice.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountBuy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorthBuy)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div>
+    <h4>Rozchody</h4>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Ilość pozycji
+            </dt>
+
+            <dd>
+                @Model.ProductExpend.Count
+            </dd>
+
+            <dt>
+                Ilość
+            </dt>
+            <dd>
+                @Model.ProductExpend.Sum(x => x.Amount)
+            </dd>
+
+            <dt>
+                Wartość
+            </dt>
+
+            <dd>
+                @Model.ProductExpend.Sum(x => x.Worth)
+            </dd>
+        </dl>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                Dzień
+            </th>
+            <th>
+                Ilość
+            </th>
+            <th>
+                Wartość
+            </th>
+        </tr>
+
+        @foreach (var item in Model.ProductExpend)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductOutPosition.ProductOut.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worth)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
