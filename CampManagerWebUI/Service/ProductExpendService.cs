@@ -49,7 +49,7 @@ namespace CampManagerWebUI.Service
             foreach (var pa in productAmount)
             {
                 decimal amountToExpendPosition = Math.Min(amountToExpend, pa.AmountBuy - pa.AmountExpend);
-                decimal worth = ((amountToExpendPosition + pa.AmountExpend) / pa.AmountBuy) * pa.WorthBuy - pa.WorthExpend;
+                decimal worth = Math.Round(((amountToExpendPosition + pa.AmountExpend) / pa.AmountBuy) * pa.WorthBuy - pa.WorthExpend, 2, MidpointRounding.AwayFromZero);
 
                 pa.AmountExpend += amountToExpendPosition;
                 pa.WorthExpend += worth;
@@ -74,10 +74,11 @@ namespace CampManagerWebUI.Service
                     return;
                 }
             }
-                       
+
             if (amountToExpend != 0)
             {
-                throw new Exception(productOutPosition.Product.Name);
+                string error = string.Format("Nieudany rozchód: {0}, próba rozchodowania: {1}, pozostało: {2}", productOutPosition.Product.Name, productOutPosition.Amount, amountToExpend);
+                throw new Exception(error);
             }
         }
     }
