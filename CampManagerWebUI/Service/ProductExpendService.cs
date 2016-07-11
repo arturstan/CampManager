@@ -24,6 +24,7 @@ namespace CampManagerWebUI.Service
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Invoice)
                 .Include(x => x.InvoicePosition.Product)
+                .Include(x => x.InvoicePosition.Product.Measure)
                 .ToList();
 
             List<ProductExpend> productExpendList = _db.ProductExpend.ToList();
@@ -77,7 +78,7 @@ namespace CampManagerWebUI.Service
 
             if (amountToExpend != 0)
             {
-                string error = string.Format("Nieudany rozchód: {0}, próba rozchodowania: {1}, pozostało: {2}", productOutPosition.Product.Name, productOutPosition.Amount, amountToExpend);
+                string error = string.Format("Nieudany rozchód: {0}, próba rozchodowania: {1}, pozostało: {2}", productOutPosition.Product.NameDescriptionMeasures, productOutPosition.Amount, amountToExpend);
                 throw new Exception(error);
             }
         }
