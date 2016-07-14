@@ -163,10 +163,18 @@ namespace CampManagerWebUI.Controllers
             InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Invoice).Include(x => x.Product.Measure)
                 .SingleOrDefault(x => x.Id == id);
             int idInvoice = invoicePosition.Invoice.Id;
-            db.InvoicePosition.Remove(invoicePosition);
-            db.SaveChanges();
-            // return RedirectToAction("Index");
-            return RedirectToAction("Edit", "Invoices", new { id = idInvoice });
+
+            Service.InvoicePositionService service = new Service.InvoicePositionService(db);
+            string error = null;
+            service.Remove(invoicePosition, ref error);
+            if (!string.IsNullOrEmpty(error))
+            {
+                InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
+                ViewBag.Error = error;
+                return View(invoicePositionViewModel);
+            }
+            else
+                return RedirectToAction("Edit", "Invoices", new { id = idInvoice });
         }
 
         protected override void Dispose(bool disposing)

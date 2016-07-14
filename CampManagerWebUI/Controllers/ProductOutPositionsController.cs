@@ -23,7 +23,8 @@ namespace CampManagerWebUI.Controllers
         // GET: ProductOutPositions
         public ActionResult Index()
         {
-            return View(db.ProductOutPosition.Include(x => x.Product).Include(x => x.ProductOut).ToList().ConvertAll(x => Mapper.Map<ProductOutPositionViewModel>(x)));
+            return View(db.ProductOutPosition.Include(x => x.Product).Include(x => x.Product.Measure)
+                .Include(x => x.ProductOut).ToList().ConvertAll(x => Mapper.Map<ProductOutPositionViewModel>(x)));
         }
 
         // GET: ProductOutPositions/Details/5
@@ -50,6 +51,7 @@ namespace CampManagerWebUI.Controllers
             productOutPositionViewModel.IdProductOut = idProductOut;
             productOutPositionViewModel.Products = GetProducts();
 
+            ViewBag.Error = null;
             return View(productOutPositionViewModel);
         }
 
@@ -69,10 +71,13 @@ namespace CampManagerWebUI.Controllers
                 productPosition.Price = productOutPositionViewModel.Price;
                 productPosition.Worth = productOutPositionViewModel.Worth;
 
-                db.ProductOutPosition.Add(productPosition);
-                db.SaveChanges();
-                // return RedirectToAction("Index");
-                return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
+                Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
+                string error = null;
+                service.Add(productPosition, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
             }
 
             productOutPositionViewModel.Products = GetProducts();
@@ -97,6 +102,7 @@ namespace CampManagerWebUI.Controllers
             }
 
             productOutPositionViewModel.Products = GetProducts();
+            ViewBag.Error = null;
             return View(productOutPositionViewModel);
         }
 
@@ -117,10 +123,17 @@ namespace CampManagerWebUI.Controllers
                 productPosition.Price = productOutPositionViewModel.Price;
                 productPosition.Worth = productOutPositionViewModel.Worth;
 
-                db.Entry(productPosition).State = EntityState.Modified;
-                db.SaveChanges();
-                // return RedirectToAction("Index");
-                return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
+                Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
+                string error = null;
+                service.Edit(productPosition, ref error);
+                if (string.IsNullOrEmpty(error))
+                {
+                    productOutPositionViewModel.Products = GetProducts();
+                    ViewBag.Error = error;
+                    return View(productOutPositionViewModel);
+                }
+                else
+                    return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
             }
 
             productOutPositionViewModel.Products = GetProducts();
@@ -143,6 +156,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Error = null;
             return View(productOutPositionViewModel);
         }
 
@@ -153,10 +168,17 @@ namespace CampManagerWebUI.Controllers
         {
             ProductOutPosition productPosition = db.ProductOutPosition.Include(x => x.ProductOut).SingleOrDefault(x => x.Id == id);
             int idProductOut = productPosition.ProductOut.Id;
-            db.ProductOutPosition.Remove(productPosition);
-            db.SaveChanges();
-            //return RedirectToAction("Index");
-            return RedirectToAction("Edit", "ProductOut", new { id = idProductOut });
+            Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
+            string error = null;
+            service.Remove(productPosition, ref error);
+            if (!string.IsNullOrEmpty(error))
+            {
+                ProductOutPositionViewModel productOutPositionViewModel = Mapper.Map<ProductOutPositionViewModel>(productPosition);
+                ViewBag.Error = error;
+                return View(productOutPositionViewModel);
+            }
+            else
+                return RedirectToAction("Edit", "ProductOut", new { id = idProductOut });
         }
 
         protected override void Dispose(bool disposing)
@@ -168,12 +190,33 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private List<ProductOrganization> GetProducts()
+        private List<ProductOrganizationViewModel> GetProducts()
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            return db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
+            var productList = db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
                 .ToList()
-                .OrderBy(x => x.NameDescriptionMeasures).ToList();
+                .OrderBy(x => x.NameDescriptionMeasures).ToList()
+                .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x));
+
+            FillAmount(productList);
+            return productList;
+        }
+
+        private void FillAmount(List<ProductOrganizationViewModel> productList)
+        {
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            var productAmountList = db.ProductAmount
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Product)
+                // .Include(x => x.InvoicePosition.Invoice)
+                .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason);
+
+            foreach (var productAmount in productAmountList)
+            {
+                var product = productList.Find(x => x.Id == productAmount.InvoicePosition.Product.Id);
+                product.Amount += productAmount.AmountBuy - productAmount.AmountExpend;
+                product.Worth += productAmount.WorthBuy - productAmount.WorthExpend;
+            }
         }
     }
 }

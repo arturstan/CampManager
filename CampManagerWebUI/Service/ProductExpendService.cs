@@ -36,6 +36,42 @@ namespace CampManagerWebUI.Service
             _db.SaveChanges();
         }
 
+        public void Fill(ProductOutPosition productOutPosition)
+        {
+            var productAmountList = _db.ProductAmount.Where(x => x.AmountBuy != x.AmountExpend)
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Invoice)
+                .Include(x => x.InvoicePosition.Product)
+                .Include(x => x.InvoicePosition.Product.Measure)
+                .ToList();
+
+            List<ProductExpend> productExpendList = _db.ProductExpend.ToList();
+            AddExpend(productOutPosition, productAmountList, productExpendList);
+
+            _db.SaveChanges();
+        }
+
+        public void Remove(ProductOutPosition productOutPosition)
+        {
+            var productExpendList = _db.ProductExpend.Where(x => x.ProductOutPosition.Id == productOutPosition.Id)
+                .Include(x => x.InvoicePosition)
+                .ToList();
+
+
+            List<int> idInvoicePosition = productExpendList.ConvertAll(x => x.InvoicePosition.Id);
+            var productAmountList = _db.ProductAmount.Where(x => idInvoicePosition.Contains(x.InvoicePosition.Id))
+                .ToList();
+                
+            foreach(var productExpend in productExpendList)
+            {
+                var productAmount = productAmountList.Find(x => x.InvoicePosition.Id == productExpend.InvoicePosition.Id);
+                productAmount.AmountExpend -= productExpend.Amount;
+                productAmount.WorthExpend -= productExpend.Worth;
+                _db.Entry(productAmount).State = EntityState.Modified;
+                _db.ProductExpend.Remove(productExpend);
+            }
+        }
+
         private void AddExpend(ProductOutPosition productOutPosition, List<ProductAmount> productAmountList, List<ProductExpend> productExpendList)
         {
             if (productExpendList.Exists(x => x.ProductOutPosition == productOutPosition))

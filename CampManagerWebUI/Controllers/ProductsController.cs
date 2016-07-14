@@ -62,6 +62,7 @@ namespace CampManagerWebUI.Controllers
             ProductOrganizationViewModel product = new ProductOrganizationViewModel();
             product.IdOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             product.Measures = db.MeasureOrganization.ToList();
+            ViewBag.Error = null;
             return View(product);
         }
 
@@ -79,9 +80,14 @@ namespace CampManagerWebUI.Controllers
                 product.Description = productOrganizationViewModel.Description;
                 product.Organization = db.Organization.Find(productOrganizationViewModel.IdOrganization);
                 product.Measure = db.MeasureOrganization.Find(productOrganizationViewModel.IdMeasure);
-                db.ProductOrganization.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                Service.ProductService service = new Service.ProductService(db);
+                string error = null;
+                service.Add(product, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Index");
             }
 
             return View(productOrganizationViewModel);
@@ -101,6 +107,7 @@ namespace CampManagerWebUI.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Error = null;
             return View(productOrganizationViewModel);
         }
 
@@ -119,9 +126,13 @@ namespace CampManagerWebUI.Controllers
                 product.Description = productOrganizationViewModel.Description;
                 product.Organization = db.Organization.Find(productOrganizationViewModel.IdOrganization);
                 product.Measure = db.MeasureOrganization.Find(productOrganizationViewModel.IdMeasure);
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Service.ProductService service = new Service.ProductService(db);
+                string error = null;
+                service.Edit(product, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Index");
             }
             return View(productOrganizationViewModel);
         }
@@ -139,6 +150,8 @@ namespace CampManagerWebUI.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Error = null;
             return View(productOrganizationViewModel);
         }
 
@@ -148,9 +161,19 @@ namespace CampManagerWebUI.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ProductOrganization product = db.ProductOrganization.Find(id);
-            db.ProductOrganization.Remove(product);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Service.ProductService service = new Service.ProductService(db);
+            string error = null;
+            service.Remove(product, ref error);
+            if (!string.IsNullOrEmpty(error))
+            {
+                ProductOrganizationViewModel productOrganizationViewModel = Mapper.Map<ProductOrganizationViewModel>(product);
+                ViewBag.Error = error;
+                return View(productOrganizationViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -166,7 +189,7 @@ namespace CampManagerWebUI.Controllers
         {
             int idSeason = UserSeasonHelper.GetSeason(db).Id;
             var invoicePositionList = db.InvoicePosition.Where(x => x.Invoice.Season.Id == idSeason);
-            foreach(var invoicePosition in invoicePositionList)
+            foreach (var invoicePosition in invoicePositionList)
             {
                 var product = productList.Find(x => x.Id == invoicePosition.Product.Id);
                 product.Amount += invoicePosition.Amount;

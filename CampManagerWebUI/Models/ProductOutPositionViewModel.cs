@@ -36,6 +36,6 @@ namespace CampManagerWebUI.Models
         [DisplayName("Wartość")]
         public decimal Worth { get; set; }
 
-        public List<ProductOrganization> Products;
+        public List<ProductOrganizationViewModel> Products;
     }
 }

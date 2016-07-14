@@ -234,6 +234,9 @@
     <Compile Include="Service\InvoiceService.cs" />
     <Compile Include="Service\ProductAmountService.cs" />
     <Compile Include="Service\ProductExpendService.cs" />
+    <Compile Include="Service\ProductOutPositionService.cs" />
+    <Compile Include="Service\ProductOutService.cs" />
+    <Compile Include="Service\ProductService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

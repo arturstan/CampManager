@@ -49,5 +49,24 @@ namespace CampManagerWebUI.Service
             _db.InvoicePosition.Add(invoicePosition);
             _db.SaveChanges();
         }
+
+        public void Remove(InvoicePosition invoicePosition, ref string error)
+        {
+            var productAmount = _db.ProductAmount.Where(x => x.InvoicePosition.Id == invoicePosition.Id).FirstOrDefault();
+            if (productAmount == null)
+            {
+                error = "productAmount == null";
+            }
+
+            if (productAmount.AmountExpend != 0)
+            {
+                error = "Nie można usunąć pozycji faktury, z której jest rozchód";
+            }
+
+            _db.ProductAmount.Remove(productAmount);
+            _db.InvoicePosition.Remove(invoicePosition);
+            _db.SaveChanges();
+
+        }
     }
 }

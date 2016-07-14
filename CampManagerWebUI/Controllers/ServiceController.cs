@@ -32,7 +32,7 @@ namespace CampManagerWebUI.Controllers
             ProductExpendService service = new ProductExpendService(db);
 
             DateTime dateStart = new DateTime(2016, 7, 1);
-            DateTime dateEnd = new DateTime(2016, 7, 4);
+            DateTime dateEnd = new DateTime(2016, 7, 10);
 
             DateTime date = dateStart;
             while (date <= dateEnd)

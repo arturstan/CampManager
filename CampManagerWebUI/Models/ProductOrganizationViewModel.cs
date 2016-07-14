@@ -38,5 +38,16 @@ namespace CampManagerWebUI.Models
         public List<ProductAmount> ProductAmount;
 
         public List<ProductExpend> ProductExpend;
+
+        public string NameDescriptionMeasuresAmount
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description))
+                    return string.Format("{0} [{1}] - {2}", Name, MeasureName, Amount);
+                else
+                    return string.Format("{0} ({1}) [{2}] - {3}", Name, Description, MeasureName, Amount);
+            }
+        }
     }
 }

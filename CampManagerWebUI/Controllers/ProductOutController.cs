@@ -54,6 +54,7 @@ namespace CampManagerWebUI.Controllers
             ProductOutViewModel productOutViewModel = new ProductOutViewModel();
             productOutViewModel.Date = DateTime.Now.Date;
             productOutViewModel.IdSeason = UserSeasonHelper.GetSeason(db).Id;
+            ViewBag.Error = null;
             return View(productOutViewModel);
         }
 
@@ -70,10 +71,14 @@ namespace CampManagerWebUI.Controllers
                 productOut.Season = db.SeasonOrganization.Find(productOutViewModel.IdSeason);
                 productOut.Date = productOutViewModel.Date;
                 productOut.Description = productOutViewModel.Description;
-                db.ProductOut.Add(productOut);
-                db.SaveChanges();
-                //return RedirectToAction("Index");
-                return RedirectToAction("Edit", new { id = productOut.Id });
+
+                Service.ProductOutService service = new Service.ProductOutService(db);
+                string error = null;
+                service.Add(productOut, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Edit", new { id = productOut.Id });
             }
 
             return View(productOutViewModel);
@@ -91,7 +96,9 @@ namespace CampManagerWebUI.Controllers
                 .Include(x => x.Positions.Select(y => y.Product))
                 .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
-            productOut.Positions = productOut.Positions.OrderBy(x => x.Product.NameDescriptionMeasures).ToList();
+            // TODO
+            //productOut.Positions = productOut.Positions.OrderBy(x => x.Product.NameDescriptionMeasures).ToList();
+            productOut.Positions = productOut.Positions;
             ProductOutViewModel productOutViewModel = Mapper.Map<ProductOutViewModel>(productOut);
             if (productOutViewModel == null)
             {
@@ -110,6 +117,7 @@ namespace CampManagerWebUI.Controllers
             if (ModelState.IsValid)
             {
                 ProductOut productOut = new ProductOut();
+                productOut.Id = productOutViewModel.Id;
                 productOut.Season = db.SeasonOrganization.Find(productOutViewModel.IdSeason);
                 productOut.Date = productOutViewModel.Date;
                 productOut.Description = productOutViewModel.Description;
