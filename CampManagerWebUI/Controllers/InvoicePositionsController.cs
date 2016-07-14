@@ -51,7 +51,8 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
-            pos.Products = GetProducts(); 
+            pos.Products = GetProducts();
+            ViewBag.Error = null;
             return View(pos);
         }
 
@@ -71,11 +72,15 @@ namespace CampManagerWebUI.Controllers
                 invoicePosition.Worth = invoicePositionViewModel.Worth;
                 invoicePosition.Price = invoicePosition.Worth / invoicePosition.Amount;
 
-                db.InvoicePosition.Add(invoicePosition);
-                db.SaveChanges();
-                return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
+                Service.InvoicePositionService service = new Service.InvoicePositionService(db);
+                string error = null;
+                service.Add(invoicePosition, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
-            
+
             invoicePositionViewModel.Products = GetProducts();
             return View(invoicePositionViewModel);
         }
@@ -91,13 +96,14 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product)
                 .Include(x => x.Product.Measure).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
-            InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);            
+            InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
             if (invoicePositionViewModel == null)
             {
                 return HttpNotFound();
             }
 
             invoicePositionViewModel.Products = GetProducts();
+            ViewBag.Error = null;
             return View(invoicePositionViewModel);
         }
 
@@ -118,9 +124,13 @@ namespace CampManagerWebUI.Controllers
                 invoicePosition.Worth = invoicePositionViewModel.Worth;
                 invoicePosition.Price = invoicePosition.Worth / invoicePosition.Amount;
 
-                db.Entry(invoicePosition).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
+                Service.InvoicePositionService service = new Service.InvoicePositionService(db);
+                string error = null;
+                service.Edit(invoicePosition, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
 
             invoicePositionViewModel.Products = GetProducts();
@@ -171,7 +181,7 @@ namespace CampManagerWebUI.Controllers
         private List<ProductOrganization> GetProducts()
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
-            return db.ProductOrganization.Include(x => x.Measure)                
+            return db.ProductOrganization.Include(x => x.Measure)
                 .Where(x => x.Organization.Id == idOrganization)
                 .ToList().OrderBy(x => x.NameDescriptionMeasures).ToList();
         }
