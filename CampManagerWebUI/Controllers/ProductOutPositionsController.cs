@@ -49,7 +49,8 @@ namespace CampManagerWebUI.Controllers
         {
             ProductOutPositionViewModel productOutPositionViewModel = new ProductOutPositionViewModel();
             productOutPositionViewModel.IdProductOut = idProductOut;
-            productOutPositionViewModel.Products = GetProducts();
+            DateTime date = db.ProductOut.Find(idProductOut).Date;
+            productOutPositionViewModel.Products = GetProducts(date);
 
             ViewBag.Error = null;
             return View(productOutPositionViewModel);
@@ -80,7 +81,8 @@ namespace CampManagerWebUI.Controllers
                     return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
             }
 
-            productOutPositionViewModel.Products = GetProducts();
+            DateTime date = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
+            productOutPositionViewModel.Products = GetProducts(date);
             return View(productOutPositionViewModel);
         }
 
@@ -95,13 +97,13 @@ namespace CampManagerWebUI.Controllers
                 .SingleOrDefault(x => x.Id == id);
 
             ProductOutPositionViewModel productOutPositionViewModel = Mapper.Map<ProductOutPositionViewModel>(productPosition);
-            productOutPositionViewModel.Products = GetProducts();
+            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date);
             if (productOutPositionViewModel == null)
             {
                 return HttpNotFound();
             }
 
-            productOutPositionViewModel.Products = GetProducts();
+            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date);
             ViewBag.Error = null;
             return View(productOutPositionViewModel);
         }
@@ -128,7 +130,8 @@ namespace CampManagerWebUI.Controllers
                 service.Edit(productPosition, ref error);
                 if (string.IsNullOrEmpty(error))
                 {
-                    productOutPositionViewModel.Products = GetProducts();
+                    DateTime dateProductOut = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
+                    productOutPositionViewModel.Products = GetProducts(dateProductOut);
                     ViewBag.Error = error;
                     return View(productOutPositionViewModel);
                 }
@@ -136,7 +139,8 @@ namespace CampManagerWebUI.Controllers
                     return RedirectToAction("Edit", "ProductOut", new { id = productOutPositionViewModel.IdProductOut });
             }
 
-            productOutPositionViewModel.Products = GetProducts();
+            DateTime date = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
+            productOutPositionViewModel.Products = GetProducts(date);
             return View(productOutPositionViewModel);
         }
 
@@ -190,26 +194,26 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private List<ProductOrganizationViewModel> GetProducts()
+        private List<ProductOrganizationViewModel> GetProducts(DateTime date)
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
             var productList = db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
                 .ToList()
                 .OrderBy(x => x.NameDescriptionMeasures).ToList()
                 .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x));
-
-            FillAmount(productList);
+            
+            FillAmount(productList, date);
             return productList;
         }
 
-        private void FillAmount(List<ProductOrganizationViewModel> productList)
+        private void FillAmount(List<ProductOrganizationViewModel> productList, DateTime date)
         {
             int idSeason = UserSeasonHelper.GetSeason(db).Id;
             var productAmountList = db.ProductAmount
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Product)
                 // .Include(x => x.InvoicePosition.Invoice)
-                .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason);
+                .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason && x.InvoicePosition.Invoice.DateDelivery <= date);
 
             foreach (var productAmount in productAmountList)
             {

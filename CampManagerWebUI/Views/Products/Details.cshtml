@@ -74,6 +74,9 @@
     <table class="table">
         <tr>
             <th>
+                Data
+            </th>
+            <th>
                 Numer faktury
             </th>
             <th>
@@ -87,6 +90,9 @@
         @foreach (var item in Model.ProductAmount)
             {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoicePosition.Invoice.DateDelivery)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvoicePosition.Invoice.Number)
                 </td>

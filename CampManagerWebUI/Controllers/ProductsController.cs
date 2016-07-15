@@ -47,6 +47,7 @@ namespace CampManagerWebUI.Controllers
             productOrganizationViewModel.ProductExpend = db.ProductExpend.Where(x => x.ProductOutPosition.Product.Id == id.Value)
                 .Include(x => x.ProductOutPosition)
                 .Include(x => x.ProductOutPosition.ProductOut)
+                .OrderBy(x => x.ProductOutPosition.ProductOut.Date)
                 .ToList();
 
             if (productOrganizationViewModel == null)
