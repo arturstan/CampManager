@@ -34,6 +34,7 @@ namespace CampManagerWebUI.Controllers
             DateTime dateStart = new DateTime(2016, 7, 1);
             DateTime dateEnd = new DateTime(2016, 7, 10);
 
+            string error = "";
             DateTime date = dateStart;
             while (date <= dateEnd)
             {
@@ -43,7 +44,10 @@ namespace CampManagerWebUI.Controllers
                     .Include(x => x.ProductOut)
                     .Where(x => x.ProductOut.Date <= date)
                     .ToList();
-                service.Fill(productOutList);
+                service.Fill(productOutList, ref error);
+
+                if (!string.IsNullOrEmpty(error))
+                    throw new Exception(error);
 
                 date = date.AddDays(1);
             }

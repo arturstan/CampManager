@@ -18,7 +18,7 @@ namespace CampManagerWebUI.Service
             _db = db;
         }
 
-        public void Fill(List<ProductOutPosition> productOutPositionList)
+        public void Fill(List<ProductOutPosition> productOutPositionList, ref string error)
         {
             var productAmountList = _db.ProductAmount.Where(x => x.AmountBuy != x.AmountExpend)
                 .Include(x => x.InvoicePosition)
@@ -30,13 +30,14 @@ namespace CampManagerWebUI.Service
             List<ProductExpend> productExpendList = _db.ProductExpend.ToList();
             foreach (var productOutPosition in productOutPositionList)
             {
-                AddExpend(productOutPosition, productAmountList, productExpendList);
+                AddExpend(productOutPosition, productAmountList, productExpendList, ref error);
             }
 
-            _db.SaveChanges();
+            if (string.IsNullOrEmpty(error))
+                _db.SaveChanges();
         }
 
-        public void Fill(ProductOutPosition productOutPosition)
+        public void Fill(ProductOutPosition productOutPosition, ref string error)
         {
             var productAmountList = _db.ProductAmount.Where(x => x.AmountBuy != x.AmountExpend)
                 .Include(x => x.InvoicePosition)
@@ -46,7 +47,7 @@ namespace CampManagerWebUI.Service
                 .ToList();
 
             List<ProductExpend> productExpendList = _db.ProductExpend.ToList();
-            AddExpend(productOutPosition, productAmountList, productExpendList);
+            AddExpend(productOutPosition, productAmountList, productExpendList, ref error);
 
             _db.SaveChanges();
         }
@@ -60,8 +61,8 @@ namespace CampManagerWebUI.Service
             List<int> idInvoicePosition = productExpendList.ConvertAll(x => x.InvoicePosition.Id);
             var productAmountList = _db.ProductAmount.Where(x => idInvoicePosition.Contains(x.InvoicePosition.Id))
                 .ToList();
-                
-            foreach(var productExpend in productExpendList)
+
+            foreach (var productExpend in productExpendList)
             {
                 var productAmount = productAmountList.Find(x => x.InvoicePosition.Id == productExpend.InvoicePosition.Id);
                 productAmount.AmountExpend -= productExpend.Amount;
@@ -71,7 +72,7 @@ namespace CampManagerWebUI.Service
             }
         }
 
-        public void Edit(ProductOutPosition productOutPosition)
+        public void Edit(ProductOutPosition productOutPosition, ref string error)
         {
             // remove
             var productExpendList = _db.ProductExpend.Where(x => x.ProductOutPosition.Id == productOutPosition.Id)
@@ -102,10 +103,10 @@ namespace CampManagerWebUI.Service
                 .ToList();
 
             productExpendList = _db.ProductExpend.ToList();
-            AddExpend(productOutPosition, productAmountList, productExpendList);
+            AddExpend(productOutPosition, productAmountList, productExpendList, ref error);
         }
 
-        private void AddExpend(ProductOutPosition productOutPosition, List<ProductAmount> productAmountList, List<ProductExpend> productExpendList)
+        private void AddExpend(ProductOutPosition productOutPosition, List<ProductAmount> productAmountList, List<ProductExpend> productExpendList, ref string error)
         {
             if (productExpendList.Exists(x => x.ProductOutPosition == productOutPosition))
                 return;
@@ -146,10 +147,7 @@ namespace CampManagerWebUI.Service
             }
 
             if (amountToExpend != 0)
-            {
-                string error = string.Format("Nieudany rozchód: {0}, próba rozchodowania: {1}, pozostało: {2}", productOutPosition.Product.NameDescriptionMeasures, productOutPosition.Amount, amountToExpend);
-                throw new Exception(error);
-            }
+                error = string.Format("Nieudany rozchód: {0}, próba rozchodowania: {1}, pozostało: {2}", productOutPosition.Product.NameDescriptionMeasures, productOutPosition.Amount, amountToExpend);
         }
     }
 }

@@ -69,7 +69,6 @@ namespace CampManagerWebUI.Service
             _db.ProductAmount.Remove(productAmount);
             _db.InvoicePosition.Remove(invoicePosition);
             _db.SaveChanges();
-
         }
     }
 }

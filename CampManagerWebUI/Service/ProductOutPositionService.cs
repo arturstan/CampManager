@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 
 using CampManager.Domain.Domain;
@@ -22,9 +23,15 @@ namespace CampManagerWebUI.Service
         public void Add(ProductOutPosition productOutPosition, ref string error)
         {
             ProductExpendService expendService = new ProductExpendService(_db);
-            _db.ProductOutPosition.Add(productOutPosition);
-            _db.SaveChanges();
-            expendService.Fill(productOutPosition);
+            using (TransactionScope scope = new TransactionScope())
+            {
+                _db.ProductOutPosition.Add(productOutPosition);
+                _db.SaveChanges();
+                expendService.Fill(productOutPosition, ref error);
+
+                if (string.IsNullOrEmpty(error))
+                    scope.Complete();
+            }
         }
 
         public void Edit(ProductOutPosition productOutPosition, ref string error)
@@ -32,19 +39,33 @@ namespace CampManagerWebUI.Service
             error = "Edycja niedostępna. Funkcja w przygotowaniu.";
             return;
 
-            ProductExpendService expendService = new ProductExpendService(_db);
-            expendService.Edit(productOutPosition);
+            using (TransactionScope scope = new TransactionScope())
+            {
 
-            _db.Entry(productOutPosition).State = EntityState.Modified;
-            _db.SaveChanges();
+                ProductExpendService expendService = new ProductExpendService(_db);
+                expendService.Edit(productOutPosition, ref error);
+
+                if (string.IsNullOrEmpty(error))
+                {
+                    _db.Entry(productOutPosition).State = EntityState.Modified;
+                    _db.SaveChanges();
+
+                    scope.Complete();
+                }
+            }
         }
 
         public void Remove(ProductOutPosition productOutPosition, ref string error)
         {
-            ProductExpendService expendService = new ProductExpendService(_db);
-            expendService.Remove(productOutPosition);
-            _db.ProductOutPosition.Remove(productOutPosition);
-            _db.SaveChanges();
+            using (TransactionScope scope = new TransactionScope())
+            {
+                ProductExpendService expendService = new ProductExpendService(_db);
+                expendService.Remove(productOutPosition);
+                _db.ProductOutPosition.Remove(productOutPosition);
+                _db.SaveChanges();
+
+                scope.Complete();
+            }
         }
     }
 }
