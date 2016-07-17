@@ -31,5 +31,8 @@ namespace CampManagerWebUI.Models
         public decimal Worth { get; set; }
 
         public List<ProductOrganization> Products;
+
+        [DisplayName("Numer faktury")]
+        public string InvoiceNumber { get; set; }
     }
 }

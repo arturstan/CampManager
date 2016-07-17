@@ -7,14 +7,16 @@
 <h2>Utwórz</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <h3 class="text-danger">@ViewBag.Error</h3>
 
     <div class="form-horizontal">
-        <h4>Pozycja faktury</h4>
+        <h4>
+            Pozycja faktury: @Model.InvoiceNumber
+        </h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdInvoice)

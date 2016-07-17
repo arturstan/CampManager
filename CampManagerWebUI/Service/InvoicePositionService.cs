@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -25,6 +26,7 @@ namespace CampManagerWebUI.Service
             productAmount.AmountBuy = invoicePosition.Amount;
             productAmount.WorthBuy = invoicePosition.Worth;
 
+            _db.ProductAmount.Add(productAmount);
             _db.InvoicePosition.Add(invoicePosition);
             _db.SaveChanges();
         }
@@ -46,7 +48,8 @@ namespace CampManagerWebUI.Service
             productAmount.AmountBuy = invoicePosition.Amount;
             productAmount.WorthBuy = invoicePosition.Worth;
 
-            _db.InvoicePosition.Add(invoicePosition);
+            _db.Entry(invoicePosition).State = EntityState.Modified;
+            _db.Entry(productAmount).State = EntityState.Modified;
             _db.SaveChanges();
         }
 

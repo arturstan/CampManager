@@ -52,6 +52,7 @@ namespace CampManagerWebUI.Controllers
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
             pos.Products = GetProducts();
+            pos.InvoiceNumber = db.Invoice.Find(idInvoice).Number;
             ViewBag.Error = null;
             return View(pos);
         }
