@@ -47,8 +47,9 @@ namespace CampManagerWebUI.Controllers
         {
             CampMealViewModel campMealViewModel = new CampMealViewModel();
             campMealViewModel.IdCamp = idCamp;
-            campMealViewModel.CampName = db.Camp.Find(idCamp).Name;
-            campMealViewModel.Date = DateTime.Now.Date;
+            Camp camp = db.Camp.Find(idCamp);
+            campMealViewModel.CampName = camp.Name;
+            campMealViewModel.Date = camp.DateStart;
 
             List<CampMeal> campMealLastList = db.CampMeal.Where(x => x.Camp.Id == idCamp && x.Kind == KinfOfMeal.supper)
                 .OrderByDescending(x => x.Date).Take(1).ToList();            
