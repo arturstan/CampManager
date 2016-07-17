@@ -10,7 +10,9 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
+    <h3 class="text-danger">@ViewBag.Error</h3>
+
     <div class="form-horizontal">
         <h4>Rozchód</h4>
         <hr />

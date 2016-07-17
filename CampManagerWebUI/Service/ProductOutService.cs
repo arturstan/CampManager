@@ -21,7 +21,7 @@ namespace CampManagerWebUI.Service
 
         public void Add(ProductOut productOut, ref string error)
         {
-            var productOutTmp = _db.ProductOut.Where(x => x.Date == productOut.Date);
+            var productOutTmp = _db.ProductOut.FirstOrDefault(x => x.Date == productOut.Date);
             if (productOutTmp != null)
             {
                 error = "Istnieje taka data";

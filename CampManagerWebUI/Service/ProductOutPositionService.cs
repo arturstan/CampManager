@@ -29,6 +29,12 @@ namespace CampManagerWebUI.Service
 
         public void Edit(ProductOutPosition productOutPosition, ref string error)
         {
+            error = "Edycja niedostępna. Funkcja w przygotowaniu.";
+            return;
+
+            ProductExpendService expendService = new ProductExpendService(_db);
+            expendService.Edit(productOutPosition);
+
             _db.Entry(productOutPosition).State = EntityState.Modified;
             _db.SaveChanges();
         }

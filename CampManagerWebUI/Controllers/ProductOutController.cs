@@ -78,7 +78,7 @@ namespace CampManagerWebUI.Controllers
                 if (!string.IsNullOrEmpty(error))
                     ViewBag.Error = error;
                 else
-                    return RedirectToAction("Edit", new { id = productOut.Id });
+                    return RedirectToAction("Index");
             }
 
             return View(productOutViewModel);

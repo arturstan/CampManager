@@ -57,7 +57,6 @@ namespace CampManagerWebUI.Service
                 .Include(x => x.InvoicePosition)
                 .ToList();
 
-
             List<int> idInvoicePosition = productExpendList.ConvertAll(x => x.InvoicePosition.Id);
             var productAmountList = _db.ProductAmount.Where(x => idInvoicePosition.Contains(x.InvoicePosition.Id))
                 .ToList();
@@ -70,6 +69,40 @@ namespace CampManagerWebUI.Service
                 _db.Entry(productAmount).State = EntityState.Modified;
                 _db.ProductExpend.Remove(productExpend);
             }
+        }
+
+        public void Edit(ProductOutPosition productOutPosition)
+        {
+            // remove
+            var productExpendList = _db.ProductExpend.Where(x => x.ProductOutPosition.Id == productOutPosition.Id)
+                .Include(x => x.InvoicePosition)
+                .ToList();
+
+            List<int> idInvoicePosition = productExpendList.ConvertAll(x => x.InvoicePosition.Id);
+            var productAmountList = _db.ProductAmount.Where(x => idInvoicePosition.Contains(x.InvoicePosition.Id))
+                .ToList();
+
+            foreach (var productExpend in productExpendList)
+            {
+                var productAmount = productAmountList.Find(x => x.InvoicePosition.Id == productExpend.InvoicePosition.Id);
+                productAmount.AmountExpend -= productExpend.Amount;
+                productAmount.WorthExpend -= productExpend.Worth;
+                _db.Entry(productAmount).State = EntityState.Modified;
+                _db.ProductExpend.Remove(productExpend);
+            }
+
+            _db.SaveChanges();
+
+            // add
+            productAmountList = _db.ProductAmount.Where(x => x.AmountBuy != x.AmountExpend)
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Invoice)
+                .Include(x => x.InvoicePosition.Product)
+                .Include(x => x.InvoicePosition.Product.Measure)
+                .ToList();
+
+            productExpendList = _db.ProductExpend.ToList();
+            AddExpend(productOutPosition, productAmountList, productExpendList);
         }
 
         private void AddExpend(ProductOutPosition productOutPosition, List<ProductAmount> productAmountList, List<ProductExpend> productExpendList)

@@ -43,6 +43,7 @@ namespace CampManagerWebUI.Controllers
 
             productOrganizationViewModel.ProductAmount = db.ProductAmount.Where(x => x.InvoicePosition.Product.Id == id.Value)
                 .Include(x => x.InvoicePosition).Include(x => x.InvoicePosition.Invoice)
+                .OrderBy(x => x.InvoicePosition.Invoice.DateDelivery)
                 .ToList();
             productOrganizationViewModel.ProductExpend = db.ProductExpend.Where(x => x.ProductOutPosition.Product.Id == id.Value)
                 .Include(x => x.ProductOutPosition)

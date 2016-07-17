@@ -63,7 +63,8 @@
         </div>
 
         <p>
-            @Html.ActionLink("Utwórz nową pozycję", "Create", "ProductOutPositions", new { idProductOut = Model.Id }, null)
+            @Html.ActionLink("Utwórz nową pozycję", "Create", "ProductOutPositions", new { idProductOut = Model.Id }, null) |
+            @Html.ActionLink("Powrót do listy", "Index")
         </p>
         <table class="table">
             <tr>

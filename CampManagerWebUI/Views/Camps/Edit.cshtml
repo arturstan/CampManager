@@ -84,7 +84,8 @@
     </div>
 
     <p>
-        @Html.ActionLink("Utwórz nową pozycję", "Create", "CampMeals", new { idCamp = Model.Id }, null)
+        @Html.ActionLink("Utwórz nową pozycję", "Create", "CampMeals", new { idCamp = Model.Id }, null) |
+        @Html.ActionLink("Powrót do listy", "Index")
     </p>
     <div>
         <table class="table">

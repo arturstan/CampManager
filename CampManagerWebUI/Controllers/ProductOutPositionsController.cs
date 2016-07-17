@@ -128,7 +128,7 @@ namespace CampManagerWebUI.Controllers
                 Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
                 string error = null;
                 service.Edit(productPosition, ref error);
-                if (string.IsNullOrEmpty(error))
+                if (!string.IsNullOrEmpty(error))
                 {
                     DateTime dateProductOut = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
                     productOutPositionViewModel.Products = GetProducts(dateProductOut);
