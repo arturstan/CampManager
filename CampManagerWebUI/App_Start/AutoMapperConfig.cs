@@ -64,6 +64,10 @@ namespace CampManagerWebUI
                         .ForMember(dest => dest.IdProduct, opts => opts.MapFrom(src => src.Product.Id))
                         .ForMember(dest => dest.ProductName, opts => opts.MapFrom(src => src.Product.NameDescriptionMeasures));
 
+                    cfg.CreateMap<MealBid, MealBidViewModel>()
+                        .ForMember(dest => dest.IdSeason, opts => opts.MapFrom(src => src.Season.Id))
+                        .ForMember(dest => dest.SeasonName, opts => opts.MapFrom(src => src.Season.Name));
+
 
                 });
         }

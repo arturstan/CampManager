@@ -36,5 +36,7 @@ namespace CampManagerWebUI.Db
         public DbSet<ProductAmount> ProductAmount { get; set; }
 
         public DbSet<ProductExpend> ProductExpend { get; set; }
+
+        public DbSet<MealBid> MealBid { get; set; }
     }
 }

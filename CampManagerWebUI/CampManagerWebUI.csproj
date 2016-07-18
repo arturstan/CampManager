@@ -177,6 +177,7 @@
     <Compile Include="Controllers\InvoicePositionsController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MealBidsController.cs" />
     <Compile Include="Controllers\MeasuresController.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
@@ -209,6 +210,14 @@
     <Compile Include="Migrations\201607071608126_ProductExpend.Designer.cs">
       <DependentUpon>201607071608126_ProductExpend.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607181046516_MealBid.cs" />
+    <Compile Include="Migrations\201607181046516_MealBid.Designer.cs">
+      <DependentUpon>201607181046516_MealBid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607181719218_MealBid_expend_people.cs" />
+    <Compile Include="Migrations\201607181719218_MealBid_expend_people.Designer.cs">
+      <DependentUpon>201607181719218_MealBid_expend_people.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -219,6 +228,7 @@
     <Compile Include="Models\InvoicePositionViewModel.cs" />
     <Compile Include="Models\InvoiceViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MealBidViewModel.cs" />
     <Compile Include="Models\MeasureOrganizationViewModel.cs" />
     <Compile Include="Models\BaseOrganizationViewModel.cs" />
     <Compile Include="Models\PlaceViewModel.cs" />
@@ -231,8 +241,10 @@
     <Compile Include="Models\UserOrganizationHelper.cs" />
     <Compile Include="Models\UserSeasonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CampMealService.cs" />
     <Compile Include="Service\InvoicePositionService.cs" />
     <Compile Include="Service\InvoiceService.cs" />
+    <Compile Include="Service\MealBidCount.cs" />
     <Compile Include="Service\ProductAmountService.cs" />
     <Compile Include="Service\ProductExpendService.cs" />
     <Compile Include="Service\ProductOutPositionService.cs" />
@@ -374,6 +386,11 @@
     <Content Include="Views\ProductOutPositions\Details.cshtml" />
     <Content Include="Views\ProductOutPositions\Edit.cshtml" />
     <Content Include="Views\ProductOutPositions\Index.cshtml" />
+    <Content Include="Views\MealBids\Create.cshtml" />
+    <Content Include="Views\MealBids\Delete.cshtml" />
+    <Content Include="Views\MealBids\Details.cshtml" />
+    <Content Include="Views\MealBids\Edit.cshtml" />
+    <Content Include="Views\MealBids\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -403,6 +420,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607071608126_ProductExpend.resx">
       <DependentUpon>201607071608126_ProductExpend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607181046516_MealBid.resx">
+      <DependentUpon>201607181046516_MealBid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607181719218_MealBid_expend_people.resx">
+      <DependentUpon>201607181719218_MealBid_expend_people.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

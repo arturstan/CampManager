@@ -52,6 +52,25 @@ namespace CampManagerWebUI.Controllers
                 date = date.AddDays(1);
             }
 
+            return null;
+        }
+
+        public ActionResult MealBidCount()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            DateTime dateStart = new DateTime(2016, 7, 1);
+            DateTime dateEnd = new DateTime(2016, 7, 15);
+            string error = "";
+            DateTime date = dateStart;
+            MealBidCount count = new Service.MealBidCount(db);
+            while (date <= dateEnd)
+            {
+                count.CountAndSave(date, ref error);
+                if(!string.IsNullOrEmpty(error))
+                    throw new Exception(error);
+
+                date = date.AddDays(1);
+            }
 
             return null;
         }

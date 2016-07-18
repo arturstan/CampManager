@@ -53,6 +53,9 @@ namespace CampManagerWebUI.Service
                     scope.Complete();
                 }
             }
+
+            MealBidCount count = new MealBidCount(_db);
+            count.CountAndSave(productOutPosition.ProductOut.Date, ref error);
         }
 
         public void Remove(ProductOutPosition productOutPosition, ref string error)
