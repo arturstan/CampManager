@@ -32,6 +32,9 @@ namespace CampManagerWebUI.Service
                 if (string.IsNullOrEmpty(error))
                     scope.Complete();
             }
+
+            MealBidCount count = new MealBidCount(_db);
+            count.CountAndSave(productOutPosition.ProductOut.Date, ref error);
         }
 
         public void Edit(ProductOutPosition productOutPosition, ref string error)
@@ -60,6 +63,7 @@ namespace CampManagerWebUI.Service
 
         public void Remove(ProductOutPosition productOutPosition, ref string error)
         {
+            DateTime date = productOutPosition.ProductOut.Date;
             using (TransactionScope scope = new TransactionScope())
             {
                 ProductExpendService expendService = new ProductExpendService(_db);
@@ -69,6 +73,9 @@ namespace CampManagerWebUI.Service
 
                 scope.Complete();
             }
+
+            MealBidCount count = new MealBidCount(_db);
+            count.CountAndSave(date, ref error);
         }
     }
 }

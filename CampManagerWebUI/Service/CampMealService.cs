@@ -19,13 +19,37 @@ namespace CampManagerWebUI.Service
             _db = db;
         }
 
-        public void Add(CampMeal campMeal, ref string error)
+        public void Add(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
         {
-            _db.CampMeal.Add(campMeal);
+            _db.CampMeal.Add(campMealBreakfast);
+            _db.CampMeal.Add(campMealDinner);
+            _db.CampMeal.Add(campMealSupper);
             _db.SaveChanges();
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(campMeal.Date, ref error);
+            count.CountAndSave(campMealBreakfast.Date, ref error);
+        }
+
+        public void Edit(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
+        {
+            _db.Entry(campMealBreakfast).State = EntityState.Modified;
+            _db.Entry(campMealDinner).State = EntityState.Modified;
+            _db.Entry(campMealSupper).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            MealBidCount count = new MealBidCount(_db);
+            count.CountAndSave(campMealBreakfast.Date, ref error);
+        }
+
+        public void Remove(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
+        {
+            _db.CampMeal.Remove(campMealBreakfast);
+            _db.CampMeal.Remove(campMealDinner);
+            _db.CampMeal.Remove(campMealSupper);
+            _db.SaveChanges();
+
+            MealBidCount count = new MealBidCount(_db);
+            count.CountAndSave(campMealBreakfast.Date, ref error);
         }
     }
 }

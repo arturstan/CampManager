@@ -88,11 +88,11 @@ namespace CampManagerWebUI.Controllers
                 CampMeal campMealDinner = new CampMeal();
                 CampMeal campMealSupper = new CampMeal();
                 CampMealCopy(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
-                db.CampMeal.Add(campMealBreakfast);
-                db.CampMeal.Add(campMealDinner);
-                db.CampMeal.Add(campMealSupper);
 
-                db.SaveChanges();
+                string error = null;
+                Service.CampMealService service = new Service.CampMealService(db);
+                service.Add(campMealBreakfast, campMealDinner, campMealSupper, ref error);
+
                 return RedirectToAction("Edit", "Camps", new { id = campMealViewModel.IdCamp });
             }
 
@@ -133,10 +133,9 @@ namespace CampManagerWebUI.Controllers
                 CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
                 CampMealCopy(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
 
-                db.Entry(campMealBreakfast).State = EntityState.Modified;
-                db.Entry(campMealDinner).State = EntityState.Modified;
-                db.Entry(campMealSupper).State = EntityState.Modified;
-                db.SaveChanges();
+                string error = null;
+                Service.CampMealService service = new Service.CampMealService(db);
+                service.Edit(campMealBreakfast, campMealDinner, campMealSupper, ref error);
                 return RedirectToAction("Edit", "Camps", new { id = idCamp });
             }
             return View(campMealViewModel);
@@ -170,10 +169,9 @@ namespace CampManagerWebUI.Controllers
             CampMeal campMealDinner = campMealList.Find(x => x.Kind == KinfOfMeal.dinner);
             CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
 
-            db.CampMeal.Remove(campMealBreakfast);
-            db.CampMeal.Remove(campMealDinner);
-            db.CampMeal.Remove(campMealSupper);
-            db.SaveChanges();
+            string error = null;
+            Service.CampMealService service = new Service.CampMealService(db);
+            service.Remove(campMealBreakfast, campMealDinner, campMealSupper, ref error);
             // return RedirectToAction("Index");
             return RedirectToAction("Edit", "Camps", new { id = idCamp });
         }
