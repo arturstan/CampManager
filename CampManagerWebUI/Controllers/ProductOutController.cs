@@ -63,7 +63,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Description")] ProductOutViewModel productOutViewModel)
+        public ActionResult Create([Bind(Include = "Id,Date,Description,IdSeason")] ProductOutViewModel productOutViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Description")] ProductOutViewModel productOutViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Date,Description,IdSeason")] ProductOutViewModel productOutViewModel)
         {
             if (ModelState.IsValid)
             {
