@@ -20,7 +20,7 @@ namespace CampManagerWebUI.Controllers
         // GET: MealBids
         public ActionResult Index()
         {
-            return View(db.MealBid.ToList().ConvertAll(x => Mapper.Map<MealBidViewModel>(x)));
+            return View(db.MealBid.OrderBy(x => x.Date).ToList().ConvertAll(x => Mapper.Map<MealBidViewModel>(x)));
         }
 
         // GET: MealBids/Details/5

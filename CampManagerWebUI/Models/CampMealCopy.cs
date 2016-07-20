@@ -11,7 +11,9 @@ namespace CampManagerWebUI.Models
     {
         public static void Copy2ViewModel(CampMealViewModel campMealViewModel, CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper)
         {
-            campMealViewModel.IdCamp = campMealBreakfast.Camp.Id;
+            if (campMealBreakfast.Camp != null)
+                campMealViewModel.IdCamp = campMealBreakfast.Camp.Id;
+
             campMealViewModel.Date = campMealBreakfast.Date;
 
             campMealViewModel.IdCampMealBreakfast = campMealBreakfast.Id;
@@ -34,7 +36,7 @@ namespace CampManagerWebUI.Models
 
         public static void FillMeal(List<CampViewModel> campList, List<CampMeal> campMealList)
         {
-            foreach(var camp in campList)
+            foreach (var camp in campList)
             {
                 var campMeal = campMealList.FindAll(x => x.Camp.Id == camp.Id);
                 FillMeal(camp, campMeal);

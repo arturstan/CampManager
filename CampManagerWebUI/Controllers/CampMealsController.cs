@@ -23,7 +23,43 @@ namespace CampManagerWebUI.Controllers
         // GET: CampMeals
         public ActionResult Index()
         {
-            return View(db.CampMeal.ToList().ConvertAll(x => Mapper.Map<CampMealViewModel>(x)));
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            List<CampMeal> campMealList = db.CampMeal.Where(x=> x.Camp.CampOrganization.Id == idSeason).ToList();
+
+            List<CampMealViewModel> result = new List<CampMealViewModel>();
+
+            foreach(var group in campMealList.GroupBy(x => x.Date).OrderByDescending(x => x.Key))
+            {
+                List<CampMeal> campMealDateList = campMealList.FindAll(x => x.Date == group.Key);
+                List<CampMeal> campMealBreakfastDateList = campMealDateList.FindAll(x => x.Kind == KinfOfMeal.breakfast);
+                List<CampMeal> campMealDinnerDateList = campMealDateList.FindAll(x => x.Kind == KinfOfMeal.dinner);
+                List<CampMeal> campMealSupperDateList = campMealDateList.FindAll(x => x.Kind == KinfOfMeal.supper);
+                CampMeal campMealBreakfast = new CampMeal();
+                campMealBreakfast.Date = group.Key;
+                campMealBreakfast.Eat = campMealBreakfastDateList.Sum(x => x.Eat);
+                campMealBreakfast.EatSupplies = campMealBreakfastDateList.Sum(x => x.EatSupplies);
+                campMealBreakfast.Cash = campMealBreakfastDateList.Sum(x => x.Cash);
+                campMealBreakfast.Reside = campMealBreakfastDateList.Sum(x => x.Reside);
+
+                CampMeal campMealDinner = new CampMeal();
+                campMealDinner.Date = group.Key;
+                campMealDinner.Eat = campMealDinnerDateList.Sum(x => x.Eat);
+                campMealDinner.EatSupplies = campMealDinnerDateList.Sum(x => x.EatSupplies);
+                campMealDinner.Cash = campMealDinnerDateList.Sum(x => x.Cash);
+                campMealDinner.Reside = campMealDinnerDateList.Sum(x => x.Reside);
+
+                CampMeal campMealSupper = new CampMeal();
+                campMealSupper.Date = group.Key;
+                campMealSupper.Eat = campMealSupperDateList.Sum(x => x.Eat);
+                campMealSupper.EatSupplies = campMealSupperDateList.Sum(x => x.EatSupplies);
+                campMealSupper.Cash = campMealSupperDateList.Sum(x => x.Cash);
+                campMealSupper.Reside = campMealSupperDateList.Sum(x => x.Reside);
+
+                CampMealViewModel campMealDate = CampMealViewModelCopy(campMealBreakfast, campMealDinner, campMealSupper);
+                result.Add(campMealDate);
+            }
+
+            return View(result);
         }
 
         // GET: CampMeals/Details/5

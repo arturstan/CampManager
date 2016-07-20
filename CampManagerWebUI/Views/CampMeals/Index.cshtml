@@ -6,14 +6,8 @@
 
 <h2>Lista</h2>
 
-<p>
-    @Html.ActionLink("Utwórz nowy", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CampName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
@@ -53,9 +47,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CampName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
@@ -87,11 +78,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Reside)
-        </td>
-        <td>
-            @Html.ActionLink("Edycja", "Edit", new { idCamp = item.Id, date = item.Date }) |
-            @Html.ActionLink("Szczegóły", "Details", new { idCamp = item.Id, date = item.Date }) |
-            @Html.ActionLink("Usuń", "Delete", new { idCamp = item.Id, date = item.Date })
         </td>
     </tr>
 }
