@@ -218,6 +218,14 @@
     <Compile Include="Migrations\201607181719218_MealBid_expend_people.Designer.cs">
       <DependentUpon>201607181719218_MealBid_expend_people.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607202105339_CampMeal_reside.cs" />
+    <Compile Include="Migrations\201607202105339_CampMeal_reside.Designer.cs">
+      <DependentUpon>201607202105339_CampMeal_reside.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607202107151_Camp_note.cs" />
+    <Compile Include="Migrations\201607202107151_Camp_note.Designer.cs">
+      <DependentUpon>201607202107151_Camp_note.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -286,7 +294,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -426,6 +436,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607181719218_MealBid_expend_people.resx">
       <DependentUpon>201607181719218_MealBid_expend_people.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607202105339_CampMeal_reside.resx">
+      <DependentUpon>201607202105339_CampMeal_reside.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607202107151_Camp_note.resx">
+      <DependentUpon>201607202107151_Camp_note.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

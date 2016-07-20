@@ -65,7 +65,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IdPlace,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson")] CampViewModel campViewModel)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,IdPlace,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson,Note")] CampViewModel campViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -78,6 +78,7 @@ namespace CampManagerWebUI.Controllers
                 camp.DateEnd = campViewModel.DateEnd;
                 camp.PersonCount = campViewModel.PersonCount;
                 camp.PricePerPerson = campViewModel.PricePerPerson;
+                camp.Note = campViewModel.Note;
                 db.Camp.Add(camp);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -113,7 +114,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdPlace,PlaceName,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson")] CampViewModel campViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdPlace,PlaceName,IdCampOrganization,DateStart,DateEnd,PersonCount,PricePerPerson,Note")] CampViewModel campViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +128,7 @@ namespace CampManagerWebUI.Controllers
                 camp.DateEnd = campViewModel.DateEnd;
                 camp.PersonCount = campViewModel.PersonCount;
                 camp.PricePerPerson = campViewModel.PricePerPerson;
+                camp.Note = campViewModel.Note;
 
                 db.Entry(camp).State = EntityState.Modified;
                 db.SaveChanges();

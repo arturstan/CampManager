@@ -70,6 +70,8 @@ namespace CampManagerWebUI.Controllers
                 campMealViewModel.SupperEat = campMealLast.Eat;
                 campMealViewModel.SupperEatSupplies = campMealLast.EatSupplies;
                 campMealViewModel.SupperCash = campMealLast.Cash;
+
+                campMealViewModel.Reside = campMealLast.Reside;
             }
 
             return View(campMealViewModel);
@@ -80,7 +82,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash")] CampMealViewModel campMealViewModel)
+        public ActionResult Create([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +121,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash")] CampMealViewModel campMealViewModel)
+        public ActionResult Edit([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -194,6 +196,7 @@ namespace CampManagerWebUI.Controllers
             campMealBreakfast.Eat = campMealViewModel.BreakfastEat;
             campMealBreakfast.EatSupplies = campMealViewModel.BreakfastEatSupplies;
             campMealBreakfast.Cash = campMealViewModel.BreakfastCash;
+            campMealBreakfast.Reside = campMealViewModel.Reside;
 
             campMealDinner.Camp = camp;
             campMealDinner.Date = campMealViewModel.Date;
@@ -201,6 +204,7 @@ namespace CampManagerWebUI.Controllers
             campMealDinner.Eat = campMealViewModel.DinnerEat;
             campMealDinner.EatSupplies = campMealViewModel.DinnerEatSupplies;
             campMealDinner.Cash = campMealViewModel.DinnerCash;
+            campMealDinner.Reside = campMealViewModel.Reside;
 
             campMealSupper.Camp = camp;
             campMealSupper.Date = campMealViewModel.Date;
@@ -208,6 +212,7 @@ namespace CampManagerWebUI.Controllers
             campMealSupper.Eat = campMealViewModel.SupperEat;
             campMealSupper.EatSupplies = campMealViewModel.SupperEatSupplies;
             campMealSupper.Cash = campMealViewModel.SupperCash;
+            campMealSupper.Reside = campMealViewModel.Reside;
         }
 
         private CampMealViewModel CampMealViewModelCopy(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper)

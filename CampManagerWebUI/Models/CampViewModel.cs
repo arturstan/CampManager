@@ -38,6 +38,10 @@ namespace CampManagerWebUI.Models
         [DisplayName("Ilość osób")]
         public decimal PersonCount { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        [DisplayName("Uwagi")]
+        public string Note { get; set; }
+
         [DisplayName("Cena za osobę")]
         public decimal PricePerPerson { get; set; }
 

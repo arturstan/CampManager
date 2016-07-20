@@ -28,6 +28,8 @@ namespace CampManagerWebUI.Models
             campMealViewModel.SupperEat = campMealSupper.Eat;
             campMealViewModel.SupperEatSupplies = campMealSupper.EatSupplies;
             campMealViewModel.SupperCash = campMealSupper.Cash;
+
+            campMealViewModel.Reside = campMealSupper.Reside;
         }
 
         public static void FillMeal(List<CampViewModel> campList, List<CampMeal> campMealList)

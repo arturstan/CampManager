@@ -66,6 +66,13 @@
             @Html.DisplayFor(model => model.PricePerPerson)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
     </dl>
 </div>
 <p>
@@ -106,6 +113,9 @@
             <th>
                 Kolacja kasa
             </th>
+            <th>
+                Zakwaterowani
+            </th>
         </tr>
 
         @foreach (var item in Model.Meal)
@@ -140,6 +150,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SupperCash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reside)
                 </td>
             </tr>
         }

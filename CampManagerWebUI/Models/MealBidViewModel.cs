@@ -16,6 +16,7 @@ namespace CampManagerWebUI.Models
         public string SeasonName { get; set; }
 
         [DisplayName("Data")]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         [DisplayName("Stawka")]

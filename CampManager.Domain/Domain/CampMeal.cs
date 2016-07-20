@@ -23,6 +23,8 @@ namespace CampManager.Domain.Domain
         public int EatSupplies { get; set; }
         [Required]
         public int Cash { get; set; }
+
+        public int Reside {get;set;}
     }
 
     public enum KinfOfMeal : int

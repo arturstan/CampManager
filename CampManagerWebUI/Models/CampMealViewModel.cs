@@ -57,6 +57,9 @@ namespace CampManagerWebUI.Models
         [DisplayName("Kolacja kasa")]
         public int SupperCash { get; set; }
 
+        [Required]
+        [DisplayName("Zakwaterowani")]
+        public int Reside { get; set; }
 
         // public List<Camp> Camps;
 

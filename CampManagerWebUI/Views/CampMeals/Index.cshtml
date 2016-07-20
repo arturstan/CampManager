@@ -44,6 +44,9 @@
         <th>
             @Html.DisplayNameFor(model => model.SupperCash)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reside)
+        </th>
         <th></th>
     </tr>
 
@@ -81,6 +84,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SupperCash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reside)
         </td>
         <td>
             @Html.ActionLink("Edycja", "Edit", new { idCamp = item.Id, date = item.Date }) |
