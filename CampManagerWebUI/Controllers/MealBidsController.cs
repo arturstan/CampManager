@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using AutoMapper;
+using CampManager.Domain.Domain;
 using CampManagerWebUI.Db;
 using CampManagerWebUI.Models;
 
@@ -20,7 +21,9 @@ namespace CampManagerWebUI.Controllers
         // GET: MealBids
         public ActionResult Index()
         {
-            return View(db.MealBid.OrderBy(x => x.Date).ToList().ConvertAll(x => Mapper.Map<MealBidViewModel>(x)));
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            List<MealBid> mealBidList = db.MealBid.Where(x => x.Season.Id == idSeason).OrderBy(x => x.Date).ToList();
+            return View(mealBidList.ConvertAll(x => Mapper.Map<MealBidViewModel>(x)));
         }
 
         // GET: MealBids/Details/5
