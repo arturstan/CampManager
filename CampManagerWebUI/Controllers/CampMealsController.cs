@@ -270,6 +270,7 @@ namespace CampManagerWebUI.Controllers
             CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
 
             CampMealViewModel campMealViewModel = CampMealViewModelCopy(campMealBreakfast, campMealDinner, campMealSupper);
+            campMealViewModel.CampName = db.Camp.Find(idCamp).Name;
             // int idSeason = UserSeasonHelper.GetSeason(db).Id;
             // campMealViewModel.Camps = db.Camp.Where(x => x.CampOrganization.Id == idSeason).ToList();
             return campMealViewModel;
