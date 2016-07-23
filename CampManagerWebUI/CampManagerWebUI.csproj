@@ -179,6 +179,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MealBidsController.cs" />
     <Compile Include="Controllers\MeasuresController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\ProductOutController.cs" />
@@ -226,6 +227,10 @@
     <Compile Include="Migrations\201607202107151_Camp_note.Designer.cs">
       <DependentUpon>201607202107151_Camp_note.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607231009294_Menu.cs" />
+    <Compile Include="Migrations\201607231009294_Menu.Designer.cs">
+      <DependentUpon>201607231009294_Menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="Models\MealBidViewModel.cs" />
     <Compile Include="Models\MeasureOrganizationViewModel.cs" />
     <Compile Include="Models\BaseOrganizationViewModel.cs" />
+    <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\PlaceViewModel.cs" />
     <Compile Include="Models\ProductOrganizationViewModel.cs" />
     <Compile Include="Models\ProductOutPositionViewModel.cs" />
@@ -401,6 +407,11 @@
     <Content Include="Views\MealBids\Details.cshtml" />
     <Content Include="Views\MealBids\Edit.cshtml" />
     <Content Include="Views\MealBids\Index.cshtml" />
+    <Content Include="Views\Menu\Create.cshtml" />
+    <Content Include="Views\Menu\Delete.cshtml" />
+    <Content Include="Views\Menu\Details.cshtml" />
+    <Content Include="Views\Menu\Edit.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -442,6 +453,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607202107151_Camp_note.resx">
       <DependentUpon>201607202107151_Camp_note.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607231009294_Menu.resx">
+      <DependentUpon>201607231009294_Menu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
