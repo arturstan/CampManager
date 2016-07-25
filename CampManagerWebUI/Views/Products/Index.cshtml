@@ -6,6 +6,14 @@
 
 <h2>Lista</h2>
 
+@using (Html.BeginForm())
+{
+    <p>
+        Data stanu: @Html.TextBox("date")
+        <input type="submit" value="Szukaj" />
+    </p>
+}
+
 <div>
     <dl class="dl-horizontal">
         <dt>

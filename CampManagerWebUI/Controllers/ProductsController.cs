@@ -21,12 +21,13 @@ namespace CampManagerWebUI.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(DateTime? date)
         {
             var productList = db.ProductOrganization.Include(x => x.Measure).ToList()
                 .OrderBy(x => x.NameDescriptionMeasures).ToList()
                 .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x));
-            FillAmount(productList);
+
+            FillAmount(productList, date);
             return View(productList);
         }
 
@@ -198,13 +199,20 @@ namespace CampManagerWebUI.Controllers
             }
         }
 
+        private void FillAmount(List<ProductOrganizationViewModel> productList, DateTime? date)
+        {
+            if (date.HasValue)
+                FillAmount(productList, date.Value);
+            else
+                FillAmount(productList);
+        }
+
         private void FillAmount(List<ProductOrganizationViewModel> productList)
         {
             int idSeason = UserSeasonHelper.GetSeason(db).Id;
             var productAmountList = db.ProductAmount
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Product)
-                // .Include(x => x.InvoicePosition.Invoice)
                 .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason);
 
             foreach (var productAmount in productAmountList)
@@ -212,6 +220,34 @@ namespace CampManagerWebUI.Controllers
                 var product = productList.Find(x => x.Id == productAmount.InvoicePosition.Product.Id);
                 product.Amount += productAmount.AmountBuy - productAmount.AmountExpend;
                 product.Worth += productAmount.WorthBuy - productAmount.WorthExpend;
+            }
+        }
+
+        private void FillAmount(List<ProductOrganizationViewModel> productList, DateTime date)
+        {
+            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            var productAmountList = db.ProductAmount
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Product)
+                .Where(x => x.InvoicePosition.Invoice.Season.Id == idSeason && x.InvoicePosition.Invoice.DateDelivery <= date);
+
+            foreach (var productAmount in productAmountList)
+            {
+                var product = productList.Find(x => x.Id == productAmount.InvoicePosition.Product.Id);
+                product.Amount += productAmount.AmountBuy;
+                product.Worth += productAmount.WorthBuy;
+            }
+
+            var productExpendList = db.ProductExpend
+                .Include(x => x.InvoicePosition)
+                .Include(x => x.InvoicePosition.Product)
+                .Where(x => x.ProductOutPosition.ProductOut.Season.Id == idSeason && x.ProductOutPosition.ProductOut.Date <= date);
+
+            foreach (var productExpend in productExpendList)
+            {
+                var product = productList.Find(x => x.Id == productExpend.InvoicePosition.Product.Id);
+                product.Amount -= productExpend.Amount;
+                product.Worth -= productExpend.Worth;
             }
         }
     }
