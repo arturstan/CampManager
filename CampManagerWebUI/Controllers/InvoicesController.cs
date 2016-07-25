@@ -20,12 +20,26 @@ namespace CampManagerWebUI.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Invoices
-        public ActionResult Index()
+        public ActionResult Index(int? idSupplier = null)
         {
-            return View(db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
+            List<Invoice> invoiceList;
+            if (idSupplier.HasValue && idSupplier != -1)
+            {
+                invoiceList = db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
+                    .Where(x => x.Supplier.Id == idSupplier)
+                    .OrderByDescending(x => x.Id)
+                    .ToList();
+            }
+            else
+            {
+                invoiceList = db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
                 .OrderByDescending(x => x.Id)
-                .ToList()
-                .ConvertAll(x => Mapper.Map<InvoiceViewModel>(x)));
+                .ToList();
+            }
+
+            List<InvoiceViewModel> invoiceViewModel = invoiceList.ConvertAll(x => Mapper.Map<InvoiceViewModel>(x));
+            ViewBag.idSupplier = new SelectList(GetSuppliers(), "Id", "Name", idSupplier);
+            return View(invoiceViewModel);
         }
 
         // GET: Invoices/Details/5
@@ -184,6 +198,17 @@ namespace CampManagerWebUI.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<SupplierOrganizationViewModel> GetSuppliers()
+        {
+            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            List<SupplierOrganizationViewModel> result = new List<SupplierOrganizationViewModel>();
+            //result.Add(new SupplierOrganizationViewModel { Id = -1, Name = "<wszyscy>" });
+            var suppFromDb = db.SupplierOrganizations.Where(x => x.Organization.Id == idOrganization)
+                .ToList().ConvertAll(x => Mapper.Map<SupplierOrganizationViewModel>(x));
+            result.AddRange(suppFromDb);
+            return result;
         }
     }
 }
