@@ -6,14 +6,18 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
+using CampManagerWebUI.Db;
+using CampManagerWebUI.Models;
+
 namespace CampManagerWebUI.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
             ViewBag.UserIsSa = User.Identity.GetUserName() == "sa@campmanage.com";
-            // ViewBag.IsUserLogIn = User.Identity.
             return View();
         }
 

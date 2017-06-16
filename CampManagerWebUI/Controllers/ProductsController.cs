@@ -190,7 +190,7 @@ namespace CampManagerWebUI.Controllers
 
         private void FillAmountOld(List<ProductOrganizationViewModel> productList)
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             var invoicePositionList = db.InvoicePosition.Where(x => x.Invoice.Season.Id == idSeason);
             foreach (var invoicePosition in invoicePositionList)
             {
@@ -209,7 +209,7 @@ namespace CampManagerWebUI.Controllers
 
         private void FillAmount(List<ProductOrganizationViewModel> productList)
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             var productAmountList = db.ProductAmount
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Product)
@@ -225,7 +225,7 @@ namespace CampManagerWebUI.Controllers
 
         private void FillAmount(List<ProductOrganizationViewModel> productList, DateTime date)
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             var productAmountList = db.ProductAmount
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Product)

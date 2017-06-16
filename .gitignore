@@ -183,3 +183,4 @@ $RECYCLE.BIN/
 # Visual Studio 2014 CTP
 **/*.sln.ide
 *.pubxml
+.cr/Settings.xml

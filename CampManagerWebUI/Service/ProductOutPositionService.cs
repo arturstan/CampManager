@@ -20,7 +20,7 @@ namespace CampManagerWebUI.Service
             _db = db;
         }
 
-        public void Add(ProductOutPosition productOutPosition, ref string error)
+        public void Add(string userName, ProductOutPosition productOutPosition, ref string error)
         {
             ProductExpendService expendService = new ProductExpendService(_db);
             using (TransactionScope scope = new TransactionScope())
@@ -34,10 +34,10 @@ namespace CampManagerWebUI.Service
             }
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(productOutPosition.ProductOut.Date, ref error);
+            count.CountAndSave(userName, productOutPosition.ProductOut.Date, ref error);
         }
 
-        public void Edit(ProductOutPosition productOutPosition, ref string error)
+        public void Edit(string userName, ProductOutPosition productOutPosition, ref string error)
         {
             error = "Edycja niedostępna. Funkcja w przygotowaniu.";
             return;
@@ -58,10 +58,10 @@ namespace CampManagerWebUI.Service
             }
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(productOutPosition.ProductOut.Date, ref error);
+            count.CountAndSave(userName, productOutPosition.ProductOut.Date, ref error);
         }
 
-        public void Remove(ProductOutPosition productOutPosition, ref string error)
+        public void Remove(string userName, ProductOutPosition productOutPosition, ref string error)
         {
             DateTime date = productOutPosition.ProductOut.Date;
             using (TransactionScope scope = new TransactionScope())
@@ -75,7 +75,7 @@ namespace CampManagerWebUI.Service
             }
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(date, ref error);
+            count.CountAndSave(userName, date, ref error);
         }
     }
 }

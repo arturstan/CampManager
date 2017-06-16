@@ -22,19 +22,21 @@ namespace CampManagerWebUI.Controllers
         // GET: Invoices
         public ActionResult Index(int? idSupplier = null)
         {
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             List<Invoice> invoiceList;
             if (idSupplier.HasValue && idSupplier != -1)
             {
                 invoiceList = db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
-                    .Where(x => x.Supplier.Id == idSupplier)
+                    .Where(x => x.Supplier.Id == idSupplier && x.Season.Id == idSeason)
                     .OrderByDescending(x => x.Id)
                     .ToList();
             }
             else
             {
                 invoiceList = db.Invoice.Include(x => x.Season).Include(x => x.Supplier).Include(x => x.Positions)
-                .OrderByDescending(x => x.Id)
-                .ToList();
+                    .Where(x => x.Season.Id == idSeason)
+                    .OrderByDescending(x => x.Id)
+                    .ToList();
             }
 
             List<InvoiceViewModel> invoiceViewModel = invoiceList.ConvertAll(x => Mapper.Map<InvoiceViewModel>(x));
@@ -65,7 +67,7 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Create()
         {
             InvoiceViewModel invoice = new InvoiceViewModel();
-            var season = UserSeasonHelper.GetSeason(db);
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
             invoice.IdSeason = season.Id;
             invoice.SeasonName = season.Name;
             invoice.DateDelivery = DateTime.Now.Date;

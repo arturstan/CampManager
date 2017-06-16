@@ -18,9 +18,9 @@ namespace CampManagerWebUI.Service
             _db = db;
         }
 
-        public void CountAndSave(DateTime date, ref string error)
+        public void CountAndSave(string userName, DateTime date, ref string error)
         {
-            SeasonOrganization season = Models.UserSeasonHelper.GetSeason(_db);
+            SeasonOrganization season = Models.UserSeasonHelper.GetSeason(userName);
             int idSeason = season.Id;
             MealBid mealBid = _db.MealBid.FirstOrDefault(x => x.Season.Id == idSeason && x.Date == date);
             if (mealBid == null)

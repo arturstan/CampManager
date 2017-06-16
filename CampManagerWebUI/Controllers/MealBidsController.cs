@@ -21,7 +21,7 @@ namespace CampManagerWebUI.Controllers
         // GET: MealBids
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             List<MealBid> mealBidList = db.MealBid.Where(x => x.Season.Id == idSeason).OrderBy(x => x.Date).ToList();
             return View(mealBidList.ConvertAll(x => Mapper.Map<MealBidViewModel>(x)));
         }

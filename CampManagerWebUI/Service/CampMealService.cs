@@ -19,7 +19,7 @@ namespace CampManagerWebUI.Service
             _db = db;
         }
 
-        public void Add(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
+        public void Add(string userName, CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
         {
             _db.CampMeal.Add(campMealBreakfast);
             _db.CampMeal.Add(campMealDinner);
@@ -27,10 +27,10 @@ namespace CampManagerWebUI.Service
             _db.SaveChanges();
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(campMealBreakfast.Date, ref error);
+            count.CountAndSave(userName, campMealBreakfast.Date, ref error);
         }
 
-        public void Edit(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
+        public void Edit(string userName, CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
         {
             _db.Entry(campMealBreakfast).State = EntityState.Modified;
             _db.Entry(campMealDinner).State = EntityState.Modified;
@@ -38,10 +38,10 @@ namespace CampManagerWebUI.Service
             _db.SaveChanges();
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(campMealBreakfast.Date, ref error);
+            count.CountAndSave(userName, campMealBreakfast.Date, ref error);
         }
 
-        public void Remove(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
+        public void Remove(string userName, CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
         {
             _db.CampMeal.Remove(campMealBreakfast);
             _db.CampMeal.Remove(campMealDinner);
@@ -49,7 +49,7 @@ namespace CampManagerWebUI.Service
             _db.SaveChanges();
 
             MealBidCount count = new MealBidCount(_db);
-            count.CountAndSave(campMealBreakfast.Date, ref error);
+            count.CountAndSave(userName, campMealBreakfast.Date, ref error);
         }
     }
 }

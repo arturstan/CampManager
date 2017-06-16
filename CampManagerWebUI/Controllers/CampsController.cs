@@ -23,9 +23,9 @@ namespace CampManagerWebUI.Controllers
         // GET: Camps
         public ActionResult Index()
         {
-            int idBase = UserBaseHelper.GetBase(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             List<CampViewModel> camps = db.Camp.Include(x => x.Place)
-                .Where(x => x.CampOrganization.Base.Id == idBase)
+                .Where(x => x.CampOrganization.Id == idSeason)
                 .ToList().ConvertAll(x => Mapper.Map<CampViewModel>(x));
             return View(camps);
         }
@@ -52,7 +52,7 @@ namespace CampManagerWebUI.Controllers
         {
             int idBase = UserBaseHelper.GetBase(db).Id;
             CampViewModel campViewModel = new CampViewModel();
-            campViewModel.IdCampOrganization = UserSeasonHelper.GetSeason(db).Id;
+            campViewModel.IdCampOrganization = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             campViewModel.DateStart = DateTime.Now.Date;
             campViewModel.DateEnd = DateTime.Now.Date;
             campViewModel.Places = db.Place.Where(x => x.Base.Id == idBase).ToList();

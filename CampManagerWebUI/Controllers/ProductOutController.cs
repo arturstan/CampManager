@@ -22,7 +22,9 @@ namespace CampManagerWebUI.Controllers
         // GET: ProductOut
         public ActionResult Index()
         {
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             return View(db.ProductOut.Include(x => x.Season).Include(x => x.Positions)
+                .Where(x => x.Season.Id == idSeason)
                 .OrderByDescending(x => x.Date)
                 .ToList().ConvertAll(x => Mapper.Map<ProductOutViewModel>(x)));
         }
@@ -53,7 +55,7 @@ namespace CampManagerWebUI.Controllers
         {
             ProductOutViewModel productOutViewModel = new ProductOutViewModel();
             productOutViewModel.Date = DateTime.Now.Date;
-            productOutViewModel.IdSeason = UserSeasonHelper.GetSeason(db).Id;
+            productOutViewModel.IdSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             ViewBag.Error = null;
             return View(productOutViewModel);
         }

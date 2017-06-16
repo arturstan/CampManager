@@ -10,10 +10,24 @@ namespace CampManagerWebUI.Models
     // TODO temporary
     public class UserSeasonHelper
     {
-        public static CampManager.Domain.Domain.SeasonOrganization GetSeason(ApplicationDbContext db)
+        private static ApplicationDbContext db = new ApplicationDbContext();
+        private static Dictionary<string, CampManager.Domain.Domain.SeasonOrganization> _userSeason = new Dictionary<string, CampManager.Domain.Domain.SeasonOrganization>();
+
+        public static CampManager.Domain.Domain.SeasonOrganization GetSeason(string userName)
         {
-            // TODO
-            return db.SeasonOrganization.ToList().Last();                
+            if (string.IsNullOrEmpty(userName))
+                return null;
+
+            if (!_userSeason.ContainsKey(userName))
+                _userSeason[userName] = db.SeasonOrganization.ToList().Last();
+
+            return _userSeason[userName];
+        }
+
+        public static string GetSeasonName(string userName)
+        {
+            var season = GetSeason(userName);
+            return season != null ? season.Name : "";
         }
     }
 }

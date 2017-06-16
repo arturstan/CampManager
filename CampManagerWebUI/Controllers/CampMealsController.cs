@@ -23,7 +23,7 @@ namespace CampManagerWebUI.Controllers
         // GET: CampMeals
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             List<CampMeal> campMealList = db.CampMeal.Where(x=> x.Camp.CampOrganization.Id == idSeason).ToList();
 
             List<CampMealViewModel> result = new List<CampMealViewModel>();
@@ -129,7 +129,7 @@ namespace CampManagerWebUI.Controllers
 
                 string error = null;
                 Service.CampMealService service = new Service.CampMealService(db);
-                service.Add(campMealBreakfast, campMealDinner, campMealSupper, ref error);
+                service.Add(User.Identity.Name, campMealBreakfast, campMealDinner, campMealSupper, ref error);
 
                 return RedirectToAction("Edit", "Camps", new { id = campMealViewModel.IdCamp });
             }
@@ -173,7 +173,7 @@ namespace CampManagerWebUI.Controllers
 
                 string error = null;
                 Service.CampMealService service = new Service.CampMealService(db);
-                service.Edit(campMealBreakfast, campMealDinner, campMealSupper, ref error);
+                service.Edit(User.Identity.Name, campMealBreakfast, campMealDinner, campMealSupper, ref error);
                 return RedirectToAction("Edit", "Camps", new { id = idCamp });
             }
             return View(campMealViewModel);
@@ -209,7 +209,7 @@ namespace CampManagerWebUI.Controllers
 
             string error = null;
             Service.CampMealService service = new Service.CampMealService(db);
-            service.Remove(campMealBreakfast, campMealDinner, campMealSupper, ref error);
+            service.Remove(User.Identity.Name, campMealBreakfast, campMealDinner, campMealSupper, ref error);
             // return RedirectToAction("Index");
             return RedirectToAction("Edit", "Camps", new { id = idCamp });
         }

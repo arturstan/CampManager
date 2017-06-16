@@ -65,7 +65,7 @@ namespace CampManagerWebUI.Controllers
             MealBidCount count = new Service.MealBidCount(db);
             while (date <= dateEnd)
             {
-                count.CountAndSave(date, ref error);
+                count.CountAndSave(User.Identity.Name, date, ref error);
                 if(!string.IsNullOrEmpty(error))
                     throw new Exception(error);
 

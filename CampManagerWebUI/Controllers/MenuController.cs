@@ -21,7 +21,7 @@ namespace CampManagerWebUI.Controllers
         // GET: Menu
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             List<Menu> menuList = db.Menu.Where(x => x.Season.Id == idSeason).OrderByDescending(x => x.Date).ToList();
             return View(menuList.ConvertAll(x => Mapper.Map<MenuViewModel>(x)));
         }
@@ -45,7 +45,7 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Create()
         {
             MenuViewModel menu = new MenuViewModel();
-            menu.IdSeason = UserSeasonHelper.GetSeason(db).Id;
+            menu.IdSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             menu.Date = DateTime.Now.Date;
             return View(menu);
         }

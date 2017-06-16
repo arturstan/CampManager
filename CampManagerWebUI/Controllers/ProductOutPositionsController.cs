@@ -74,7 +74,7 @@ namespace CampManagerWebUI.Controllers
 
                 Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
                 string error = null;
-                service.Add(productPosition, ref error);
+                service.Add(User.Identity.Name, productPosition, ref error);
                 if (!string.IsNullOrEmpty(error))
                     ViewBag.Error = error;
                 else
@@ -127,7 +127,7 @@ namespace CampManagerWebUI.Controllers
 
                 Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
                 string error = null;
-                service.Edit(productPosition, ref error);
+                service.Edit(User.Identity.Name, productPosition, ref error);
                 if (!string.IsNullOrEmpty(error))
                 {
                     DateTime dateProductOut = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
@@ -174,7 +174,7 @@ namespace CampManagerWebUI.Controllers
             int idProductOut = productPosition.ProductOut.Id;
             Service.ProductOutPositionService service = new Service.ProductOutPositionService(db);
             string error = null;
-            service.Remove(productPosition, ref error);
+            service.Remove(User.Identity.Name, productPosition, ref error);
             if (!string.IsNullOrEmpty(error))
             {
                 ProductOutPositionViewModel productOutPositionViewModel = Mapper.Map<ProductOutPositionViewModel>(productPosition);
@@ -208,7 +208,7 @@ namespace CampManagerWebUI.Controllers
 
         private void FillAmount(List<ProductOrganizationViewModel> productList, DateTime date)
         {
-            int idSeason = UserSeasonHelper.GetSeason(db).Id;
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             var productAmountList = db.ProductAmount
                 .Include(x => x.InvoicePosition)
                 .Include(x => x.InvoicePosition.Product)
