@@ -46,7 +46,7 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Create()
         {
             BaseOrganizationViewModel baseOrg = new BaseOrganizationViewModel();
-            baseOrg.IdOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            baseOrg.IdOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             return View(baseOrg);
         }
 

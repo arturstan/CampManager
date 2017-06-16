@@ -48,7 +48,7 @@ namespace CampManagerWebUI.Controllers
         // GET: InvoicePositions/Create
         public ActionResult Create(int idInvoice)
         {
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
             pos.Products = GetProducts();
@@ -94,7 +94,7 @@ namespace CampManagerWebUI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             InvoicePosition invoicePosition = db.InvoicePosition.Include(x => x.Product)
                 .Include(x => x.Product.Measure).Include(x => x.Invoice).SingleOrDefault(x => x.Id == id);
             InvoicePositionViewModel invoicePositionViewModel = Mapper.Map<InvoicePositionViewModel>(invoicePosition);
@@ -189,7 +189,7 @@ namespace CampManagerWebUI.Controllers
 
         private List<ProductOrganization> GetProducts()
         {
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             return db.ProductOrganization.Include(x => x.Measure)
                 .Where(x => x.Organization.Id == idOrganization)
                 .ToList().OrderBy(x => x.NameDescriptionMeasures).ToList();

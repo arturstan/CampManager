@@ -63,7 +63,7 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Create()
         {
             ProductOrganizationViewModel product = new ProductOrganizationViewModel();
-            product.IdOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            product.IdOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             product.Measures = db.MeasureOrganization.ToList();
             ViewBag.Error = null;
             return View(product);

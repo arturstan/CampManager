@@ -120,7 +120,7 @@ namespace CampManagerWebUI.Controllers
                 .Include(x => x.Positions.Select(y => y.Product.Measure))
                 .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList()
                 .FindAll(x => x.Organization.Id == idOrganization);
             if (invoiceViewModel == null)
@@ -159,7 +159,7 @@ namespace CampManagerWebUI.Controllers
                     return RedirectToAction("Index");
             }
 
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList()
                 .FindAll(x => x.Organization.Id == idOrganization);
             return View(invoiceViewModel);
@@ -204,7 +204,7 @@ namespace CampManagerWebUI.Controllers
 
         private List<SupplierOrganizationViewModel> GetSuppliers()
         {
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             List<SupplierOrganizationViewModel> result = new List<SupplierOrganizationViewModel>();
             //result.Add(new SupplierOrganizationViewModel { Id = -1, Name = "<wszyscy>" });
             var suppFromDb = db.SupplierOrganizations.Where(x => x.Organization.Id == idOrganization)

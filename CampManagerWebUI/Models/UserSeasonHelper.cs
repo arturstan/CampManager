@@ -19,7 +19,10 @@ namespace CampManagerWebUI.Models
                 return null;
 
             if (!_userSeason.ContainsKey(userName))
-                _userSeason[userName] = db.SeasonOrganization.ToList().Last();
+            {
+                var seasons = db.SeasonOrganization.ToList();
+                _userSeason[userName] = seasons.Count > 0 ? seasons.Last() : null;
+            }
 
             return _userSeason[userName];
         }

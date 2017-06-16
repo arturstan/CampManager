@@ -46,7 +46,7 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Create()
         {
             SeasonOrganizationViewModel season = new SeasonOrganizationViewModel();
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             // TODO EF
             season.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
             if (season.Bases.Count > 0)
@@ -91,7 +91,7 @@ namespace CampManagerWebUI.Controllers
 
             SeasonOrganization season = db.SeasonOrganization.Include(x => x.Base).SingleOrDefault(x => x.Id == id);
             SeasonOrganizationViewModel seasonOrganizationViewModel = Mapper.Map<SeasonOrganizationViewModel>(season);
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             seasonOrganizationViewModel.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
             if (seasonOrganizationViewModel == null)
             {

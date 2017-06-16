@@ -196,7 +196,7 @@ namespace CampManagerWebUI.Controllers
 
         private List<ProductOrganizationViewModel> GetProducts(DateTime date)
         {
-            int idOrganization = UserOrganizationHelper.GetOrganization(db).Id;
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             var productList = db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
                 .ToList()
                 .OrderBy(x => x.NameDescriptionMeasures).ToList()
