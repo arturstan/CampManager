@@ -36,8 +36,15 @@ namespace CampManagerWebUI.Service
             else
                 _db.Entry(mealBid).State = EntityState.Modified;
 
-            if (string.IsNullOrEmpty(error))
-                _db.SaveChanges();
+            try
+            {
+                if (string.IsNullOrEmpty(error))
+                    _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void Count(MealBid mealBid, int idSeason)

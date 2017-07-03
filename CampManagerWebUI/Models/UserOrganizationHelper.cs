@@ -32,5 +32,13 @@ namespace CampManagerWebUI.Models
             var organization = GetOrganization(userName);
             return organization != null ? organization.Name : "";
         }
+
+        public static string GetOrganizationNameDescriptionFor(string userName)
+        {
+            var organization = GetOrganization(userName);
+            return organization != null 
+                ? string.Format("(dla {0})", organization.Name)
+                : "";
+        }
     }
 }

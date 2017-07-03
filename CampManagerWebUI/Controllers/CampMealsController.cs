@@ -169,6 +169,14 @@ namespace CampManagerWebUI.Controllers
                 CampMeal campMealBreakfast = campMealList.Find(x => x.Kind == KinfOfMeal.breakfast);
                 CampMeal campMealDinner = campMealList.Find(x => x.Kind == KinfOfMeal.dinner);
                 CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
+
+                if(campMealBreakfast == null
+                    || campMealDinner == null
+                    || campMealSupper == null)
+                {
+                    return View(campMealViewModel);
+                }
+
                 CampMealCopy(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
 
                 string error = null;

@@ -94,7 +94,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year Artur Stanaszek (dla @CampManagerWebUI.Models.UserOrganizationHelper.GetOrganizationName(User.Identity.GetUserName()))</p>
+            <p>&copy; @DateTime.Now.Year Artur Stanaszek @CampManagerWebUI.Models.UserOrganizationHelper.GetOrganizationNameDescriptionFor(User.Identity.GetUserName())</p>
         </footer>
     </div>
 

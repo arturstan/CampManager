@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 using CampManagerWebUI.Db;
 
@@ -20,7 +20,10 @@ namespace CampManagerWebUI.Models
 
             if (!_userSeason.ContainsKey(userName))
             {
-                var seasons = db.SeasonOrganization.ToList();
+                var seasons = db.SeasonOrganization
+                    .Include(x => x.Base)
+                    .Include(x => x.Base.Organization)
+                    .ToList();
                 _userSeason[userName] = seasons.Count > 0 ? seasons.Last() : null;
             }
 
