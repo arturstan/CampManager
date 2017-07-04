@@ -121,7 +121,9 @@ namespace CampManagerWebUI.Controllers
                 .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
-            invoiceViewModel.Suppliers = db.SupplierOrganizations.ToList()
+            invoiceViewModel.Suppliers = db.SupplierOrganizations
+                .Include(x => x.Organization)
+                .ToList()
                 .FindAll(x => x.Organization.Id == idOrganization);
             if (invoiceViewModel == null)
             {
