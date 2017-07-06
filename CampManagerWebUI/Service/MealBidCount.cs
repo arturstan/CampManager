@@ -20,13 +20,13 @@ namespace CampManagerWebUI.Service
 
         public void CountAndSave(string userName, DateTime date, ref string error)
         {
-            SeasonOrganization season = Models.UserSeasonHelper.GetSeason(userName);
-            int idSeason = season.Id;
+            SeasonOrganization seasonUser = Models.UserSeasonHelper.GetSeason(userName);
+            int idSeason = seasonUser.Id;            
             MealBid mealBid = _db.MealBid.FirstOrDefault(x => x.Season.Id == idSeason && x.Date == date);
             if (mealBid == null)
             {
                 mealBid = new MealBid();
-                mealBid.Season = season;
+                mealBid.Season = _db.SeasonOrganization.Find(idSeason);
                 mealBid.Date = date;
             }
 
