@@ -47,8 +47,7 @@ namespace CampManagerWebUI.Controllers
         {
             SeasonOrganizationViewModel season = new SeasonOrganizationViewModel();
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
-            // TODO EF
-            season.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            season.Bases = db.BaseOrganization.Include(x => x.Organization).ToList().FindAll(x => x.Organization.Id == idOrganization);
             if (season.Bases.Count > 0)
                 season.IdBase = season.Bases.Last().Id;
 
