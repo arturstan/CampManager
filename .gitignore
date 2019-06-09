@@ -187,3 +187,4 @@ $RECYCLE.BIN/
 
 
 **/.vs/*
+/CampManagerWebUI/Web_*.config
