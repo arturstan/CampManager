@@ -121,6 +121,7 @@ namespace CampManagerWebUI.Controllers
 
                 db.Entry(season).State = EntityState.Modified;
                 db.SaveChanges();
+                UserSeasonHelper.UpdateSeason(season.Id);
                 return RedirectToAction("Index");
             }
             return View(seasonOrganizationViewModel);

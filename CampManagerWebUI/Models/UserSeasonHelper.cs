@@ -44,6 +44,29 @@ namespace CampManagerWebUI.Models
             _userSeason[userName] = season;
         }
 
+        public static void UpdateSeason(int idSeason)
+        {
+            List<string> userNameUpdateSeason = new List<string>();
+            foreach (string userName in _userSeason.Keys)
+            {
+                if (_userSeason[userName].Id == idSeason)
+                    userNameUpdateSeason.Add(userName);
+            }
+
+            if (userNameUpdateSeason.Count == 0)
+                return;
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            var season = db.SeasonOrganization
+                .Include(x => x.Base)
+                .Include(x => x.Base.Organization)
+                .Single(x => x.Id == idSeason);
+            foreach (string userName in userNameUpdateSeason)
+            {
+                _userSeason[userName] = season;
+            }
+        }
+
         public static string GetSeasonName(string userName)
         {
             var season = GetSeason(userName);
