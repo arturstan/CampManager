@@ -154,6 +154,19 @@ namespace CampManagerWebUI.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Seasons/Delete/5
+        public ActionResult Change(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            UserSeasonHelper.Change(User.Identity.Name, id.Value);
+            return RedirectToAction("Index");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
