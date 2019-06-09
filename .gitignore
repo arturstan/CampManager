@@ -184,3 +184,6 @@ $RECYCLE.BIN/
 **/*.sln.ide
 *.pubxml
 .cr/Settings.xml
+
+
+**/.vs/*
