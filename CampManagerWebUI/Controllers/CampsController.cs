@@ -23,10 +23,15 @@ namespace CampManagerWebUI.Controllers
         // GET: Camps
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (season == null)
+                return View(new List<CampViewModel>());
+
+            int idSeason = season.Id;
             List<CampViewModel> camps = db.Camp.Include(x => x.Place)
                 .Where(x => x.CampOrganization.Id == idSeason)
                 .ToList().ConvertAll(x => Mapper.Map<CampViewModel>(x));
+            ViewBag.SeasonActive = season.Active;
             return View(camps);
         }
 
@@ -50,6 +55,10 @@ namespace CampManagerWebUI.Controllers
         // GET: Camps/Create
         public ActionResult Create()
         {
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             int idBase = UserBaseHelper.GetBase(db).Id;
             CampViewModel campViewModel = new CampViewModel();
             campViewModel.IdCampOrganization = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
@@ -96,6 +105,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             int idBase = UserBaseHelper.GetBase(db).Id;
             Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).FirstOrDefault(x => x.Id == id);
             CampViewModel campViewModel = Mapper.Map<CampViewModel>(camp);
@@ -147,6 +161,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             Camp camp = db.Camp.Include(x => x.Place).Include(x => x.CampOrganization).FirstOrDefault(x => x.Id == id);
             CampViewModel campViewModel = Mapper.Map<CampViewModel>(camp);
             if (campViewModel == null)

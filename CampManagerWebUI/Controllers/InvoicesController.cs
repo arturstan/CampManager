@@ -22,7 +22,11 @@ namespace CampManagerWebUI.Controllers
         // GET: Invoices
         public ActionResult Index(int? idSupplier = null)
         {
-            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (season == null)
+                return View(new List<InvoiceViewModel>());
+
+            int idSeason = season.Id;
             List<Invoice> invoiceList;
             if (idSupplier.HasValue && idSupplier != -1)
             {
@@ -41,6 +45,7 @@ namespace CampManagerWebUI.Controllers
 
             List<InvoiceViewModel> invoiceViewModel = invoiceList.ConvertAll(x => Mapper.Map<InvoiceViewModel>(x));
             ViewBag.idSupplier = new SelectList(GetSuppliers(), "Id", "Name", idSupplier);
+            ViewBag.SeasonActive = season.Active;
             return View(invoiceViewModel);
         }
 
@@ -66,8 +71,11 @@ namespace CampManagerWebUI.Controllers
         // GET: Invoices/Create
         public ActionResult Create()
         {
-            InvoiceViewModel invoice = new InvoiceViewModel();
             var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
+            InvoiceViewModel invoice = new InvoiceViewModel();
             invoice.IdSeason = season.Id;
             invoice.SeasonName = season.Name;
             invoice.DateDelivery = DateTime.Now.Date;
@@ -115,6 +123,10 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions)
                 .Include(x => x.Positions.Select(y => y.Product))
                 .Include(x => x.Positions.Select(y => y.Product.Measure))
@@ -174,6 +186,10 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
                 .SingleOrDefault(x => x.Id == id);
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);

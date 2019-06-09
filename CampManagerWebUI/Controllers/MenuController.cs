@@ -21,8 +21,13 @@ namespace CampManagerWebUI.Controllers
         // GET: Menu
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (season == null)
+                return View(new List<MenuViewModel>());
+
+            int idSeason = season.Id;
             List<Menu> menuList = db.Menu.Where(x => x.Season.Id == idSeason).OrderByDescending(x => x.Date).ToList();
+            ViewBag.SeasonActive = season.Active;
             return View(menuList.ConvertAll(x => Mapper.Map<MenuViewModel>(x)));
         }
 
@@ -44,6 +49,10 @@ namespace CampManagerWebUI.Controllers
         // GET: Menu/Create
         public ActionResult Create()
         {
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             MenuViewModel menu = new MenuViewModel();
             menu.IdSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
             menu.Date = DateTime.Now.Date;
@@ -81,6 +90,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             MenuViewModel menuViewModel = Mapper.Map<MenuViewModel>(db.Menu.Find(id));
             if (menuViewModel == null)
             {
@@ -120,6 +134,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             MenuViewModel menuViewModel = Mapper.Map<MenuViewModel>(db.Menu.Find(id));
             if (menuViewModel == null)
             {

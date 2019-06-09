@@ -6,7 +6,7 @@
 
 <h2>Lista</h2>
 
-@if (!CampManagerWebUI.Models.UserSeasonHelper.GetSeason(User.Identity.Name).Active)
+@if (ViewBag.SeasonActive)
 {
     <p>
         @Html.ActionLink("Utwórz nowy", "Create")
@@ -63,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.PricePerPerson)
             </td>
             <td>
-                @if (!CampManagerWebUI.Models.UserSeasonHelper.GetSeason(User.Identity.Name).Active)
+                @if (ViewBag.SeasonActive)
                 {
                     @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) @:|
                     @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) @:|

@@ -22,7 +22,12 @@ namespace CampManagerWebUI.Controllers
         // GET: ProductOut
         public ActionResult Index()
         {
-            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (season == null)
+                return View(new List<ProductOutViewModel>());
+
+            int idSeason = season.Id;
+            ViewBag.SeasonActive = season.Active;
             return View(db.ProductOut.Include(x => x.Season).Include(x => x.Positions)
                 .Where(x => x.Season.Id == idSeason)
                 .OrderByDescending(x => x.Date)
@@ -53,6 +58,10 @@ namespace CampManagerWebUI.Controllers
         // GET: ProductOut/Create
         public ActionResult Create()
         {
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             ProductOutViewModel productOutViewModel = new ProductOutViewModel();
             productOutViewModel.Date = DateTime.Now.Date;
             productOutViewModel.IdSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
@@ -93,6 +102,10 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
 
             ProductOut productOut = db.ProductOut.Include(x => x.Positions)
                 .Include(x => x.Positions.Select(y => y.Product))
@@ -138,6 +151,11 @@ namespace CampManagerWebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (!season.Active)
+                return RedirectToAction("Index");
+
             ProductOutViewModel productOutViewModel = Mapper.Map<ProductOutViewModel>(db.ProductOut.Find(id));
             if (productOutViewModel == null)
             {

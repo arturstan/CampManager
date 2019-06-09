@@ -28,9 +28,12 @@
     </dl>
 </div>
 
+@if (ViewBag.SeasonActive)
+{
 <p>
     @Html.ActionLink("Utwórz nowy", "Create")
 </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -82,9 +85,16 @@
                 @Html.DisplayFor(modelItem => item.Worth)
             </td>
             <td>
-                @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                @if (ViewBag.SeasonActive)
+                {
+                    @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) @:|
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) @:|
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                }
+                else
+                {
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id })
+                }
             </td>
         </tr>
     }
