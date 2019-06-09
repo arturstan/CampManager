@@ -61,11 +61,12 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,DateStart,DateEnd,IdBase,BaseName")] SeasonOrganizationViewModel seasonOrganizationViewModel)
+        public ActionResult Create([Bind(Include = "Id,Active,Name,Description,DateStart,DateEnd,IdBase,BaseName")] SeasonOrganizationViewModel seasonOrganizationViewModel)
         {
             if (ModelState.IsValid)
             {
                 SeasonOrganization season = new SeasonOrganization();
+                season.Active = seasonOrganizationViewModel.Active;
                 season.Name = seasonOrganizationViewModel.Name;
                 season.Description = seasonOrganizationViewModel.Description;
                 season.DateStart = seasonOrganizationViewModel.DateStart;
@@ -105,12 +106,13 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,DateStart,DateEnd,IdBase,BaseName")] SeasonOrganizationViewModel seasonOrganizationViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Active,Name,Description,DateStart,DateEnd,IdBase,BaseName")] SeasonOrganizationViewModel seasonOrganizationViewModel)
         {
             if (ModelState.IsValid)
             {
                 SeasonOrganization season = new SeasonOrganization();
                 season.Id = seasonOrganizationViewModel.Id;
+                season.Active = seasonOrganizationViewModel.Active;
                 season.Name = seasonOrganizationViewModel.Name;
                 season.Description = seasonOrganizationViewModel.Description;
                 season.DateStart = seasonOrganizationViewModel.DateStart;
