@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -230,6 +231,10 @@
     <Compile Include="Migrations\201607231009294_Menu.cs" />
     <Compile Include="Migrations\201607231009294_Menu.Designer.cs">
       <DependentUpon>201607231009294_Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906090901139_SeasonOrganization_active.cs" />
+    <Compile Include="Migrations\201906090901139_SeasonOrganization_active.Designer.cs">
+      <DependentUpon>201906090901139_SeasonOrganization_active.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -456,6 +461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607231009294_Menu.resx">
       <DependentUpon>201607231009294_Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906090901139_SeasonOrganization_active.resx">
+      <DependentUpon>201906090901139_SeasonOrganization_active.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

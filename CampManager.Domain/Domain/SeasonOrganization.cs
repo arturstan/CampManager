@@ -13,8 +13,10 @@ namespace CampManager.Domain.Domain
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
+        public bool Active { get; set; }
 
         [Required]
         public BaseOrganization Base { get; set; }

@@ -23,6 +23,8 @@ namespace CampManagerWebUI.Models
         [DataType(DataType.Date)]
         [DisplayName("Data zakończenia")]
         public DateTime DateEnd { get; set; }
+        [DisplayName("Aktywny")]
+        public bool Active { get; set; }
 
         [Required]
         public int IdBase { get; set; }

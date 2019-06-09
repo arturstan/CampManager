@@ -91,7 +91,8 @@ namespace CampManagerWebUI.Controllers
             SeasonOrganization season = db.SeasonOrganization.Include(x => x.Base).SingleOrDefault(x => x.Id == id);
             SeasonOrganizationViewModel seasonOrganizationViewModel = Mapper.Map<SeasonOrganizationViewModel>(season);
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
-            seasonOrganizationViewModel.Bases = db.BaseOrganization.ToList().FindAll(x => x.Organization.Id == idOrganization);
+            seasonOrganizationViewModel.Bases = db.BaseOrganization.Include(x => x.Organization).ToList()
+                .FindAll(x => x.Organization.Id == idOrganization);
             if (seasonOrganizationViewModel == null)
             {
                 return HttpNotFound();
