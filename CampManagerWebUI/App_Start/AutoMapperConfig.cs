@@ -70,6 +70,8 @@ namespace CampManagerWebUI
 
                     cfg.CreateMap<Menu, MenuViewModel>()
                         .ForMember(dest => dest.IdSeason, opts => opts.MapFrom(src => src.Season.Id));
+
+                    cfg.CreateMap<UserEmailAllow, UserEmailAllowViewModel>();
                 });
         }
     }

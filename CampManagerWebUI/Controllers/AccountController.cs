@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+
+using CampManagerWebUI.Db;
 using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
@@ -151,6 +153,14 @@ namespace CampManagerWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationDbContext db = new ApplicationDbContext();
+                var userAllow = db.UserEmailAllow.FirstOrDefault(x => x.Email == model.Email);
+                if(userAllow == null)
+                {
+                    AddErrors(new IdentityResult("Email nie zarejestrowany. Zgłoś się do administratora"));
+                    return View(model);
+                }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

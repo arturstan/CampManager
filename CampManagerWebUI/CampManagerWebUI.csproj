@@ -189,6 +189,7 @@
     <Compile Include="Controllers\SeasonsController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\UserEmailAllowsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -265,7 +266,9 @@
     <Compile Include="Models\SeasonOrganizationViewModel.cs" />
     <Compile Include="Models\SupplierOrganizationViewModel.cs" />
     <Compile Include="Models\UserBaseHelper.cs" />
+    <Compile Include="Models\UserEmailAllowViewModel.cs" />
     <Compile Include="Models\UserOrganizationHelper.cs" />
+    <Compile Include="Models\UserOrganizationRolesHelper.cs" />
     <Compile Include="Models\UserSeasonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CampMealService.cs" />
@@ -425,6 +428,11 @@
     <Content Include="Views\Menu\Details.cshtml" />
     <Content Include="Views\Menu\Edit.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\UserEmailAllows\Create.cshtml" />
+    <Content Include="Views\UserEmailAllows\Delete.cshtml" />
+    <Content Include="Views\UserEmailAllows\Details.cshtml" />
+    <Content Include="Views\UserEmailAllows\Edit.cshtml" />
+    <Content Include="Views\UserEmailAllows\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

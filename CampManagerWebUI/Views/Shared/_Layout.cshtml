@@ -68,6 +68,11 @@
                                 <li>@Html.ActionLink("Bazy", "Index", "Bases")</li>
                                 <li>@Html.ActionLink("Sezony", "Index", "Seasons")</li>
                                 <li>@Html.ActionLink("Miejsca obozowe", "Index", "Places")</li>
+                                @if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserOrganizationAdmin(User.Identity.Name))
+                                {
+                                    <li>@Html.ActionLink("Użytkownicy przed rejestracją", "Index", "UserEmailAllows")</li>
+                                    @*<li>@Html.ActionLink("Zarządzający", "Index", "UserSettings")</li>*@
+                                }
                             </ul>
                         </li>
 
