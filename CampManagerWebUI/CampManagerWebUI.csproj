@@ -236,6 +236,14 @@
     <Compile Include="Migrations\201906090901139_SeasonOrganization_active.Designer.cs">
       <DependentUpon>201906090901139_SeasonOrganization_active.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906211515548_NewTables_UserOrganization_UserEmailAllow.cs" />
+    <Compile Include="Migrations\201906211515548_NewTables_UserOrganization_UserEmailAllow.Designer.cs">
+      <DependentUpon>201906211515548_NewTables_UserOrganization_UserEmailAllow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906211524473_NewTable_UserSettings.cs" />
+    <Compile Include="Migrations\201906211524473_NewTable_UserSettings.Designer.cs">
+      <DependentUpon>201906211524473_NewTable_UserSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -464,6 +472,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906090901139_SeasonOrganization_active.resx">
       <DependentUpon>201906090901139_SeasonOrganization_active.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906211515548_NewTables_UserOrganization_UserEmailAllow.resx">
+      <DependentUpon>201906211515548_NewTables_UserOrganization_UserEmailAllow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906211524473_NewTable_UserSettings.resx">
+      <DependentUpon>201906211524473_NewTable_UserSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

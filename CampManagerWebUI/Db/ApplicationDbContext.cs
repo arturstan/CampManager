@@ -40,5 +40,9 @@ namespace CampManagerWebUI.Db
         public DbSet<MealBid> MealBid { get; set; }
 
         public DbSet<Menu> Menu { get; set; }
+
+        public DbSet<UserEmailAllow> UserEmailAllow { get; set; }
+        public DbSet<UserOrganization> UserOrganization { get; set; }
+        public DbSet<UserSettings> UserSettings { get; set; }
     }
 }
