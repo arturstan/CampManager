@@ -436,6 +436,8 @@
     <Content Include="Views\UserEmailAllows\Edit.cshtml" />
     <Content Include="Views\UserEmailAllows\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

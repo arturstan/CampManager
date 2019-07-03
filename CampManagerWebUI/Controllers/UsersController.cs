@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,20 +27,8 @@ namespace CampManagerWebUI.Controllers
             List<UserViewModel> userVMList = new List<UserViewModel>();
             foreach (var user in users)
             {
-                UserViewModel userVM = new UserViewModel();
                 var userOrg = usersOrganizationList.Find(x => x.IdUser == user.Email);
-
-                userVM.Email = user.Email;
-                userVM.Active = true;
-                userVM.Roles = "";
-                if (userOrg != null)
-                {
-                    userVM.Active = userOrg.Active;
-                    userVM.DateExpire = userOrg.DateExpire;
-                    List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(userOrg.Roles);
-                    if (roles.Exists(x => x.Role == Role.adminOrganization && x.Active))
-                        userVM.Roles = "admin";
-                }
+                UserViewModel userVM = GetUser(user, userOrg);
 
                 userVMList.Add(userVM);
             }
@@ -47,48 +37,74 @@ namespace CampManagerWebUI.Controllers
         }
 
         // GET: Users/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
-        }
-
-        // GET: Users/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Users/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            if (string.IsNullOrEmpty(id))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch
+            var userApp = _db.Users.FirstOrDefault(x => x.Id == id);
+            if (userApp == null)
             {
-                return View();
+                return HttpNotFound();
             }
+
+            var userOrg = _db.UserOrganization.FirstOrDefault(x => x.IdUser == userApp.Email);
+            var userVM = GetUser(userApp, userOrg);
+            return View(userVM);
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userApp = _db.Users.FirstOrDefault(x => x.Id == id);
+            if (userApp == null)
+            {
+                return HttpNotFound();
+            }
+
+            var userOrg = _db.UserOrganization.FirstOrDefault(x => x.IdUser == userApp.Email);
+            var userVM = GetUser(userApp, userOrg);
+            return View(userVM);
         }
 
         // POST: Users/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([Bind(Include = "Id,Email,Active,DateExpire")] UserViewModel userViewModel)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    var userOrg = _db.UserOrganization.FirstOrDefault(x => x.IdUser == userViewModel.Email);
+                    if (userOrg == null)
+                    {
+                        userOrg = new UserOrganization();
+                        var organization = UserOrganizationHelper.GetOrganization(userViewModel.Email);
+                        userOrg.IdUser = userViewModel.Email;
+                        userOrg.Organization = _db.Organization.First(x => x.Id == organization.Id);
+                        userOrg.Active = userViewModel.Active;
+                        userOrg.DateExpire = userViewModel.DateExpire;
+                        userOrg.Roles = JsonConvert.SerializeObject(new List<UserRole>());
+                        _db.UserOrganization.Add(userOrg);
+                        _db.SaveChanges();
+                    }
+                    else
+                    {
+                        userOrg.Active = userViewModel.Active;
+                        userOrg.DateExpire = userViewModel.DateExpire;
+                        _db.Entry(userOrg).State = EntityState.Modified;
+                        _db.SaveChanges();
+                    }
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+
+                return View(userViewModel);
             }
             catch
             {
@@ -96,26 +112,23 @@ namespace CampManagerWebUI.Controllers
             }
         }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(int id)
+        private UserViewModel GetUser(ApplicationUser user, UserOrganization userOrg)
         {
-            return View();
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            UserViewModel userVM = new UserViewModel();
+            userVM.Id = user.Id;
+            userVM.Email = user.Email;
+            userVM.Active = true;
+            userVM.Roles = "";
+            if (userOrg != null)
             {
-                // TODO: Add delete logic here
+                userVM.Active = userOrg.Active;
+                userVM.DateExpire = userOrg.DateExpire;
+                List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(userOrg.Roles);
+                if (roles.Exists(x => x.Role == Role.adminOrganization && x.Active))
+                    userVM.Roles = "admin";
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return userVM;
         }
     }
 }

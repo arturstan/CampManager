@@ -1,0 +1,50 @@
+﻿@model CampManagerWebUI.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Szczegóły";
+}
+
+<h2>Szczegóły</h2>
+
+<div>
+    <h4>Użytkownik</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateExpire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateExpire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Roles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Roles)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edycja", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Powrót do listy", "Index")
+</p>

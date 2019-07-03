@@ -9,6 +9,7 @@ namespace CampManagerWebUI.Models
 {
     public class UserViewModel
     {
+        public string Id { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
         [DisplayName("Aktywny")]
