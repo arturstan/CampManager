@@ -35,12 +35,23 @@ namespace CampManagerWebUI.Service
         public void Edit(ProductOrganization product, ref string error)
         {
             var productExist = _db.ProductOrganization.FirstOrDefault(x => x.Name == product.Name
-                && x.Description != product.Description
+                && x.Description == product.Description
                 && x.Id != product.Id);
             if (productExist != null)
             {
                 error = "Istnieje już produkt o takiej nazwie i opisie";
                 return;
+            }
+
+            if (!product.Active)
+            {
+                decimal amount = _db.ProductAmount.Where(x => x.InvoicePosition.Product.Id == product.Id)
+                    .Sum(x => x.AmountBuy - x.AmountExpend);
+                if (amount != 0)
+                {
+                    error = "Nie można zrobić nie aktywnego produktu, który ma w magazynie ilość > 0";
+                    return;
+                }
             }
 
             _db.Entry(product).State = EntityState.Modified;

@@ -81,6 +81,7 @@ namespace CampManagerWebUI.Controllers
                 ProductOrganization product = new ProductOrganization();
                 product.Name = productOrganizationViewModel.Name;
                 product.Description = productOrganizationViewModel.Description;
+                product.Active = true;
                 product.Organization = db.Organization.Find(productOrganizationViewModel.IdOrganization);
                 product.Measure = db.MeasureOrganization.Find(productOrganizationViewModel.IdMeasure);
 
@@ -119,7 +120,7 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IdMeasure,IdOrganization")] ProductOrganizationViewModel productOrganizationViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Active,IdMeasure,IdOrganization")] ProductOrganizationViewModel productOrganizationViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +128,7 @@ namespace CampManagerWebUI.Controllers
                 product.Id = productOrganizationViewModel.Id;
                 product.Name = productOrganizationViewModel.Name;
                 product.Description = productOrganizationViewModel.Description;
+                product.Active = productOrganizationViewModel.Active;
                 product.Organization = db.Organization.Find(productOrganizationViewModel.IdOrganization);
                 product.Measure = db.MeasureOrganization.Find(productOrganizationViewModel.IdMeasure);
                 Service.ProductService service = new Service.ProductService(db);
@@ -137,6 +139,8 @@ namespace CampManagerWebUI.Controllers
                 else
                     return RedirectToAction("Index");
             }
+
+            productOrganizationViewModel.Measures = db.MeasureOrganization.ToList();
             return View(productOrganizationViewModel);
         }
 

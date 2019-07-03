@@ -51,7 +51,7 @@ namespace CampManagerWebUI.Controllers
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             InvoicePositionViewModel pos = new InvoicePositionViewModel();
             pos.IdInvoice = idInvoice;
-            pos.Products = GetProducts();
+            pos.Products = GetProducts(null);
             pos.InvoiceNumber = db.Invoice.Find(idInvoice).Number;
             ViewBag.Error = null;
             return View(pos);
@@ -82,7 +82,7 @@ namespace CampManagerWebUI.Controllers
                     return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
 
-            invoicePositionViewModel.Products = GetProducts();
+            invoicePositionViewModel.Products = GetProducts(null);
             return View(invoicePositionViewModel);
         }
 
@@ -103,7 +103,7 @@ namespace CampManagerWebUI.Controllers
                 return HttpNotFound();
             }
 
-            invoicePositionViewModel.Products = GetProducts();
+            invoicePositionViewModel.Products = GetProducts(invoicePositionViewModel.IdProduct);
             ViewBag.Error = null;
             return View(invoicePositionViewModel);
         }
@@ -134,7 +134,7 @@ namespace CampManagerWebUI.Controllers
                     return RedirectToAction("Edit", "Invoices", new { id = invoicePosition.Invoice.Id });
             }
 
-            invoicePositionViewModel.Products = GetProducts();
+            invoicePositionViewModel.Products = GetProducts(invoicePositionViewModel.IdProduct);
             return View(invoicePositionViewModel);
         }
 
@@ -187,11 +187,12 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private List<ProductOrganization> GetProducts()
+        private List<ProductOrganization> GetProducts(int? idProductAdd)
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
             return db.ProductOrganization.Include(x => x.Measure)
-                .Where(x => x.Organization.Id == idOrganization)
+                .Where(x => x.Organization.Id == idOrganization 
+                    && (x.Active || x.Id == idProductAdd))
                 .ToList().OrderBy(x => x.NameDescriptionMeasures).ToList();
         }
     }

@@ -246,6 +246,10 @@
     <Compile Include="Migrations\201906211524473_NewTable_UserSettings.Designer.cs">
       <DependentUpon>201906211524473_NewTable_UserSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907031917009_ProductOrganization_Active.cs" />
+    <Compile Include="Migrations\201907031917009_ProductOrganization_Active.Designer.cs">
+      <DependentUpon>201907031917009_ProductOrganization_Active.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -492,6 +496,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906211524473_NewTable_UserSettings.resx">
       <DependentUpon>201906211524473_NewTable_UserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907031917009_ProductOrganization_Active.resx">
+      <DependentUpon>201907031917009_ProductOrganization_Active.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

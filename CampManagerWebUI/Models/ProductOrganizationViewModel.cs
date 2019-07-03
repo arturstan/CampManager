@@ -32,6 +32,8 @@ namespace CampManagerWebUI.Models
 
         [DisplayName("Wartość")]
         public decimal Worth { get; set; }
+        public bool Active { get; set; }
+
 
         public List<MeasureOrganization> Measures;
 

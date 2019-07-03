@@ -13,7 +13,7 @@ namespace CampManager.Domain.Domain
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-
+        public bool Active { get; set; }
         [Required]
         public MeasureOrganization Measure { get; set; }
 
