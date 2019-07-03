@@ -24,7 +24,7 @@ namespace CampManagerWebUI.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -36,9 +36,9 @@ namespace CampManagerWebUI.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -73,6 +73,15 @@ namespace CampManagerWebUI.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            var userOrg = db.UserOrganization.FirstOrDefault(x => x.IdUser == model.Email);
+            if (userOrg != null)
+            {
+                if (!userOrg.Active
+                    || (userOrg.DateExpire.HasValue && userOrg.DateExpire.Value <= DateTime.Now))
+                    return View("Expired");
             }
 
             // This doesn't count login failures towards account lockout
@@ -122,7 +131,7 @@ namespace CampManagerWebUI.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -155,7 +164,7 @@ namespace CampManagerWebUI.Controllers
             {
                 ApplicationDbContext db = new ApplicationDbContext();
                 var userAllow = db.UserEmailAllow.FirstOrDefault(x => x.Email == model.Email);
-                if(userAllow == null)
+                if (userAllow == null)
                 {
                     AddErrors(new IdentityResult("Email nie zarejestrowany. Zgłoś się do administratora"));
                     return View(model);
@@ -165,8 +174,8 @@ namespace CampManagerWebUI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
