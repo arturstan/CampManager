@@ -9,6 +9,8 @@ using CampManager.Domain.User;
 using CampManagerWebUI.Models;
 using CampManagerWebUI.Db;
 
+using Newtonsoft.Json;
+
 namespace CampManagerWebUI.Controllers
 {
     public class UsersController : Controller
@@ -33,7 +35,9 @@ namespace CampManagerWebUI.Controllers
                 {
                     userVM.Active = userOrg.Active;
                     userVM.DateExpire = userOrg.DateExpire;
-
+                    List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(userOrg.Roles);
+                    if (roles.Exists(x => x.Role == Role.adminOrganization && x.Active))
+                        userVM.Roles = "admin";
                 }
 
                 userVMList.Add(userVM);
