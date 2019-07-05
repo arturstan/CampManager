@@ -50,7 +50,7 @@ namespace CampManagerWebUI.Controllers
             ProductOutPositionViewModel productOutPositionViewModel = new ProductOutPositionViewModel();
             productOutPositionViewModel.IdProductOut = idProductOut;
             DateTime date = db.ProductOut.Find(idProductOut).Date;
-            productOutPositionViewModel.Products = GetProducts(date);
+            productOutPositionViewModel.Products = GetProducts(date, null);
 
             ViewBag.Error = null;
             return View(productOutPositionViewModel);
@@ -82,7 +82,7 @@ namespace CampManagerWebUI.Controllers
             }
 
             DateTime date = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
-            productOutPositionViewModel.Products = GetProducts(date);
+            productOutPositionViewModel.Products = GetProducts(date, null);
             return View(productOutPositionViewModel);
         }
 
@@ -97,13 +97,13 @@ namespace CampManagerWebUI.Controllers
                 .SingleOrDefault(x => x.Id == id);
 
             ProductOutPositionViewModel productOutPositionViewModel = Mapper.Map<ProductOutPositionViewModel>(productPosition);
-            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date);
+            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date, productPosition.Product.Id);
             if (productOutPositionViewModel == null)
             {
                 return HttpNotFound();
             }
 
-            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date);
+            productOutPositionViewModel.Products = GetProducts(productPosition.ProductOut.Date, productPosition.Product.Id);
             ViewBag.Error = null;
             return View(productOutPositionViewModel);
         }
@@ -131,7 +131,7 @@ namespace CampManagerWebUI.Controllers
                 if (!string.IsNullOrEmpty(error))
                 {
                     DateTime dateProductOut = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
-                    productOutPositionViewModel.Products = GetProducts(dateProductOut);
+                    productOutPositionViewModel.Products = GetProducts(dateProductOut, productOutPositionViewModel.IdProduct);
                     ViewBag.Error = error;
                     return View(productOutPositionViewModel);
                 }
@@ -140,7 +140,7 @@ namespace CampManagerWebUI.Controllers
             }
 
             DateTime date = db.ProductOut.Find(productOutPositionViewModel.IdProductOut).Date;
-            productOutPositionViewModel.Products = GetProducts(date);
+            productOutPositionViewModel.Products = GetProducts(date, productOutPositionViewModel.IdProduct);
             return View(productOutPositionViewModel);
         }
 
@@ -194,10 +194,12 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private List<ProductOrganizationViewModel> GetProducts(DateTime date)
+        private List<ProductOrganizationViewModel> GetProducts(DateTime date, int? idProductAdd)
         {
             int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
-            var productList = db.ProductOrganization.Include(x => x.Measure).Where(x => x.Organization.Id == idOrganization)
+            var productList = db.ProductOrganization.Include(x => x.Measure)
+                .Where(x => x.Organization.Id == idOrganization 
+                    && (x.Active || (x.Id == idProductAdd)))
                 .ToList()
                 .OrderBy(x => x.NameDescriptionMeasures).ToList()
                 .ConvertAll(x => Mapper.Map<ProductOrganizationViewModel>(x));
