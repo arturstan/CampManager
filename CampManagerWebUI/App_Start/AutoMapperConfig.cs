@@ -72,6 +72,14 @@ namespace CampManagerWebUI
                         .ForMember(dest => dest.IdSeason, opts => opts.MapFrom(src => src.Season.Id));
 
                     cfg.CreateMap<UserEmailAllow, UserEmailAllowViewModel>();
+
+                    cfg.CreateMap<SepticTankKindOrganization, SepticTankKindViewModel>()
+                        .ForMember(dest => dest.IdOrganization, opts => opts.MapFrom(src => src.Organization.Id));
+                    cfg.CreateMap<SepticTank, SepticTankViewModel>()
+                        .ForMember(dest => dest.IdSeason, opts => opts.MapFrom(src => src.Season.Id))
+                        .ForMember(dest => dest.SeasonName, opts => opts.MapFrom(src => src.Season.Name))
+                        .ForMember(dest => dest.IdKind, opts => opts.MapFrom(src => src.Kind.Id))
+                        .ForMember(dest => dest.KindNameDescription, opts => opts.MapFrom(src => src.Kind.NameDescription));
                 });
         }
     }
