@@ -44,5 +44,9 @@ namespace CampManagerWebUI.Db
         public DbSet<UserEmailAllow> UserEmailAllow { get; set; }
         public DbSet<UserOrganization> UserOrganization { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
+
+
+        public DbSet<SepticTankKindOrganization> SepticTankKindOrganization { get; set; }
+        public DbSet<SepticTank> SepticTank { get; set; }
     }
 }

@@ -70,6 +70,8 @@
     <Compile Include="Domain\Place.cs" />
     <Compile Include="Domain\BaseOrganization.cs" />
     <Compile Include="Domain\ProductOrganization.cs" />
+    <Compile Include="Domain\SepticTank.cs" />
+    <Compile Include="Domain\SepticTankKindOrganization.cs" />
     <Compile Include="Domain\SupplierOrganization.cs" />
     <Compile Include="Domain\UserEmailAllow.cs" />
     <Compile Include="Domain\UserOrganization.cs" />
