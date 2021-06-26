@@ -6,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using CampManager.Domain.Domain;
 using CampManagerWebUI.Db;
+using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
 {
@@ -18,7 +20,17 @@ namespace CampManagerWebUI.Controllers
         // GET: SepticTanks
         public ActionResult Index()
         {
-            return View(db.SepticTank.ToList());
+            var season = UserSeasonHelper.GetSeason(User.Identity.Name);
+            if (season == null)
+                return View(new List<SepticTankViewModel>());
+
+            int idSeason = season.Id;
+            ViewBag.SeasonActive = season.Active;
+
+            return View(db.SepticTank.Include(x => x.Season).Include(x => x.Kind)
+                .Where(x => x.Season.Id == idSeason)
+                .OrderByDescending(x => x.Date)
+                .ToList().ConvertAll(x => Mapper.Map<SepticTankViewModel>(x)));
         }
 
         // GET: SepticTanks/Details/5
@@ -39,7 +51,12 @@ namespace CampManagerWebUI.Controllers
         // GET: SepticTanks/Create
         public ActionResult Create()
         {
-            return View();
+            int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
+            SepticTankViewModel septicTank = new SepticTankViewModel();
+            septicTank.IdSeason = idSeason;
+            septicTank.Kinds = GetSepticTankKinds(null);
+            ViewBag.Error = null;
+            return View(septicTank);
         }
 
         // POST: SepticTanks/Create
@@ -47,16 +64,27 @@ namespace CampManagerWebUI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Amount")] SepticTank septicTank)
+        public ActionResult Create([Bind(Include = "Id,IdSeason,Date,IdKind,Amount")] SepticTankViewModel septicTankViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SepticTank.Add(septicTank);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                SepticTank septicTank = new SepticTank();
+                septicTank.Season = db.SeasonOrganization.Find(septicTankViewModel.IdSeason);
+                septicTank.Date = septicTankViewModel.Date;
+                septicTank.Kind = db.SepticTankKindOrganization.Find(septicTankViewModel.IdKind);
+                septicTank.Amount = septicTankViewModel.Amount;
+
+                string error = null;
+                Service.SepticTankService service = new Service.SepticTankService(db);
+                service.Add(septicTank, ref error);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.Error = error;
+                else
+                    return RedirectToAction("Index");
             }
 
-            return View(septicTank);
+            septicTankViewModel.Kinds = GetSepticTankKinds(null);
+            return View(septicTankViewModel);
         }
 
         // GET: SepticTanks/Edit/5
@@ -124,5 +152,14 @@ namespace CampManagerWebUI.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private List<SepticTankKindOrganization> GetSepticTankKinds(int? idProductAdd)
+        {
+            int idOrganization = UserOrganizationHelper.GetOrganization(User.Identity.Name).Id;
+            return db.SepticTankKindOrganization
+                .Where(x => x.Organization.Id == idOrganization)
+                .ToList().OrderBy(x => x.NameDescription).ToList();
+        }
+
     }
 }

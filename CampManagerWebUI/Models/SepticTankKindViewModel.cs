@@ -15,7 +15,7 @@ namespace CampManagerWebUI.Models
         public string Name { get; set; }
 
         [Required]
-        [DisplayName("Objętość")]
+        [DisplayName("Objętość (m3)")]
         public decimal Capacity { get; set; }
 
         [Required]

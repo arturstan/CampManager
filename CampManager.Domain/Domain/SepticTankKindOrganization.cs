@@ -18,5 +18,13 @@ namespace CampManager.Domain.Domain
 
         [Required]
         public Organization Organization { get; set; }
+
+        public string NameDescription
+        {
+            get
+            {
+                return string.Format("{0} [{1}m3]", Name, Capacity);
+            }
+        }
     }
 }

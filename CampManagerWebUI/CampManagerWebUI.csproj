@@ -187,6 +187,8 @@
     <Compile Include="Controllers\ProductOutPositionsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SeasonsController.cs" />
+    <Compile Include="Controllers\SepticTankKindOrganizationsController.cs" />
+    <Compile Include="Controllers\SepticTanksController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Controllers\UserEmailAllowsController.cs" />
@@ -250,6 +252,10 @@
     <Compile Include="Migrations\201907031917009_ProductOrganization_Active.Designer.cs">
       <DependentUpon>201907031917009_ProductOrganization_Active.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106260756490_SepticTank.cs" />
+    <Compile Include="Migrations\202106260756490_SepticTank.Designer.cs">
+      <DependentUpon>202106260756490_SepticTank.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -269,6 +275,8 @@
     <Compile Include="Models\ProductOutPositionViewModel.cs" />
     <Compile Include="Models\ProductOutViewModel.cs" />
     <Compile Include="Models\SeasonOrganizationViewModel.cs" />
+    <Compile Include="Models\SepticTankKindViewModel.cs" />
+    <Compile Include="Models\SepticTankViewModel.cs" />
     <Compile Include="Models\SupplierOrganizationViewModel.cs" />
     <Compile Include="Models\UserBaseHelper.cs" />
     <Compile Include="Models\UserEmailAllowViewModel.cs" />
@@ -286,6 +294,7 @@
     <Compile Include="Service\ProductOutPositionService.cs" />
     <Compile Include="Service\ProductOutService.cs" />
     <Compile Include="Service\ProductService.cs" />
+    <Compile Include="Service\SepticTankService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +452,16 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Shared\Expired.cshtml" />
+    <Content Include="Views\SepticTankKindOrganizations\Create.cshtml" />
+    <Content Include="Views\SepticTankKindOrganizations\Delete.cshtml" />
+    <Content Include="Views\SepticTankKindOrganizations\Edit.cshtml" />
+    <Content Include="Views\SepticTankKindOrganizations\Index.cshtml" />
+    <Content Include="Views\SepticTanks\Create.cshtml" />
+    <Content Include="Views\SepticTanks\Delete.cshtml" />
+    <Content Include="Views\SepticTanks\Details.cshtml" />
+    <Content Include="Views\SepticTanks\Edit.cshtml" />
+    <Content Include="Views\SepticTanks\Index.cshtml" />
+    <Content Include="Views\SepticTankKindOrganizations\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -499,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907031917009_ProductOrganization_Active.resx">
       <DependentUpon>201907031917009_ProductOrganization_Active.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106260756490_SepticTank.resx">
+      <DependentUpon>202106260756490_SepticTank.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
