@@ -48,5 +48,9 @@ namespace CampManagerWebUI.Db
 
         public DbSet<SepticTankKindOrganization> SepticTankKindOrganization { get; set; }
         public DbSet<SepticTank> SepticTank { get; set; }
+
+
+        public DbSet<GarbageKindOrganization> GarbageKind { get; set; }
+        public DbSet<Garbage> Garbage { get; set; }
     }
 }

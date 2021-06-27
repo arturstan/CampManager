@@ -256,6 +256,10 @@
     <Compile Include="Migrations\202106260756490_SepticTank.Designer.cs">
       <DependentUpon>202106260756490_SepticTank.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106271100133_Garbage.cs" />
+    <Compile Include="Migrations\202106271100133_Garbage.Designer.cs">
+      <DependentUpon>202106271100133_Garbage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Db\ApplicationDbContext.cs" />
@@ -521,6 +525,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106260756490_SepticTank.resx">
       <DependentUpon>202106260756490_SepticTank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106271100133_Garbage.resx">
+      <DependentUpon>202106271100133_Garbage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

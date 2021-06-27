@@ -57,6 +57,7 @@
     <Compile Include="Domain\Camp.cs" />
     <Compile Include="Domain\CampMeal.cs" />
     <Compile Include="Domain\Garbage.cs" />
+    <Compile Include="Domain\GarbageKindOrganization.cs" />
     <Compile Include="Domain\MealBid.cs" />
     <Compile Include="Domain\Menu.cs" />
     <Compile Include="Domain\ProductAmount.cs" />

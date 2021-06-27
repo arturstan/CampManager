@@ -14,6 +14,9 @@ namespace CampManager.Domain.Domain
 
         public DateTime Date { get; set; }
 
+        public GarbageKindOrganization Kind { get; set; }
 
+        public bool Collection { get; set; }
     }
+
 }
