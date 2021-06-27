@@ -80,6 +80,10 @@ namespace CampManagerWebUI
                         .ForMember(dest => dest.SeasonName, opts => opts.MapFrom(src => src.Season.Name))
                         .ForMember(dest => dest.IdKind, opts => opts.MapFrom(src => src.Kind.Id))
                         .ForMember(dest => dest.KindNameDescription, opts => opts.MapFrom(src => src.Kind.NameDescription));
+
+                    cfg.CreateMap<GarbageKindOrganization, GarbageKindViewModel>()
+                        .ForMember(dest => dest.IdOrganization, opts => opts.MapFrom(src => src.Organization.Id));
+
                 });
         }
     }
