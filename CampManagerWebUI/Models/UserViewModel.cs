@@ -18,5 +18,14 @@ namespace CampManagerWebUI.Models
         public DateTime? DateExpire { get; set; }
         [DisplayName("Role")]
         public string Roles { get; set; }
+
+        [DisplayName("Admin")]
+        public bool AdminOrganization { get; set; }
+        [DisplayName("Księgowy")]
+        public bool Accountant { get; set; }
+        [DisplayName("Magazynier")]
+        public bool Warehouseman { get; set; }
+        [DisplayName("Oboźny")]
+        public bool DeputyCommander { get; set; }
     }
 }
