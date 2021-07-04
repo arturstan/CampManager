@@ -9,12 +9,13 @@ using System.Web.Mvc;
 
 using AutoMapper;
 using CampManager.Domain.Domain;
+using CampManager.Domain.User;
 using CampManagerWebUI.Db;
 using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
 {
-    [Authorize]
+    [AuthorizeCustom(Role.adminOrganization)]
     public class BasesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

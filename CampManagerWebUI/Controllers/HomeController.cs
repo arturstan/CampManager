@@ -34,5 +34,12 @@ namespace CampManagerWebUI.Controllers
 
             return View();
         }
+
+        public ActionResult UnAuthorized()
+        {
+            ViewBag.Message = "Brak uprawnień!";
+
+            return View();
+        }
     }
 }

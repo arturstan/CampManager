@@ -14,7 +14,8 @@ using CampManagerWebUI.Db;
 using Newtonsoft.Json;
 
 namespace CampManagerWebUI.Controllers
-{    
+{
+    [AuthorizeCustom(Role.adminOrganization)]
     public class UsersController : Controller
     {
         private ApplicationDbContext _db = new ApplicationDbContext();

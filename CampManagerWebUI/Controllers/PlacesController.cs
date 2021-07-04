@@ -12,10 +12,11 @@ using CampManagerWebUI.Db;
 using CampManagerWebUI.Models;
 
 using AutoMapper;
+using CampManager.Domain.User;
 
 namespace CampManagerWebUI.Controllers
-{
-    [Authorize]
+{   
+    [AuthorizeCustom(Role.adminOrganization, Role.deputyCommander)]
     public class PlacesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -9,11 +9,13 @@ using System.Web.Mvc;
 
 using AutoMapper;
 using CampManager.Domain.Domain;
+using CampManager.Domain.User;
 using CampManagerWebUI.Db;
 using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Controllers
 {
+    [AuthorizeCustom(Role.adminOrganization, Role.deputyCommander)]
     public class SepticTankKindOrganizationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

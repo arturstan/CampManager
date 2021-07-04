@@ -170,6 +170,7 @@
     <Compile Include="App_Start\ModelBinder.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="AuthorizeCustomAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasesController.cs" />
     <Compile Include="Controllers\CampMealsController.cs" />
@@ -462,6 +463,7 @@
     <Content Include="Views\SepticTanks\Edit.cshtml" />
     <Content Include="Views\SepticTanks\Index.cshtml" />
     <Content Include="Views\SepticTankKindOrganizations\Details.cshtml" />
+    <Content Include="Views\Home\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

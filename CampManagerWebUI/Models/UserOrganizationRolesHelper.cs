@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace CampManagerWebUI.Models
 {
-    public class UserOrganizationRolesHelper
+    public static class UserOrganizationRolesHelper
     {
         private static ApplicationDbContext _db = new ApplicationDbContext();
         private static List<UserOrganization> _userOrganization = null;
@@ -83,7 +83,7 @@ namespace CampManagerWebUI.Models
             return userRoles.Exists(x => x.Role == role && x.Active);
         }
 
-        private static bool IsUserRole(string userName, IList<Role> roles)
+        public static bool IsUserRole(string userName, IList<Role> roles)
         {
             var userOrg = GetUserOrganization(userName);
             List<UserRole> userRoles = JsonConvert.DeserializeObject<List<UserRole>>(userOrg.Roles);
