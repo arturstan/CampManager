@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CampManagerWebUI.Models.GarbageViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Utwórz nowy", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kinds)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kinds)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { date = item.Date }) @*|*@
+                @*@Html.ActionLink("Details", "Details", new { date = item.Date }) |
+                @Html.ActionLink("Delete", "Delete", new { date = item.Date })*@
+            </td>
+        </tr>
+    }
+
+</table>

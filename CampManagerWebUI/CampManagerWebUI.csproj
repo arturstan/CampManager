@@ -176,6 +176,7 @@
     <Compile Include="Controllers\CampMealsController.cs" />
     <Compile Include="Controllers\CampsController.cs" />
     <Compile Include="Controllers\GarbageKindOrganizationsController.cs" />
+    <Compile Include="Controllers\GarbageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoicePositionsController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="Models\CampMealViewModel.cs" />
     <Compile Include="Models\CampViewModel.cs" />
     <Compile Include="Models\GarbageKindViewModel.cs" />
+    <Compile Include="Models\GarbageViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoicePositionViewModel.cs" />
     <Compile Include="Models\InvoiceViewModel.cs" />
@@ -293,6 +295,7 @@
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CampMealService.cs" />
+    <Compile Include="Service\GarbageService.cs" />
     <Compile Include="Service\InvoicePositionService.cs" />
     <Compile Include="Service\InvoiceService.cs" />
     <Compile Include="Service\MealBidCount.cs" />
@@ -475,6 +478,11 @@
     <Content Include="Views\GarbageKindOrganizations\Details.cshtml" />
     <Content Include="Views\GarbageKindOrganizations\Edit.cshtml" />
     <Content Include="Views\GarbageKindOrganizations\Index.cshtml" />
+    <Content Include="Views\Garbage\Create.cshtml" />
+    <Content Include="Views\Garbage\Delete.cshtml" />
+    <Content Include="Views\Garbage\Details.cshtml" />
+    <Content Include="Views\Garbage\Edit.cshtml" />
+    <Content Include="Views\Garbage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
