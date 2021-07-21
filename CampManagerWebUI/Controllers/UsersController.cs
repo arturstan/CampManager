@@ -103,6 +103,7 @@ namespace CampManagerWebUI.Controllers
                         _db.SaveChanges();
                     }
 
+                    UserOrganizationRolesHelper.SetCache(_db);
                     return RedirectToAction("Index");
                 }
 

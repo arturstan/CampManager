@@ -90,5 +90,9 @@ namespace CampManagerWebUI.Models
             return userRoles.Exists(x => roles.Contains(x.Role) && x.Active);
         }
 
+        public static void SetCache(ApplicationDbContext db)
+        {
+            _userOrganization = db.UserOrganization.ToList();
+        }
     }
 }
