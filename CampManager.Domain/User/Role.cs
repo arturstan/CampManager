@@ -7,6 +7,9 @@ namespace CampManager.Domain.User
 {
     public enum Role
     {
-        adminOrganization = 1
+        adminOrganization = 1,
+        accountant = 2,
+        warehouseman = 3,
+        deputyCommander = 4
     }
 }

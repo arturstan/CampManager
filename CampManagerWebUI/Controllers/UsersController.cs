@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace CampManagerWebUI.Controllers
 {
+    [AuthorizeCustom(Role.adminOrganization)]
     public class UsersController : Controller
     {
         private ApplicationDbContext _db = new ApplicationDbContext();
@@ -74,7 +75,7 @@ namespace CampManagerWebUI.Controllers
 
         // POST: Users/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Email,Active,DateExpire")] UserViewModel userViewModel)
+        public ActionResult Edit([Bind(Include = "Id,Email,Active,DateExpire,Accountant,Warehouseman,DeputyCommander")] UserViewModel userViewModel)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace CampManagerWebUI.Controllers
                         userOrg.Organization = _db.Organization.First(x => x.Id == organization.Id);
                         userOrg.Active = userViewModel.Active;
                         userOrg.DateExpire = userViewModel.DateExpire;
-                        userOrg.Roles = JsonConvert.SerializeObject(new List<UserRole>());
+                        SetUserRoles(userOrg, userViewModel);
                         _db.UserOrganization.Add(userOrg);
                         _db.SaveChanges();
                     }
@@ -97,10 +98,12 @@ namespace CampManagerWebUI.Controllers
                     {
                         userOrg.Active = userViewModel.Active;
                         userOrg.DateExpire = userViewModel.DateExpire;
+                        SetUserRoles(userOrg, userViewModel);
                         _db.Entry(userOrg).State = EntityState.Modified;
                         _db.SaveChanges();
                     }
 
+                    UserOrganizationRolesHelper.SetCache(_db);
                     return RedirectToAction("Index");
                 }
 
@@ -119,16 +122,68 @@ namespace CampManagerWebUI.Controllers
             userVM.Email = user.Email;
             userVM.Active = true;
             userVM.Roles = "";
+            string[] rolesTab = { };
             if (userOrg != null)
             {
                 userVM.Active = userOrg.Active;
                 userVM.DateExpire = userOrg.DateExpire;
                 List<UserRole> roles = JsonConvert.DeserializeObject<List<UserRole>>(userOrg.Roles);
-                if (roles.Exists(x => x.Role == Role.adminOrganization && x.Active))
+
+                userVM.AdminOrganization = roles.Exists(x => x.Role == Role.adminOrganization && x.Active);
+                userVM.Accountant = roles.Exists(x => x.Role == Role.accountant && x.Active);
+                userVM.Warehouseman = roles.Exists(x => x.Role == Role.warehouseman && x.Active);
+                userVM.DeputyCommander = roles.Exists(x => x.Role == Role.deputyCommander && x.Active);
+
+                if (userVM.AdminOrganization)
                     userVM.Roles = "admin";
+                if (userVM.Accountant)
+                    userVM.Roles += " księgowy";
+                if (userVM.Warehouseman)
+                    userVM.Roles += " magazynier";
+                if (userVM.DeputyCommander)
+                    userVM.Roles += " oboźny";
             }
 
             return userVM;
+        }
+
+        private void SetUserRoles(UserOrganization user, UserViewModel userViewModel)
+        {
+            if (string.IsNullOrEmpty(user.Roles))
+            {
+                user.Roles = JsonConvert.SerializeObject(new List<UserRole>());
+            }
+
+            List<UserRole> userRoles = JsonConvert.DeserializeObject<List<UserRole>>(user.Roles);
+            SetUserRole(userRoles, Role.accountant, userViewModel.Accountant);
+            SetUserRole(userRoles, Role.warehouseman, userViewModel.Warehouseman);
+            SetUserRole(userRoles, Role.deputyCommander, userViewModel.DeputyCommander);
+            user.Roles = JsonConvert.SerializeObject(userRoles);
+        }
+
+        private void SetUserRole(List<UserRole> userRoles, Role role, bool value)
+        {
+            var userRole = userRoles.Find(x => x.Role == role);
+            if (value)
+            {
+                if (userRole == null)
+                {
+                    userRole = new UserRole { Role = role };
+                    userRoles.Add(userRole);
+                }
+
+                if (!userRole.Active)
+                {
+                    userRole.Active = true;
+                }
+            }
+            else
+            {
+                if (userRole != null && userRole.Active)
+                {
+                    userRole.Active = false;
+                }
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 
 namespace CampManagerWebUI.Controllers
 {
+    [AuthorizeCustom(Role.adminOrganization)]
     public class UserEmailAllowsController : Controller
     {
         private ApplicationDbContext _db = new ApplicationDbContext();

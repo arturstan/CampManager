@@ -32,32 +32,40 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Sezon: @CampManagerWebUI.Models.UserSeasonHelper.GetSeasonName(User.Identity.GetUserName())
                                 <!--<span class="caret"></span>-->
-                            </a>                            
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Magazyn
-                                <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Dostawcy", "Index", "Suppliers")</li>
-                                <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
-                                <li>@Html.ActionLink("Faktury", "Index", "Invoices")</li>
-                                <li>@Html.ActionLink("Rozchód", "Index", "ProductOut")</li>
-                                <li>@Html.ActionLink("Jadłospis", "Index", "Menu")</li>
-                                <li>@Html.ActionLink("Miary produktów", "Index", "Measures")</li>
-                            </ul>
                         </li>
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Obozy
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Obozy", "Index", "Camps")</li>
-                            </ul>
-                        </li>
+                        if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserAccountantOrAdmin(User.Identity.Name)
+                            || CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserWarehouseman(User.Identity.Name))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Magazyn
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Dostawcy", "Index", "Suppliers")</li>
+                                    <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
+                                    <li>@Html.ActionLink("Faktury", "Index", "Invoices")</li>
+                                    <li>@Html.ActionLink("Rozchód", "Index", "ProductOut")</li>
+                                    <li>@Html.ActionLink("Jadłospis", "Index", "Menu")</li>
+                                    <li>@Html.ActionLink("Miary produktów", "Index", "Measures")</li>
+                                </ul>
+                            </li>
+                        }
+
+                        if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserDeputyCommanderOrAdmin(User.Identity.Name))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Obozy
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Obozy", "Index", "Camps")</li>
+                                </ul>
+                            </li>
+                        }
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -65,9 +73,12 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Bazy", "Index", "Bases")</li>
-                                <li>@Html.ActionLink("Sezony", "Index", "Seasons")</li>
-                                <li>@Html.ActionLink("Miejsca obozowe", "Index", "Places")</li>
+                                @if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserDeputyCommanderOrAdmin(User.Identity.Name))
+                                {
+                                    <li>@Html.ActionLink("Bazy", "Index", "Bases")</li>
+                                    <li>@Html.ActionLink("Sezony", "Index", "Seasons")</li>
+                                    <li>@Html.ActionLink("Miejsca obozowe", "Index", "Places")</li>
+                                }
                                 @if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserOrganizationAdmin(User.Identity.Name))
                                 {
                                     <li>@Html.ActionLink("Użytkownicy", "Index", "Users")</li>
@@ -77,18 +88,21 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Śmieci / szambo
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Szambo - wywozy", "Index", "SepticTanks")</li>
-                                <li>@Html.ActionLink("Śmieci - wywozy", "Index", "Garbage")</li>
-                                <li>@Html.ActionLink("Szambo - pojemności", "Index", "SepticTankKindOrganizations")</li>
-                                <li>@Html.ActionLink("Śmieci - rodzaje", "Index", "GarbageKindOrganizations")</li>
-                            </ul>
-                        </li>
+                        if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserDeputyCommanderOrAdmin(User.Identity.Name))
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Śmieci / szambo
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Szambo - wywozy", "Index", "SepticTanks")</li>
+                                    <li>@Html.ActionLink("Śmieci - wywozy", "Index", "Garbage")</li>
+                                    <li>@Html.ActionLink("Szambo - pojemności", "Index", "SepticTankKindOrganizations")</li>
+                                    <li>@Html.ActionLink("Śmieci - rodzaje", "Index", "GarbageKindOrganizations")</li>
+                                </ul>
+                            </li>
+                        }
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -96,11 +110,16 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Stawka żywnościowa", "Index", "MealBids")</li>
-                                <li>@Html.ActionLink("Stany obozów", "Index", "CampMeals")</li>
+                                @if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserAccountantOrAdmin(User.Identity.Name))
+                                {
+                                    <li>@Html.ActionLink("Stawka żywnościowa", "Index", "MealBids")</li>
+                                }
+                                @if (CampManagerWebUI.Models.UserOrganizationRolesHelper.IsUserDeputyCommanderOrAdmin(User.Identity.Name))
+                                {
+                                    <li>@Html.ActionLink("Stany obozów", "Index", "CampMeals")</li>
+                                }
                             </ul>
                         </li>
-
                     }
                     <li>@Html.ActionLink("O programie", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
