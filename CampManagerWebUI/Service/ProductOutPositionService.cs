@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Transactions;
-using System.Web;
 
 using CampManager.Domain.Domain;
-
 using CampManagerWebUI.Db;
+using CampManagerWebUI.Models;
 
 namespace CampManagerWebUI.Service
 {
@@ -27,7 +24,8 @@ namespace CampManagerWebUI.Service
             {
                 _db.ProductOutPosition.Add(productOutPosition);
                 _db.SaveChanges();
-                expendService.Fill(productOutPosition, ref error);
+                int idSeason = UserSeasonHelper.GetSeason(userName).Id;
+                expendService.Fill(productOutPosition, idSeason, ref error);
 
                 if (string.IsNullOrEmpty(error))
                     scope.Complete();
