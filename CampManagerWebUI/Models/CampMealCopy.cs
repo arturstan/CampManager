@@ -45,7 +45,7 @@ namespace CampManagerWebUI.Models
 
         public static void FillMeal(CampViewModel camp, List<CampMeal> campMealList)
         {
-            foreach (var group in campMealList.GroupBy(x => x.Date))
+            foreach (var group in campMealList.GroupBy(x => x.Date).OrderBy(x=>x.Key))
             {
                 DateTime date = group.Key;
                 var campMealDate = campMealList.FindAll(x => x.Date == date);
