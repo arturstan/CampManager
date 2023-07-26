@@ -21,6 +21,14 @@ namespace CampManagerWebUI.Service
 
         public void Add(string userName, CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, ref string error)
         {
+            bool exist = _db.CampMeal.FirstOrDefault(x => x.Camp.Id == campMealBreakfast.Camp.Id
+                && x.Date == campMealBreakfast.Date) != null;
+            if (exist)
+            {
+                error = "Istnieje wpis na taką datę";
+                return;
+            }
+
             _db.CampMeal.Add(campMealBreakfast);
             _db.CampMeal.Add(campMealDinner);
             _db.CampMeal.Add(campMealSupper);

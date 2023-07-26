@@ -24,11 +24,11 @@ namespace CampManagerWebUI.Controllers
         public ActionResult Index()
         {
             int idSeason = UserSeasonHelper.GetSeason(User.Identity.Name).Id;
-            List<CampMeal> campMealList = db.CampMeal.Where(x=> x.Camp.CampOrganization.Id == idSeason).ToList();
+            List<CampMeal> campMealList = db.CampMeal.Where(x => x.Camp.CampOrganization.Id == idSeason).ToList();
 
             List<CampMealViewModel> result = new List<CampMealViewModel>();
 
-            foreach(var group in campMealList.GroupBy(x => x.Date).OrderByDescending(x => x.Key))
+            foreach (var group in campMealList.GroupBy(x => x.Date).OrderByDescending(x => x.Key))
             {
                 List<CampMeal> campMealDateList = campMealList.FindAll(x => x.Date == group.Key);
                 List<CampMeal> campMealBreakfastDateList = campMealDateList.FindAll(x => x.Kind == KinfOfMeal.breakfast);
@@ -88,7 +88,7 @@ namespace CampManagerWebUI.Controllers
             campMealViewModel.Date = camp.DateStart;
 
             List<CampMeal> campMealLastList = db.CampMeal.Where(x => x.Camp.Id == idCamp && x.Kind == KinfOfMeal.supper)
-                .OrderByDescending(x => x.Date).Take(1).ToList();            
+                .OrderByDescending(x => x.Date).Take(1).ToList();
 
             if (campMealLastList.Count > 0)
             {
@@ -130,8 +130,15 @@ namespace CampManagerWebUI.Controllers
                 string error = null;
                 Service.CampMealService service = new Service.CampMealService(db);
                 service.Add(User.Identity.Name, campMealBreakfast, campMealDinner, campMealSupper, ref error);
-
-                return RedirectToAction("Edit", "Camps", new { id = campMealViewModel.IdCamp });
+                if (string.IsNullOrEmpty(error))
+                {
+                    return RedirectToAction("Edit", "Camps", new { id = campMealViewModel.IdCamp });
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = error;
+                    return View(campMealViewModel);
+                }
             }
 
             return View(campMealViewModel);
@@ -170,7 +177,7 @@ namespace CampManagerWebUI.Controllers
                 CampMeal campMealDinner = campMealList.Find(x => x.Kind == KinfOfMeal.dinner);
                 CampMeal campMealSupper = campMealList.Find(x => x.Kind == KinfOfMeal.supper);
 
-                if(campMealBreakfast == null
+                if (campMealBreakfast == null
                     || campMealDinner == null
                     || campMealSupper == null)
                 {
