@@ -8,8 +8,6 @@ namespace CampManagerWebUI.Models
 {
     public class CampMealViewModel
     {
-        public int Id { get; set; }
-
         [Required]
         [DisplayName("Obóz")]
         public int IdCamp { get; set; }

@@ -31,6 +31,7 @@ namespace CampManagerWebUI.Models
         [DisplayName("Data rozpoczęcia")]
         [DataType(DataType.Date)]
         public DateTime DateStart { get; set; }
+
         [DisplayName("Data zakończenia")]
         [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }

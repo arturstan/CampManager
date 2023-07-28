@@ -118,13 +118,14 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
+        public ActionResult Create([Bind(Include = "IdCamp,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
         {
             if (ModelState.IsValid)
             {
                 CampMeal campMealBreakfast = new CampMeal();
                 CampMeal campMealDinner = new CampMeal();
                 CampMeal campMealSupper = new CampMeal();
+                CampMealCopyForCreate(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
                 CampMealCopy(campMealBreakfast, campMealDinner, campMealSupper, campMealViewModel);
 
                 string error = null;
@@ -164,14 +165,17 @@ namespace CampManagerWebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,IdCamp,CampName,Date,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
+        public ActionResult Edit([Bind(Include = "IdCampMealBreakfast,IdCampMealDinner,IdCampMealSupper,BreakfastEat,BreakfastEatSupplies,BreakfastCash,DinnerEat,DinnerEatSupplies,DinnerCash,SupperEat,SupperEatSupplies,SupperCash,Reside")] CampMealViewModel campMealViewModel)
         {
             if (ModelState.IsValid)
             {
-                int idCamp = campMealViewModel.IdCamp;
-                DateTime date = campMealViewModel.Date;
-                List<CampMeal> campMealList = db.CampMeal.Where(x => x.Camp.Id == idCamp && x.Date == date)
+                var campMealList = db.CampMeal.Include(x => x.Camp)
+                    .Where(x => x.Id == campMealViewModel.IdCampMealBreakfast
+                    || x.Id == campMealViewModel.IdCampMealDinner
+                    || x.Id == campMealViewModel.IdCampMealSupper)
                     .ToList();
+                if (campMealList.Count != 3)
+                    return View(campMealViewModel);
 
                 CampMeal campMealBreakfast = campMealList.Find(x => x.Kind == KinfOfMeal.breakfast);
                 CampMeal campMealDinner = campMealList.Find(x => x.Kind == KinfOfMeal.dinner);
@@ -189,6 +193,7 @@ namespace CampManagerWebUI.Controllers
                 string error = null;
                 Service.CampMealService service = new Service.CampMealService(db);
                 service.Edit(User.Identity.Name, campMealBreakfast, campMealDinner, campMealSupper, ref error);
+                int idCamp = campMealBreakfast.Camp.Id;
                 return RedirectToAction("Edit", "Camps", new { id = idCamp });
             }
             return View(campMealViewModel);
@@ -238,28 +243,34 @@ namespace CampManagerWebUI.Controllers
             base.Dispose(disposing);
         }
 
-        private void CampMealCopy(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, CampMealViewModel campMealViewModel)
+        private void CampMealCopyForCreate(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, CampMealViewModel campMealViewModel)
         {
             Camp camp = db.Camp.Find(campMealViewModel.IdCamp);
             campMealBreakfast.Camp = camp;
             campMealBreakfast.Date = campMealViewModel.Date;
             campMealBreakfast.Kind = KinfOfMeal.breakfast;
+
+            campMealDinner.Camp = camp;
+            campMealDinner.Date = campMealViewModel.Date;
+            campMealDinner.Kind = KinfOfMeal.dinner;
+
+            campMealSupper.Camp = camp;
+            campMealSupper.Date = campMealViewModel.Date;
+            campMealSupper.Kind = KinfOfMeal.supper;
+        }
+
+        private void CampMealCopy(CampMeal campMealBreakfast, CampMeal campMealDinner, CampMeal campMealSupper, CampMealViewModel campMealViewModel)
+        {
             campMealBreakfast.Eat = campMealViewModel.BreakfastEat;
             campMealBreakfast.EatSupplies = campMealViewModel.BreakfastEatSupplies;
             campMealBreakfast.Cash = campMealViewModel.BreakfastCash;
             campMealBreakfast.Reside = campMealViewModel.Reside;
 
-            campMealDinner.Camp = camp;
-            campMealDinner.Date = campMealViewModel.Date;
-            campMealDinner.Kind = KinfOfMeal.dinner;
             campMealDinner.Eat = campMealViewModel.DinnerEat;
             campMealDinner.EatSupplies = campMealViewModel.DinnerEatSupplies;
             campMealDinner.Cash = campMealViewModel.DinnerCash;
             campMealDinner.Reside = campMealViewModel.Reside;
 
-            campMealSupper.Camp = camp;
-            campMealSupper.Date = campMealViewModel.Date;
-            campMealSupper.Kind = KinfOfMeal.supper;
             campMealSupper.Eat = campMealViewModel.SupperEat;
             campMealSupper.EatSupplies = campMealViewModel.SupperEatSupplies;
             campMealSupper.Cash = campMealViewModel.SupperCash;
