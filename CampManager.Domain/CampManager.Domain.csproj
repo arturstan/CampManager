@@ -79,7 +79,6 @@
     <Compile Include="Domain\UserOrganization.cs" />
     <Compile Include="Domain\UserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\OrganizationService.cs" />
     <Compile Include="User\Role.cs" />
     <Compile Include="User\UserRole.cs" />
   </ItemGroup>

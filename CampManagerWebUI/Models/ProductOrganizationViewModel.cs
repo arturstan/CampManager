@@ -32,6 +32,7 @@ namespace CampManagerWebUI.Models
 
         [DisplayName("Wartość")]
         public decimal Worth { get; set; }
+        [DisplayName("Aktywny")]
         public bool Active { get; set; }
 
 
