@@ -192,6 +192,9 @@ namespace CampManagerWebUI.Controllers
 
             var invoice = db.Invoice.Include(x => x.Supplier).Include(x => x.Season).Include(x => x.Positions).Include(x => x.Positions.Select(y => y.Product))
                 .SingleOrDefault(x => x.Id == id);
+            if (invoice.Positions.Any())
+                return RedirectToAction("Index");
+
             InvoiceViewModel invoiceViewModel = Mapper.Map<InvoiceViewModel>(invoice);
             if (invoiceViewModel == null)
             {
