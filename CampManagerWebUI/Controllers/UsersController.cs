@@ -115,6 +115,38 @@ namespace CampManagerWebUI.Controllers
             }
         }
 
+        // GET: UserEmailAllows/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userApp = _db.Users.FirstOrDefault(x => x.Id == id);
+            if (userApp == null)
+            {
+                return HttpNotFound();
+            }
+
+            var userOrg = _db.UserOrganization.FirstOrDefault(x => x.IdUser == userApp.Email);
+            var userVM = GetUser(userApp, userOrg);
+            return View(userVM);
+        }
+
+        // POST: UserEmailAllows/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            var user = _db.Users.Find(id);
+            var userOrganization = _db.UserOrganization.FirstOrDefault(x => x.IdUser == user.Email);
+            _db.Users.Remove(user);
+            _db.UserOrganization.Remove(userOrganization);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         private UserViewModel GetUser(ApplicationUser user, UserOrganization userOrg)
         {
             UserViewModel userVM = new UserViewModel();
